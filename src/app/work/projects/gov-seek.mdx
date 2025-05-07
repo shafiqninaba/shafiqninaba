@@ -1,0 +1,48 @@
+---
+title: "GovSeek: RAG Chatbot for Government Services"
+publishedAt: "2024-03-05"
+summary: "Proof-of-concept chatbot using Retrieval-Augmented Generation (RAG) to provide context-aware answers from Singapore government websites."
+images:
+  - "/images/projects/gov-seek/govseek-cover.png"
+  - "/images/projects/gov-seek/cover-02.png"
+  - "/images/projects/gov-seek/demo.gif"
+team:
+  - name: "Shafiq Ninaba"
+    role: "Machine Learning Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/shafiq-ninaba"
+link: "https://github.com/shafiqninaba/gov-seek"
+---
+
+## Overview
+
+GovSeek is a proof-of-concept chatbot that helps users access accurate and contextual information from Singapore's [government websites](https://www.gov.sg/trusted-sites) using a Retrieval-Augmented Generation (RAG) pipeline. It combines real-time web scraping, vector embeddings, and OpenAI's GPT models to provide answers grounded in public domain sources.
+
+## Key Features
+
+- **End-to-end Data Pipeline**: Custom web scraper crawls government websites, extracts clean text content, and generates embeddings using OpenAI’s Batch API.
+- **Vector Store Integration**: Embeddings are stored in Qdrant for fast and scalable similarity search.
+- **Retrieval-Augmented Generation (RAG)**: Combines document retrieval and GPT-4o-mini to answer user queries with grounded, up-to-date context.
+- **Streamlit Interface**: Users interact with the chatbot via a password-protected frontend deployed on Heroku.
+- **Stateful Conversations**: Maintains memory of chat history to deliver contextually rich and coherent responses.
+
+## Technologies Used
+
+- **Python**: Main programming language for backend logic and data pipeline.
+- **LangChain + LangGraph**: For constructing and managing the RAG pipeline.
+- **OpenAI API**: GPT-4o-mini for generating answers and embeddings.
+- **Qdrant**: Vector database for fast document retrieval.
+- **Streamlit**: Rapid development of the chatbot interface.
+- **Heroku + Docker**: Deployment and containerization of the full-stack app.
+
+## Challenges and Learnings
+
+A significant challenge was efficiently handling large-scale embedding generation without exceeding token or cost limits. The solution involved batching documents through OpenAI’s Batch API and managing retries and failures gracefully.
+
+Building a flexible yet production-ready RAG system also involved learning the nuances of vector databases and optimizing prompt construction for factual accuracy. Coordinating scraping, embedding, storage, and retrieval in a clean pipeline provided valuable insight into full-stack LLM systems.
+
+## Outcome
+
+GovSeek successfully demonstrated how a focused RAG architecture could serve citizens with accurate, transparent, and context-rich information. While still a prototype, the system lays the groundwork for future use cases in public service chatbots, knowledge management, and enterprise LLM adoption.
+
+The project also helped improve my understanding of scalable ML infrastructure, vector search, and real-world deployment of LLM systems — all key skills for modern AI engineers.

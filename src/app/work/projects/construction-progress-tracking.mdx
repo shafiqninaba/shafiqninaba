@@ -1,0 +1,65 @@
+---
+title: "Construction Progress Tracking with Deep Learning on 360° Imagery"
+publishedAt: "2025-03-04"
+summary: "Developed a panoptic segmentation system using deep learning to automate construction progress tracking with 360° images, streamlining the project handover process."
+images:
+  - "/images/projects/construction-tracking/cover.png"
+  - "/images/projects/construction-tracking/panoptic-segmentation.png"
+team:
+  - name: "Project Manager"
+    role: "Project Manager"
+    avatar: "/images/projects/construction-tracking/manager.png"
+    linkedIn: ""
+  - name: "Project Mentor"
+    role: "Project Mentor"
+    avatar: "/images/projects/construction-tracking/manager.png"
+    linkedIn: ""
+  - name: "Associate AI Engineer"
+    role: "Associate AI Engineer"
+    avatar: "/images/projects/construction-tracking/software-engineer.png"
+    linkedIn: ""
+  - name: "Associate AI Engineer"
+    role: "Associate AI Engineer"
+    avatar: "/images/projects/construction-tracking/software-engineer.png"
+    linkedIn: ""
+  - name: "Associate AI Engineer"
+    role: "Associate AI Engineer"
+    avatar: "/images/projects/construction-tracking/software-engineer.png"
+    linkedIn: ""
+  - name: "Shafiq Ninaba"
+    role: "Associate AI Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/shafiq-ninaba"
+---
+
+## Overview
+
+To address inefficiencies in construction project handovers and delays in payment due to manual construction progress tracking, we developed an end-to-end deep learning pipeline capable of performing panoptic segmentation on 360° imagery captured at construction sites.
+
+## Key Features
+
+- **Panoptic Segmentation with Deep Learning**: Utilized models like PanopticFPN to segment and identify construction elements (e.g., doors, walls, windows) across 88 annotated classes in equirectangular projection (ERP) images.
+- **360° Image Support**: Adapted models to work with equirectangular projections, resolving common ERP challenges like edge discontinuity and distortion near poles.
+- **Custom Dataset**: Worked with a dataset of 3,002 ERP images from 7 locations, annotated using CVAT with XML format for training.
+- **Extensible Software Architecture**: Applied design patterns (e.g., Strategy Pattern) for maintainability and future extensibility of the pipeline.
+- **Performance Evaluation and Metrics**: Added custom IoU metrics and improved class-wise training data coverage.
+
+## Technologies Used
+
+- **PyTorch & Detectron2**: For building and training deep learning models.
+- **FiftyOne & CVAT**: For dataset analysis and annotation handling.
+- **Python Multiprocessing**: To efficiently preprocess and handle large image sets.
+- **CI/CD Pipeline**: Automated testing, deployment of models and documentation.
+- **Docker**: For containerized development and reproducibility.
+
+## Challenges and Learnings
+
+- **Inconsistent Annotations**: Required exploratory data analysis and tooling like FiftyOne to identify and fix label issues.
+- **Poor Image Quality**: Preprocessing steps were developed to improve image usability by addressing blur, glare, and exposure problems.
+- **Edge Discontinuity in ERP**: Built a custom post-processing step to smooth segmentation across the image edges.
+- **Model Adaptation**: PanopticFPN needed modifications to accept ERP images and accommodate overlapping polygons in our dataset format.
+- **Class Imbalance & Sparse Labels**: Addressed by analyzing location and class distributions and enhancing training data coverage.
+
+## Outcome
+
+The final solution successfully automated construction progress monitoring with high accuracy, significantly reducing manual reporting time. It provided more reliable and consistent data for stakeholders, enhancing project transparency and accelerating payment approvals. The extensible design ensures the system can evolve with new data and use cases, making it a valuable asset for future construction tech applications.

@@ -1,20 +1,20 @@
 import { Logo } from "@/once-ui/components";
 
 const person = {
-  firstName: "Selene",
-  lastName: "Yu",
+  firstName: "Shafiq",
+  lastName: "Ninaba",
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "Design Engineer",
+  role: "AI Engineer",
   avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  email: "shafiqninaba@gmail.com",
+  location: "Asia/Singapore", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+  languages: ["English", "Malay"], // optional: Leave the array empty if you don't want to display languages
 };
 
 const newsletter = {
-  display: true,
+  display: false,
   title: <>Subscribe to {person.firstName}'s Newsletter</>,
   description: (
     <>
@@ -30,12 +30,12 @@ const social = [
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system/nextjs-starter",
+    link: "https://github.com/shafiqninaba",
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
+    link: "https://www.linkedin.com/in/shafiq-ninaba/",
   },
   {
     name: "X",
@@ -55,7 +55,7 @@ const home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  headline: <>Engineering intelligence, one pipeline at a time.</>,
   featured: {
     display: true,
     title: <>Recent project: <strong className="ml-4">Once UI</strong></>,
@@ -63,8 +63,10 @@ const home = {
   },
   subline: (
     <>
-      I'm Selene, a design engineer at <Logo icon={false} style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }}/>, where I craft intuitive
-      <br /> user experiences. After hours, I build my own projects.
+    I'm Shafiq, an AI Engineer crafting scalable ML systems — from computer vision to agentic systems. I build end-to-end solutions that ship.
+    <br />
+    <br />
+    In my free time, I either boulder or work on my personal projects. You can find them <a href="/work">here</a>!
     </>
   ),
 };
@@ -82,7 +84,7 @@ const about = {
     display: true,
   },
   calendar: {
-    display: true,
+    display: false,
     link: "https://cal.com",
   },
   intro: {
@@ -90,52 +92,75 @@ const about = {
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        {person.name} is a Singapore-based AI/ML Engineer with a background in Electrical & Electronic Engineering. 
+        He builds end-to-end machine learning systems that span computer vision, data engineering, and LLM-powered 
+        agentic workflows. With hands-on experience deploying real-world AI solutions, he enjoys building robust, 
+        scalable pipelines that go beyond the notebook.
       </>
     ),
   },
   work: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "AI Singapore",
+        timeframe: "Jun 2024 – Mar 2025",
+        role: "Associate AI Engineer",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Delivered an MVP for a $360,000 AI project in the construction industry in just 7 months.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Designed and deployed a full ML pipeline for 360° panoptic segmentation using CNN-based models trained on 3,000+ images with 100+ classes, achieving 95% mean accuracy.
+          </>,
+          <>
+            Built a FastAPI backend to serve models with inference speeds 50% faster than required.
+          </>,
+          <>
+            Developed CI/CD pipelines with test coverage and documentation for maintainability and handover.
           </>,
         ],
         images: [
-          // optional: leave the array empty if you don't want to display images
           {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
+            src: "/images/projects/aiap/aiap_1.jpg",
+            alt: "My team and I at AI Singapore",
+            width: 16,
+            height: 9,
+          },
+          {
+            src: "/images/projects/aiap/aiap_2.jpg",
+            alt: "Introducing my AIAP experience to guests",
+            width: 16,
+            height: 9,
+          },
+          {
+            src: "/images/projects/aiap/aiap_3.jpg",
+            alt: "My team and I at AI Singapore",
+            width: 16,
+            height: 9,
+          },
+          {
+            src: "/images/projects/aiap/aiap_cert.png",
+            alt: "AIAP Certificate",
             width: 16,
             height: 9,
           },
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "PSA Corporation Ltd",
+        timeframe: "Jan 2023 – Jul 2023",
+        role: "Machine Learning Intern (Smart Systems & Solutions)",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Engineered features from crane sensor data to improve predictive maintenance model accuracy.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Used DataRobot and Python for unsupervised anomaly detection via API integration.
+          </>,
+          <>
+            Streamlined ETL pipelines and automated reporting workflows with Python and SQL, improving efficiency by 90%.
           </>,
         ],
         images: [],
@@ -143,58 +168,65 @@ const about = {
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
-      },
-      {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Nanyang Technological University (NTU)",
+        description: (
+          <>
+            Bachelor of Engineering (Electrical and Electronic Engineering), Honours (Distinction). 
+            Specialized in Info-Communications Engineering with modules like Machine Learning Design & Application, 
+            Artificial Intelligence, Computer Vision, and Web Application Design.
+          </>
+        ),
       },
     ],
   },
   technical: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Technical skills",
     skills: [
       {
-        title: "Figma",
-        description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        title: "Machine Learning & AI",
+        description: (
+          <>
+            Skilled in building and deploying ML models with PyTorch, TensorFlow, scikit-learn, and MLFlow. Experienced with LangChain, LangGraph, and OpenAI APIs for building agentic systems.
+          </>
+        ),
+        images: [],
       },
       {
-        title: "Next.js",
-        description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        title: "Backend & Infra",
+        description: (
+          <>
+            Proficient with FastAPI, Flask, Docker, Azure, AWS, Google Cloud Platform, and CI/CD tools for production-grade ML systems.
+          </>
+        ),
+        images: [],
+      },
+      {
+        title: "Data & Visualization",
+        description: (
+          <>
+            Experienced with Pandas, NumPy, SQL, Apache Hive, and PySpark. Used Plotly and custom dashboards for model insights and data storytelling.
+          </>
+        ),
+        images: [],
+      },
+      {
+        title: "Web Development",
+        description: (
+          <>
+            Built interactive applications with Streamlit, HTML/CSS/JS, and deployed full-stack solutions on Heroku and DigitalOcean.
+          </>
+        ),
+        images: [],
       },
     ],
   },
 };
+
 
 const blog = {
   path: "/blog",
@@ -209,7 +241,7 @@ const work = {
   path: "/work",
   label: "Work",
   title: `Projects – ${person.name}`,
-  description: `Design and dev projects by ${person.name}`,
+  description: `Dev projects by ${person.name}`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /work routes
 };
