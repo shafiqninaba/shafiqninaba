@@ -225,6 +225,50 @@ const about = {
       },
     ],
   },
+    hobbies: {
+    display: true,
+    title: "Hobbies & Interests",
+    interests: [
+      {
+        name: "Bouldering",
+        description: (
+          <>
+            I enjoy the problem-solving aspect of bouldering, which challenges both my mental and physical abilities. It's a great way to stay active while building strength and coordination.
+          </>
+        ),
+        images: [
+          {
+            src: "/images/hobbies/transend-climb.jpg", 
+            alt: "Climbing at a local competition",
+            width: 16,
+            height: 9,
+          },
+          {
+            src: "/images/hobbies/transend-portrait.jpg",
+            alt: "Podium position at a local competition",
+            width: 16,
+            height: 9,
+          },
+        ],
+      },
+      {
+        name: "Tech reviews",
+        description: (
+          <>
+            I love reading up & watching videos on the latest trends in technology, be it on the latest coolest gadgets, or the latest AI models and SWE frameworks!
+          </>
+        ),
+        images: [
+          // {
+          //   src: "/images/hobbies/photography.jpg",
+          //   alt: "A photo I took during a trip",
+          //   width: 16,
+          //   height: 9,
+          // },
+        ],
+      },
+    ],
+    }
 };
 
 
