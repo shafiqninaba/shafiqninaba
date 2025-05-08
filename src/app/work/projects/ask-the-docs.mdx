@@ -1,0 +1,126 @@
+---
+title: "Ask the Docs: Agentic RAG Chatbot for Documentation"
+summary: "An AI-powered chatbot that uses a real-time crawling and agentic RAG pipeline to answer technical questions about any website’s documentation."
+publishedAt: "2025-04-13"
+images:
+  - "/images/projects/ask-the-docs/askthedocs-cover.png"
+  - "/images/projects/ask-the-docs/homepage.jpg"
+  - "/images/projects/ask-the-docs/firecrawler.gif"
+  - "/images/projects/ask-the-docs/chatbot.gif"
+  - "/images/projects/ask-the-docs/websearch.gif"
+
+team:
+  - name: "Shafiq Ninaba"
+    role: "AI Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/shafiq-ninaba"
+link: "https://github.com/shafiqninaba/ask-the-docs"
+---
+
+## Overview
+
+**Ask the Docs** is an agentic RAG (Retrieval-Augmented Generation) chatbot built to help users query the documentation of any website they provide. It uses a custom LangGraph agent to determine the best information source—either a local vector store or live web search—and provides answers along with source citations.
+
+It’s especially useful for devs working with APIs or frameworks who want fast, contextual answers to documentation questions.
+
+---
+
+## Features
+
+- 🔎 **Website Crawling**: Uses a Firecrawl service to crawl technical documentation and clean the HTML content.
+- 🧠 **Agentic RAG Pipeline**: LangGraph agents decide whether to retrieve from the vector DB, rewrite the query, or fall back to live search.
+- 💬 **Interactive Chat UI**: Built with Streamlit, showing real-time updates, source documents, and streaming answers.
+- 🌍 **Web Search Fallback**: If no relevant documents are found, it queries Tavily for up-to-date info.
+- ⚙️ **Real-Time WebSocket Integration**: The crawler streams updates (documents, errors, and completion) directly to the frontend.
+- 🧩 **Multi-node Graph**: Includes document grader, rewriter, and context assembler within LangGraph.
+
+---
+
+## Tech Stack
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Tools Used</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Frontend</strong></td>
+      <td>Streamlit, WebSockets</td>
+    </tr>
+    <tr>
+      <td><strong>Backend</strong></td>
+      <td>FastAPI, LangGraph, LangChain, Tavily API</td>
+    </tr>
+    <tr>
+      <td><strong>Model</strong></td>
+      <td>OpenAI GPT-4o-mini</td>
+    </tr>
+    <tr>
+      <td><strong>Storage</strong></td>
+      <td>Qdrant (vector database)</td>
+    </tr>
+    <tr>
+      <td><strong>Crawler</strong></td>
+      <td>Firecrawl (self-hosted on DigitalOcean)</td>
+    </tr>
+    <tr>
+      <td><strong>Infra</strong></td>
+      <td>Azure Container Apps, Docker, GitHub Actions</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Architecture
+
+![Architecture](/images/projects/ask-the-docs/software-architecture.png)
+
+1. **User inputs a website URL.**
+2. **Firecrawl** crawls and extracts the HTML.
+3. Content is **chunked**, embedded, and stored in **Qdrant**.
+4. User can now ask questions.
+5. A **LangGraph agent**:
+   - Searches Qdrant for relevant chunks.
+   - Grades the chunks.
+   - Optionally rewrites the query.
+   - Falls back to Tavily if vector search is unhelpful.
+6. Final answer is generated using **GPT-4o-mini** with sources.
+
+---
+
+## Learnings
+
+- 🧠 Learned how to construct **LangGraph agents** with multiple toolchains.
+- 🔄 Built a **full crawling → embedding → querying pipeline**.
+- 💬 Integrated **WebSocket** communication between Streamlit and FastAPI.
+- 🔍 Tuned **vector search** performance using document grading and query rewriting.
+- ☁️ Containerized the full app with **Azure** and **DigitalOcean** hybrid hosting.
+
+---
+
+## Screenshots
+
+### Crawling Progress
+![Firecrawl stream](/images/projects/ask-the-docs/firecrawler.gif)
+
+This gif shows the document crawling and indexing functionality in action. When a user inputs a URL, the `Firecrawl` web crawling service that is self-hosted on `DigitalOcean` efficiently traverses through documentation sources, extracting relevant content, and processes it for the vector database. This automated process ensures that all documentation is properly indexed and ready for semantic search and retrieval.
+
+### Chatbot in Action
+![Chatbot in action](/images/projects/ask-the-docs/chatbot.gif)
+
+The chatbot interaction demonstrates the agentic RAG pipeline in practice. Users can ask complex questions about the documentation, and the system intelligently processes these queries, retrieves relevant information from the vector store, and generates comprehensive, accurate responses. Note how the system handles follow-up questions and maintains context throughout the conversation.
+
+### Web Search Fallback
+![Web search fallback](/images/projects/ask-the-docs/websearch.gif)
+
+When information isn't available in the indexed documentation, the system seamlessly falls back to web search capabilities. This demonstration shows how the application leverages Tavily web search to supplement its knowledge base, ensuring users receive helpful responses even for queries that go beyond the scope of the ingested documentation.
+
+---
+
+## Source Code
+
+[github.com/shafiqninaba/ask-the-docs](https://github.com/shafiqninaba/ask-the-docs)
