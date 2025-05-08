@@ -1,3 +1,3 @@
 hey there!
 
-https://shafiq-ninaba-portfolio.vercel.app/
+https://shafiqninaba.vercel.app/
