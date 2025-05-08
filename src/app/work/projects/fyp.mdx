@@ -1,0 +1,47 @@
+---
+title: "Facial Recognition with Accessories using CNN"
+publishedAt: "2024-02-26"
+summary: "A Dockerized facial recognition system built with CNNs that identifies masked and unmasked faces using Keras, TensorFlow, and Flask."
+images:
+  - "/images/projects/fyp/inference.png"
+  - "/images/projects/fyp/docker-visualisation.png"
+  - "/images/projects/fyp/upload-images.png"
+team:
+  - name: "Shafiq Ninaba"
+    role: "AI Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/shafiq-ninaba/"
+link: "https://github.com/shafiqninaba/masked_facial_recognition"
+---
+
+## Overview
+
+This project is a facial recognition system designed to identify individuals with or without facial accessories such as surgical masks. It was developed as part of my Final Year Project at NTU, combining deep learning, computer vision, and containerized deployment practices. The system uses Convolutional Neural Networks (CNNs) trained on the Yale Face Database augmented with masked faces using the MaskTheFace tool. The entire application runs within Docker containers for consistent cross-environment deployment.
+
+## Key Features
+
+- **Real-Time Recognition**: A web-based interface allows users to upload images and get recognition results, even with occluded faces.
+- **Multi-Container Architecture**: Built with Docker Compose, separating concerns into backend (CNN model), frontend (Flask UI), and database (MySQL).
+- **Model Training Pipeline**: Automatically retrains the CNN model when a new identity is uploaded.
+- **Mask Augmentation**: Uses MaskTheFace to simulate masked faces in training data for robustness.
+- **Interactive Upload and Demo**: Web interface for uploading face images and testing recognition outcomes live.
+- **REST API**: The backend exposes a RESTful API to serve predictions and interact with the database.
+
+## Technologies Used
+
+- **TensorFlow & Keras**: For building and training the CNN.
+- **Flask**: Backend web server for API and frontend rendering.
+- **MySQL**: Stores encoded face data for model training.
+- **Docker & Docker Compose**: For packaging each component into isolated, reproducible containers.
+- **JavaScript, HTML/CSS**: Used to build the frontend interface.
+
+## Challenges and Learnings
+
+One of the main challenges was enabling accurate face recognition in the presence of occlusions, particularly masks. This was addressed by data augmentation using MaskTheFace, which significantly improved recognition robustness. Another major hurdle was ensuring seamless inter-container communication while maintaining modularity. Learning to configure and optimize Docker Compose services taught me a lot about scalable infrastructure.
+
+I also experimented with model tuning and regularization to avoid overfitting. Integrating real-time model retraining with live uploads pushed me to design efficient workflows and memory management strategies in Python.
+
+## Outcome
+
+The project successfully demonstrates how facial recognition systems can adapt to real-world conditions like occlusions. It is fully containerized and easy to deploy on any system with Docker, making it accessible for demonstrations and further development. This project not only improved my skills in deep learning and software deployment but also served as a launchpad for my continued work in AI applications and MLOps.
+
