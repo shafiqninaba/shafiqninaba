@@ -30,12 +30,18 @@ export async function generateMetadata({
   if (!post) return {};
 
   return Meta.generate({
-    title: post.metadata.title,
-    description: post.metadata.summary,
-    baseURL: baseURL,
-    image: post.metadata.image ? `${baseURL}${post.metadata.image}` : `${baseURL}/og?title=${post.metadata.title}`,
-    path: `${work.path}/${post.slug}`,
-  });
+      title: post.metadata.title,
+      description: post.metadata.summary,
+      baseURL: baseURL,
+      image: post.metadata.image
+        ? `${baseURL}${post.metadata.image}`
+        : `${baseURL}/og?title=${
+            post.metadata.title.length > 25
+              ? post.metadata.title.slice(0, 25).replace(/\s+$/, '') + '…'
+              : post.metadata.title
+          }`,
+      path: `${work.path}/${post.slug}`,
+    });
 }
 
 export default async function Project({
