@@ -34,12 +34,7 @@ export async function generateMetadata({
       description: post.metadata.summary,
       baseURL: baseURL,
       image: post.metadata.image
-        ? `${baseURL}${post.metadata.image}`
-        : `${baseURL}/og?title=${
-            post.metadata.title.length > 25
-              ? post.metadata.title.slice(0, 25).replace(/\s+$/, '') + '…'
-              : post.metadata.title
-          }`,
+        ? `${baseURL}${post.metadata.image}` : `${baseURL}/og?title=${encodeURIComponent(post.metadata.title)}`,
       path: `${work.path}/${post.slug}`,
     });
 }
