@@ -25,7 +25,7 @@ export async function GET(request: Request) {
         width: "100%",
         height: "100%",
         padding: "8rem",
-        background: "#151515",
+        background: "linear-gradient(135deg,#031f11 0%,#145f38 75%, #0f6b3d 100%)",
       }}
     >
       <div
@@ -54,7 +54,7 @@ export async function GET(request: Request) {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "5rem",
+            gap: "3.5rem",
           }}
         >
           <img
