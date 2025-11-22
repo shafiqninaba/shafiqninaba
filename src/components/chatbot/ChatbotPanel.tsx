@@ -14,6 +14,7 @@ import {
   Message,
   MessageContent,
   Loader,
+  PromptSuggestion,
 } from "@/components/prompt-kit"
 import { useChatbot, ChatMessage } from "./useChatbot"
 
@@ -62,6 +63,13 @@ function ChatMessageItem({ message }: { message: ChatMessage }) {
   )
 }
 
+const PROMPT_SUGGESTIONS = [
+  "What are Shafiq's main skills?",
+  "Tell me about his projects",
+  "What's his work experience?",
+  "How can I contact him?",
+]
+
 export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) {
   const { messages, isLoading, error, sendMessage, clearMessages } = useChatbot()
   const [inputValue, setInputValue] = useState("")
@@ -70,6 +78,12 @@ export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) 
     if (inputValue.trim() && !isLoading) {
       sendMessage(inputValue)
       setInputValue("")
+    }
+  }
+
+  const handleSuggestionClick = (suggestion: string) => {
+    if (!isLoading) {
+      sendMessage(suggestion)
     }
   }
 
@@ -138,7 +152,7 @@ export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) 
       <ChatContainerRoot className="flex-1">
         <ChatContainerContent className="gap-1 py-2">
           {messages.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center gap-3 px-4 py-8 text-center">
+            <div className="flex h-full flex-col items-center justify-center gap-4 px-4 py-6 text-center">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-background-weak)]">
                 <Bot className="h-6 w-6 text-[var(--accent-on-background-strong)]" />
               </div>
@@ -149,6 +163,17 @@ export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) 
                 <p className="text-xs text-[var(--neutral-on-background-weak)]">
                   Ask me about Shafiq's experience, projects, or skills.
                 </p>
+              </div>
+              <div className="flex flex-wrap justify-center gap-2 px-2">
+                {PROMPT_SUGGESTIONS.map((suggestion) => (
+                  <PromptSuggestion
+                    key={suggestion}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="h-auto whitespace-normal px-3 py-2 text-xs"
+                  >
+                    {suggestion}
+                  </PromptSuggestion>
+                ))}
               </div>
             </div>
           ) : (
@@ -164,7 +189,7 @@ export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) 
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent-background-strong)]">
                 <Bot className="h-4 w-4 text-[var(--accent-on-background-strong)]" />
               </div>
-              <div className="rounded-lg bg-[var(--neutral-background-medium)] px-4 py-3">
+              <div className="rounded-lg bg-[var(--neutral-background-medium)] px-5 py-4">
                 <Loader variant="dots" size="sm" className="text-[var(--neutral-on-background-weak)]" />
               </div>
             </div>

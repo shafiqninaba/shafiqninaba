@@ -23,3 +23,4 @@ export {
 export { Markdown } from "./markdown"
 export { Loader } from "./loader"
 export { CodeBlock, CodeBlockCode } from "./code-block"
+export { PromptSuggestion } from "./prompt-suggestion"
