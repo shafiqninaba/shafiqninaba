@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
-import { getPosts } from "@/app/utils/utils";
+import { getPosts, calculateReadingTime } from "@/app/utils/utils";
 import { AvatarGroup, Button, Column, Flex, Heading, SmartImage, Text } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import { about, person, work } from "@/app/resources/content";
@@ -56,10 +56,12 @@ export default async function Project({
       src: person.avatar,
     })) || [];
 
+  const readingTime = calculateReadingTime(post.content);
+
   return (
     <Column as="section" maxWidth="m" horizontal="center" gap="l">
       <Schema
-        as="blogPosting"
+        as="article"
         baseURL={baseURL}
         path={`${work.path}/${post.slug}`}
         title={post.metadata.title}
@@ -72,19 +74,24 @@ export default async function Project({
           url: `${baseURL}${about.path}`,
           image: `${baseURL}${person.avatar}`,
         }}
+        breadcrumbs={[
+          { name: "Home", url: baseURL },
+          { name: "Work", url: `${baseURL}${work.path}` },
+          { name: post.metadata.title, url: `${baseURL}${work.path}/${post.slug}` },
+        ]}
       />
       <Column maxWidth="xs" gap="16">
         <Button data-border="rounded" href="/work" variant="tertiary" weight="default" size="s" prefixIcon="chevronLeft">
           Projects
         </Button>
-        <Heading variant="display-strong-s">{post.metadata.title}</Heading>
+        <Heading as="h1" variant="display-strong-s">{post.metadata.title}</Heading>
       </Column>
       {post.metadata.images.length > 0 && (
         <SmartImage
           priority
           aspectRatio="16 / 9"
           radius="m"
-          alt="image"
+          alt={`${post.metadata.title} project screenshot`}
           src={post.metadata.images[0]}
         />
       )}
@@ -93,6 +100,12 @@ export default async function Project({
           {post.metadata.team && <AvatarGroup reverse avatars={avatars} size="m" />}
           <Text variant="body-default-s" onBackground="neutral-weak">
             {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
+          </Text>
+          <Text variant="body-default-s" onBackground="neutral-weak">
+            •
+          </Text>
+          <Text variant="body-default-s" onBackground="neutral-weak">
+            {readingTime}
           </Text>
         </Flex>
         <CustomMDX source={post.content} />

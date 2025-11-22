@@ -49,7 +49,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       )}
     >
       <head>
-      <meta name="google-site-verification" content="ZUd9tz6kEcxWgjTJEgPI5CeNAQNzn3Yq6NUIOqbo_uU" />
+        <meta name="google-site-verification" content="ZUd9tz6kEcxWgjTJEgPI5CeNAQNzn3Yq6NUIOqbo_uU" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0a" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

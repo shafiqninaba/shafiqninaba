@@ -70,3 +70,11 @@ export function getPosts(customPath = ["", "", "", ""]) {
   const postsDir = path.join(process.cwd(), ...customPath);
   return getMDXData(postsDir);
 }
+
+export function calculateReadingTime(content: string): string {
+  const wordsPerMinute = 200;
+  const textOnly = content.replace(/```[\s\S]*?```/g, '').replace(/[#*`\[\]()]/g, '');
+  const wordCount = textOnly.split(/\s+/).filter(word => word.length > 0).length;
+  const minutes = Math.ceil(wordCount / wordsPerMinute);
+  return `${minutes} min read`;
+}

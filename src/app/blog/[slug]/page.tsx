@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
-import { getPosts } from "@/app/utils/utils";
+import { getPosts, calculateReadingTime } from "@/app/utils/utils";
 import { AvatarGroup, Button, Column, Heading, HeadingNav, Icon, Row, Text } from "@/once-ui/components";
 import { about, blog, person, baseURL } from "@/app/resources";
 import { formatDate } from "@/app/utils/formatDate";
@@ -54,6 +54,8 @@ export default async function Blog({
       src: person.avatar,
     })) || [];
 
+  const readingTime = calculateReadingTime(post.content);
+
   return (
     <Row fillWidth>
       <Row maxWidth={12} hide="m"/>
@@ -73,15 +75,26 @@ export default async function Blog({
               url: `${baseURL}${about.path}`,
               image: `${baseURL}${person.avatar}`,
             }}
+            breadcrumbs={[
+              { name: "Home", url: baseURL },
+              { name: "Blog", url: `${baseURL}${blog.path}` },
+              { name: post.metadata.title, url: `${baseURL}${blog.path}/${post.slug}` },
+            ]}
           />
           <Button data-border="rounded" href="/blog" weight="default" variant="tertiary" size="s" prefixIcon="chevronLeft">
             Posts
           </Button>
-          <Heading variant="display-strong-s">{post.metadata.title}</Heading>
+          <Heading as="h1" variant="display-strong-s">{post.metadata.title}</Heading>
           <Row gap="12" vertical="center">
             {avatars.length > 0 && <AvatarGroup size="s" avatars={avatars} />}
             <Text variant="body-default-s" onBackground="neutral-weak">
               {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
+            </Text>
+            <Text variant="body-default-s" onBackground="neutral-weak">
+              •
+            </Text>
+            <Text variant="body-default-s" onBackground="neutral-weak">
+              {readingTime}
             </Text>
           </Row>
           <Column as="article" fillWidth>

@@ -12,6 +12,10 @@ export interface MetaProps {
     name: string;
     url?: string;
   };
+  robots?: {
+    index?: boolean;
+    follow?: boolean;
+  };
 }
 
 export function generateMetadata({
@@ -23,6 +27,7 @@ export function generateMetadata({
   image,
   publishedTime,
   author,
+  robots,
 }: MetaProps): NextMetadata {
   const normalizedBaseURL = baseURL.endsWith("/") ? baseURL.slice(0, -1) : baseURL;
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
@@ -40,6 +45,15 @@ export function generateMetadata({
   return {
     title,
     description,
+    alternates: {
+      canonical: url,
+    },
+    ...(robots ? {
+      robots: {
+        index: robots.index ?? true,
+        follow: robots.follow ?? true,
+      },
+    } : {}),
     openGraph: {
       title,
       description,
