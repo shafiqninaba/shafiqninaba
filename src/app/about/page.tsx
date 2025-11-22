@@ -145,7 +145,7 @@ export default function About() {
                 />
               </Flex>
             )}
-            <Heading className={styles.textAlign} variant="display-strong-xl">
+            <Heading as="h1" className={styles.textAlign} variant="display-strong-xl">
               {person.name}
             </Heading>
             <Text

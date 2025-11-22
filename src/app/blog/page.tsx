@@ -31,7 +31,7 @@ export default function Blog() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Heading marginBottom="l" variant="display-strong-s">
+      <Heading as="h1" marginBottom="l" variant="display-strong-s">
         {blog.title}
       </Heading>
       <Column

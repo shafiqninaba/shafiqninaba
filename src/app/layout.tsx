@@ -1,9 +1,11 @@
 import "@/once-ui/styles/index.scss";
 import "@/once-ui/tokens/index.scss";
+import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import classNames from "classnames";
 
 import { Footer, Header, RouteGuard } from "@/components";
+import { Chatbot } from "@/components/chatbot";
 import { baseURL, effects, style, font, home } from "@/app/resources";
 
 import { Background, Column, Flex, ThemeProvider, ToastProvider } from "@/once-ui/components";
@@ -47,7 +49,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       )}
     >
       <head>
-      <meta name="google-site-verification" content="ZUd9tz6kEcxWgjTJEgPI5CeNAQNzn3Yq6NUIOqbo_uU" />
+        <meta name="google-site-verification" content="ZUd9tz6kEcxWgjTJEgPI5CeNAQNzn3Yq6NUIOqbo_uU" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0a" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -129,6 +133,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             </Flex>
             <Footer />
             <Analytics />
+            <Chatbot />
           </Column>
         </ToastProvider>
       </ThemeProvider>

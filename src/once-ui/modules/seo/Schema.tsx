@@ -2,6 +2,11 @@ import React from "react";
 import Script from "next/script";
 import { social } from "@/app/resources/content";
 
+export interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
 export interface SchemaProps {
   as: "website" | "article" | "blog" | "blogPosting" | "techArticle" | "webPage" | "organization";
   title: string;
@@ -16,6 +21,7 @@ export interface SchemaProps {
     url?: string;
     image?: string;
   };
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 const schemaTypeMap = {
@@ -38,6 +44,7 @@ export function Schema({
   dateModified,
   image,
   author,
+  breadcrumbs,
 }: SchemaProps) {
   const normalizedBaseURL = baseURL.endsWith("/") ? baseURL.slice(0, -1) : baseURL;
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
@@ -91,14 +98,36 @@ export function Schema({
     };
   }
 
+  const breadcrumbSchema = breadcrumbs && breadcrumbs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  } : null;
+
   return (
-    <Script
-      id={`schema-${as}-${path}`}
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(schema),
-      }}
-    />
+    <>
+      <Script
+        id={`schema-${as}-${path}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema),
+        }}
+      />
+      {breadcrumbSchema && (
+        <Script
+          id={`schema-breadcrumb-${path}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(breadcrumbSchema),
+          }}
+        />
+      )}
+    </>
   );
 }
 
