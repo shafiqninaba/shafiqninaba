@@ -17,7 +17,7 @@ export function ChatbotButton({ isOpen, onClick, className }: ChatbotButtonProps
     <button
       onClick={onClick}
       className={cn(
-        "fixed bottom-6 right-6 z-50",
+        "fixed bottom-6 right-6 z-50 cursor-pointer",
         "flex h-14 w-14 items-center justify-center",
         "rounded-full shadow-lg",
         "bg-[var(--brand-solid-strong)] text-[var(--static-white)]",

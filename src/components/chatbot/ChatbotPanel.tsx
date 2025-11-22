@@ -132,7 +132,7 @@ export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) 
               variant="ghost"
               size="icon"
               onClick={clearMessages}
-              className="h-8 w-8 text-[var(--neutral-on-background-weak)] hover:text-[var(--neutral-on-background-strong)]"
+              className="h-8 w-8 cursor-pointer text-[var(--neutral-on-background-weak)] hover:text-[var(--neutral-on-background-strong)]"
             >
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -141,7 +141,7 @@ export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) 
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="h-8 w-8 text-[var(--neutral-on-background-weak)] hover:text-[var(--neutral-on-background-strong)]"
+            className="h-8 w-8 cursor-pointer text-[var(--neutral-on-background-weak)] hover:text-[var(--neutral-on-background-strong)]"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -169,7 +169,7 @@ export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) 
                   <PromptSuggestion
                     key={suggestion}
                     onClick={() => handleSuggestionClick(suggestion)}
-                    className="h-auto whitespace-normal px-3 py-2 text-xs"
+                    className="h-auto cursor-pointer whitespace-normal px-3 py-2 text-xs"
                   >
                     {suggestion}
                   </PromptSuggestion>
@@ -224,7 +224,7 @@ export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) 
               onClick={handleSubmit}
               disabled={!inputValue.trim() || isLoading}
               className={cn(
-                "h-8 w-8 rounded-full",
+                "h-8 w-8 cursor-pointer rounded-full",
                 "bg-[var(--brand-solid-strong)] text-[var(--static-white)]",
                 "hover:bg-[var(--brand-solid-medium)]",
                 "disabled:opacity-50"
