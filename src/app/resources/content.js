@@ -1,4 +1,22 @@
-import { Logo } from "@/once-ui/components";
+import {
+  SiLangchain,
+  SiPython,
+  SiLinux,
+  SiPytorch,
+  SiDocker,
+  SiKubernetes,
+  SiAmazonwebservices,
+  SiFastapi,
+  SiGitlab,
+  SiGithubactions,
+  SiHelm,
+  SiArgo,
+  SiTerraform,
+  SiPydantic,
+  SiKedro
+} from "react-icons/si";
+
+import { VscAzure } from "react-icons/vsc";
 
 const person = {
   firstName: "Shafiq",
@@ -92,12 +110,36 @@ const about = {
     title: "Introduction",
     description: (
       <>
-        {person.name} is a Singapore-based AI/ML Engineer with a background in Electrical & Electronic Engineering. 
-        He builds end-to-end machine learning systems that span computer vision, data engineering, and LLM-powered 
-        agentic workflows. With hands-on experience deploying real-world AI solutions, he enjoys building robust, 
+        {person.name} is a Singapore-based AI/ML Engineer with a background in Electrical & Electronic Engineering.
+        He builds end-to-end machine learning systems that span computer vision, data engineering, and LLM-powered
+        agentic workflows. With hands-on experience deploying real-world AI solutions, he enjoys building robust,
         scalable pipelines that go beyond the notebook.
       </>
     ),
+  },
+logoLoop: {
+    display: true,
+    // Add your logos here - each logo can be an image or a custom React node
+    // Image format: { src: "/path/to/logo.svg", alt: "Company Name", href: "https://link.com" }
+    // Node format: { node: <YourComponent />, title: "Label", href: "https://link.com" }
+    logos: [
+      { node: <SiPython />, title: "Python", href: "https://www.python.org/" },
+      { node: <SiLinux />, title: "Linux", href: "https://www.linux.org/" },
+      { node: <SiPytorch />, title: "PyTorch", href: "https://pytorch.org/" },
+      { node: <SiDocker />, title: "Docker", href: "https://www.docker.com/" },
+      { node: <SiKubernetes />, title: "Kubernetes", href: "https://kubernetes.io/" },
+      { node: <VscAzure />, title: "Azure", href: "https://azure.microsoft.com/" },
+      { node: <SiAmazonwebservices />, title: "AWS", href: "https://aws.amazon.com/" },
+      { node: <SiFastapi />, title: "FastAPI", href: "https://fastapi.tiangolo.com/" },
+      { node: <SiGitlab />, title: "GitLab CI/CD", href: "https://docs.gitlab.com/ci/" },
+      { node: <SiGithubactions />, title: "GitHub Actions", href: "https://github.com/features/actions" },
+      { node: <SiHelm />, title: "Helm", href: "https://helm.sh/" },
+      { node: <SiArgo />, title: "ArgoCD", href: "https://argo-cd.readthedocs.io/" },
+      { node: <SiLangchain />, title: "LangChain", href: "https://www.langchain.com/" },
+      { node: <SiTerraform />, title: "Terraform", href: "https://www.terraform.io/" },
+      { node: <SiPydantic />, title: "Pydantic", href: "https://docs.pydantic.dev/" },
+      { node: <SiKedro />, title: "Kedro", href: "https://kedro.org/" },
+    ],
   },
   work: {
     display: true,

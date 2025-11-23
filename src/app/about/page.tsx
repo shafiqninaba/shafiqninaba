@@ -16,6 +16,7 @@ import styles from "@/components/about/about.module.scss";
 import { person, about, social } from "@/app/resources/content";
 import React from "react";
 import { Meta, Schema } from "@/once-ui/modules";
+import LogoLoop from "@/components/LogoLoop";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -188,6 +189,20 @@ export default function About() {
           {about.intro.display && (
             <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
               {about.intro.description}
+            </Column>
+          )}
+
+          {about.logoLoop?.display && about.logoLoop.logos?.length > 0 && (
+            <Column fillWidth marginBottom="xl">
+              <LogoLoop
+                logos={about.logoLoop.logos}
+                speed={40}
+                logoHeight={40}
+                gap={48}
+                pauseOnHover
+                fadeOut
+                ariaLabel="Technologies I work with"
+              />
             </Column>
           )}
 
