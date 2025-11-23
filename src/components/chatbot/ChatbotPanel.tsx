@@ -98,9 +98,9 @@ export function ChatbotPanel({ isOpen, onClose, className }: ChatbotPanelProps) 
     <div
       className={cn(
         "fixed bottom-24 z-40",
-        "left-4 right-4 sm:left-auto sm:right-6",
+        "left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0",
         "flex flex-col",
-        "h-[500px] w-auto sm:w-[380px] max-h-[70vh]",
+        "h-[500px] w-[calc(100%-2rem)] sm:w-[380px] max-w-[380px] max-h-[70vh]",
         "rounded-2xl border border-[var(--neutral-border-medium)]",
         "bg-[var(--surface-background)] backdrop-blur-xl",
         "shadow-xl",
