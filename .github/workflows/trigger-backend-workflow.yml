@@ -17,4 +17,4 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.WORKFLOW_DISPATCH_TOKEN }}" \
             https://api.github.com/repos/shafiqninaba/shafiqninaba-backend/actions/workflows/generate-llmstxt.yml/dispatches \
-            -d '{"ref":"main"}'
+            -d '{"ref":"master"}'
