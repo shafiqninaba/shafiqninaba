@@ -147,7 +147,7 @@ logoLoop: {
     experiences: [
       {
         company: "AI Singapore",
-        timeframe: "July 2025 – Present",
+        timeframe: "Jul 2025 – Present",
         role: "AI Engineer",
         achievements: [
           <>
