@@ -105,6 +105,26 @@ const about = {
     experiences: [
       {
         company: "AI Singapore",
+        timeframe: "July 2025 – Present",
+        role: "AI Engineer",
+        achievements: [
+          <>
+            Contributing to the development of an enterprise AI-powered Learning Management System (LMS) as part of a 7-member team, architecting scalable cloud infrastructure on Azure to deliver personalized education experiences.
+          </>,
+          <>
+            Sole owner of MLOps and DevOps infrastructure for the platform, implementing robust CI/CD pipelines through GitLab and orchestrating containerized deployments using Kubernetes, Helm, ArgoCD and Terraform to ensure high availability, observability, and seamless system maintenance.
+          </>,
+          <>
+            Architecting and managing cloud-native infrastructure on Azure, leveraging Infrastructure as Code principles to enable rapid, reliable deployments across development and production environments.
+          </>,
+          <>
+            Mentoring and leading apprentices in delivering client-facing AI solutions, providing technical guidance on machine learning pipelines, deployment strategies, and best practices in production-grade AI systems.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "AI Singapore",
         timeframe: "Jun 2024 – Mar 2025",
         role: "Associate AI Engineer",
         achievements: [
