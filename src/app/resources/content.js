@@ -4,6 +4,7 @@ import {
   SiLinux,
   SiPytorch,
   SiDocker,
+  SiRailway,
   SiKubernetes,
   SiAmazonwebservices,
   SiFastapi,
@@ -130,6 +131,7 @@ logoLoop: {
       { node: <SiKubernetes />, title: "Kubernetes", href: "https://kubernetes.io/" },
       { node: <VscAzure />, title: "Azure", href: "https://azure.microsoft.com/" },
       { node: <SiAmazonwebservices />, title: "AWS", href: "https://aws.amazon.com/" },
+      { node: <SiRailway />, title: "Railway", href: "https://railway.com/" },
       { node: <SiFastapi />, title: "FastAPI", href: "https://fastapi.tiangolo.com/" },
       { node: <SiGitlab />, title: "GitLab CI/CD", href: "https://docs.gitlab.com/ci/" },
       { node: <SiGithubactions />, title: "GitHub Actions", href: "https://github.com/features/actions" },
@@ -404,3 +406,4 @@ const gallery = {
 };
 
 export { person, social, newsletter, home, about, blog, work, gallery };
+
