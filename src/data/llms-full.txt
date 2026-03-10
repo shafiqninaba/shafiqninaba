@@ -430,7 +430,11 @@ Machine Learning Intern (Smart Systems & Solutions)
 
 ## Studies
 
-Nanyang Technological University (NTU)Bachelor of Engineering (Electrical and Electronic Engineering), Honours (Distinction). Specialized in Info-Communications Engineering with modules like Machine Learning Design & Application, Artificial Intelligence, Computer Vision, and Web Application Design.
+Nanyang Technological University (NTU) Aug 2020 – May 2024
+
+Bachelor of Engineering (Electrical and Electronic Engineering), Honours (Distinction).
+
+Specialized in Info-Communications Engineering with modules like Machine Learning Design & Application, Artificial Intelligence, Computer Vision, and Web Application Design.
 
 ## Technical skills
 

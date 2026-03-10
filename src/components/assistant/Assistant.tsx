@@ -11,7 +11,13 @@ import {
   ComposerPrimitive,
   MessagePrimitive,
 } from "@assistant-ui/react";
+import { MarkdownTextPrimitive } from "@assistant-ui/react-markdown";
+import remarkGfm from "remark-gfm";
 import { MessageCircle, Send, X } from "lucide-react";
+
+const MarkdownText = () => (
+  <MarkdownTextPrimitive remarkPlugins={[remarkGfm]} className="aui-md" />
+);
 
 const SUGGESTIONS = [
   "What are Shafiq's main skills?",
@@ -54,7 +60,9 @@ function AssistantThread() {
             ),
             AssistantMessage: () => (
               <MessagePrimitive.Root className="aui-message aui-message-assistant">
-                <MessagePrimitive.Content />
+                <MessagePrimitive.Content
+                  components={{ Text: MarkdownText }}
+                />
               </MessagePrimitive.Root>
             ),
           }}

@@ -237,10 +237,11 @@ logoLoop: {
     institutions: [
       {
         name: "Nanyang Technological University (NTU)",
+        timeframe: "Aug 2020 – May 2024",
+        degree: "Bachelor of Engineering (Electrical and Electronic Engineering), Honours (Distinction)",
         description: (
           <>
-            Bachelor of Engineering (Electrical and Electronic Engineering), Honours (Distinction). 
-            Specialized in Info-Communications Engineering with modules like Machine Learning Design & Application, 
+            Specialized in Info-Communications Engineering with modules like Machine Learning Design & Application,
             Artificial Intelligence, Computer Vision, and Web Application Design.
           </>
         ),
