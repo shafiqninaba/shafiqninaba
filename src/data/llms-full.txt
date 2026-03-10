@@ -1,158 +1,158 @@
-# https://shafiqninaba.vercel.app llms-full.txt
+# https://shafiqninaba.com llms-full.txt
 
 <|firecrawl-page-1-lllmstxt|>
 ## Shafiq Ninaba Portfolio
-[Recent project: **ask-the-docs**](https://shafiqninaba.vercel.app/work/ask-the-docs)
+[Recent project: **ask-the-docs**](https://shafiqninaba.com/work/ask-the-docs)
 
 # Engineering intelligence, one pipeline at a time.
 
 I'm Shafiq, an AI Engineer crafting scalable ML systems — from computer vision to agentic systems. I build end-to-end solutions that ship.
 
-In my free time, I either boulder or work on my personal projects. You can find them [here](https://shafiqninaba.vercel.app/work)!
+In my free time, I either boulder or work on my personal projects. You can find them [here](https://shafiqninaba.com/work)!
 
-[![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)\\
+[![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)\\
 \\
-About – Shafiq Ninaba](https://shafiqninaba.vercel.app/about)
+About – Shafiq Ninaba](https://shafiqninaba.com/about)
 
-![Ask the Docs: Agentic RAG Chatbot for Documentation](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Faskthedocs-cover.png&w=3840&q=75)
+![Ask the Docs: Agentic RAG Chatbot for Documentation](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Faskthedocs-cover.png&w=3840&q=75)
 
 ## Ask the Docs: Agentic RAG Chatbot for Documentation
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 An AI-powered chatbot that uses a real-time crawling and agentic RAG pipeline to answer technical questions about any website’s documentation.
 
-[Read case study](https://shafiqninaba.vercel.app/work/ask-the-docs) [View project](https://github.com/shafiqninaba/ask-the-docs)
+[Read case study](https://shafiqninaba.com/work/ask-the-docs) [View project](https://github.com/shafiqninaba/ask-the-docs)
 
-![GovSeek: RAG Chatbot for Government Services](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fgov-seek%2Fgovseek-cover.png&w=3840&q=75)
+![GovSeek: RAG Chatbot for Government Services](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fgov-seek%2Fgovseek-cover.png&w=3840&q=75)
 
 ## GovSeek: RAG Chatbot for Government Services
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 Proof-of-concept chatbot using Retrieval-Augmented Generation (RAG) to provide context-aware answers from Singapore government websites.
 
-[Read case study](https://shafiqninaba.vercel.app/work/gov-seek) [View project](https://github.com/shafiqninaba/gov-seek)
+[Read case study](https://shafiqninaba.com/work/gov-seek) [View project](https://github.com/shafiqninaba/gov-seek)
 
-![Construction Progress Tracking with Deep Learning on 360° Imagery](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fcover.png&w=3840&q=75)
+![Construction Progress Tracking with Deep Learning on 360° Imagery](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fcover.png&w=3840&q=75)
 
 ## Construction Progress Tracking with Deep Learning on 360° Imagery
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 Developed a panoptic segmentation system using deep learning to automate construction progress tracking with 360° images, streamlining the project handover process.
 
-[Read case study](https://shafiqninaba.vercel.app/work/construction-progress-tracking)
+[Read case study](https://shafiqninaba.com/work/construction-progress-tracking)
 
-![Facial Recognition with Accessories using CNN](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Ffyp%2Finference.png&w=3840&q=75)
+![Facial Recognition with Accessories using CNN](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Ffyp%2Finference.png&w=3840&q=75)
 
 ## Facial Recognition with Accessories using CNN
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 A Dockerized facial recognition system built with CNNs that identifies masked and unmasked faces using Keras, TensorFlow, and Flask.
 
-[Read case study](https://shafiqninaba.vercel.app/work/fyp) [View project](https://github.com/shafiqninaba/masked_facial_recognition)
+[Read case study](https://shafiqninaba.com/work/fyp) [View project](https://github.com/shafiqninaba/masked_facial_recognition)
 
-![SneakerHive: A Web App for Sneaker Enthusiasts](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fsneakerhive%2Fbanner.png&w=3840&q=75)
+![SneakerHive: A Web App for Sneaker Enthusiasts](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fsneakerhive%2Fbanner.png&w=3840&q=75)
 
 ## SneakerHive: A Web App for Sneaker Enthusiasts
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
 A full-stack e-commerce platform tailored for sneaker lovers, featuring user personalization, admin controls, and a smooth shopping experience.
 
-[Read case study](https://shafiqninaba.vercel.app/work/sneakerhive) [View project](https://github.com/shafiqninaba/IE4717)
+[Read case study](https://shafiqninaba.com/work/sneakerhive) [View project](https://github.com/shafiqninaba/IE4717)
 
 <|firecrawl-page-2-lllmstxt|>
 ## Shafiq Ninaba Projects
-![Ask the Docs: Agentic RAG Chatbot for Documentation](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Faskthedocs-cover.png&w=3840&q=75)
+![Ask the Docs: Agentic RAG Chatbot for Documentation](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Faskthedocs-cover.png&w=3840&q=75)
 
 ## Ask the Docs: Agentic RAG Chatbot for Documentation
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 An AI-powered chatbot that uses a real-time crawling and agentic RAG pipeline to answer technical questions about any website’s documentation.
 
-[Read case study](https://shafiqninaba.vercel.app/work/ask-the-docs) [View project](https://github.com/shafiqninaba/ask-the-docs)
+[Read case study](https://shafiqninaba.com/work/ask-the-docs) [View project](https://github.com/shafiqninaba/ask-the-docs)
 
-![GovSeek: RAG Chatbot for Government Services](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fgov-seek%2Fgovseek-cover.png&w=3840&q=75)
+![GovSeek: RAG Chatbot for Government Services](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fgov-seek%2Fgovseek-cover.png&w=3840&q=75)
 
 ## GovSeek: RAG Chatbot for Government Services
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 Proof-of-concept chatbot using Retrieval-Augmented Generation (RAG) to provide context-aware answers from Singapore government websites.
 
-[Read case study](https://shafiqninaba.vercel.app/work/gov-seek) [View project](https://github.com/shafiqninaba/gov-seek)
+[Read case study](https://shafiqninaba.com/work/gov-seek) [View project](https://github.com/shafiqninaba/gov-seek)
 
-![Construction Progress Tracking with Deep Learning on 360° Imagery](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fcover.png&w=3840&q=75)
+![Construction Progress Tracking with Deep Learning on 360° Imagery](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fcover.png&w=3840&q=75)
 
 ## Construction Progress Tracking with Deep Learning on 360° Imagery
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 Developed a panoptic segmentation system using deep learning to automate construction progress tracking with 360° images, streamlining the project handover process.
 
-[Read case study](https://shafiqninaba.vercel.app/work/construction-progress-tracking)
+[Read case study](https://shafiqninaba.com/work/construction-progress-tracking)
 
-![Facial Recognition with Accessories using CNN](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Ffyp%2Finference.png&w=3840&q=75)
+![Facial Recognition with Accessories using CNN](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Ffyp%2Finference.png&w=3840&q=75)
 
 ## Facial Recognition with Accessories using CNN
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 A Dockerized facial recognition system built with CNNs that identifies masked and unmasked faces using Keras, TensorFlow, and Flask.
 
-[Read case study](https://shafiqninaba.vercel.app/work/fyp) [View project](https://github.com/shafiqninaba/masked_facial_recognition)
+[Read case study](https://shafiqninaba.com/work/fyp) [View project](https://github.com/shafiqninaba/masked_facial_recognition)
 
-![SneakerHive: A Web App for Sneaker Enthusiasts](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fsneakerhive%2Fbanner.png&w=3840&q=75)
+![SneakerHive: A Web App for Sneaker Enthusiasts](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fsneakerhive%2Fbanner.png&w=3840&q=75)
 
 ## SneakerHive: A Web App for Sneaker Enthusiasts
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
 A full-stack e-commerce platform tailored for sneaker lovers, featuring user personalization, admin controls, and a smooth shopping experience.
 
-[Read case study](https://shafiqninaba.vercel.app/work/sneakerhive) [View project](https://github.com/shafiqninaba/IE4717)
+[Read case study](https://shafiqninaba.com/work/sneakerhive) [View project](https://github.com/shafiqninaba/IE4717)
 
 <|firecrawl-page-3-lllmstxt|>
 ## Shafiq Ninaba Sitemap
-https://shafiqninaba.vercel.app2025-06-26https://shafiqninaba.vercel.app/about2025-06-26https://shafiqninaba.vercel.app/work2025-06-26https://shafiqninaba.vercel.app/work/ask-the-docs2025-04-13https://shafiqninaba.vercel.app/work/construction-progress-tracking2025-03-04https://shafiqninaba.vercel.app/work/fyp2024-02-26https://shafiqninaba.vercel.app/work/gov-seek2025-03-05https://shafiqninaba.vercel.app/work/sneakerhive2023-11-13
+https://shafiqninaba.com2025-06-26https://shafiqninaba.com/about2025-06-26https://shafiqninaba.com/work2025-06-26https://shafiqninaba.com/work/ask-the-docs2025-04-13https://shafiqninaba.com/work/construction-progress-tracking2025-03-04https://shafiqninaba.com/work/fyp2024-02-26https://shafiqninaba.com/work/gov-seek2025-03-05https://shafiqninaba.com/work/sneakerhive2023-11-13
 
 <|firecrawl-page-4-lllmstxt|>
 ## Ask the Docs
-[Projects](https://shafiqninaba.vercel.app/work)
+[Projects](https://shafiqninaba.com/work)
 
 # Ask the Docs: Agentic RAG Chatbot for Documentation
 
-![image](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Faskthedocs-cover.png&w=3840&q=75)
+![image](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Faskthedocs-cover.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 April 13, 2025
 
@@ -188,7 +188,7 @@ April 13, 2025
 
 ## Architecture
 
-![Architecture](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Fsoftware-architecture.png&w=3840&q=75)
+![Architecture](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Fsoftware-architecture.png&w=3840&q=75)
 
 1. **User inputs a website URL.**
 2. **Firecrawl** crawls and extracts the HTML.
@@ -218,17 +218,17 @@ April 13, 2025
 
 ### Crawling Progress
 
-![Firecrawl stream](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Ffirecrawler.gif&w=3840&q=75)
+![Firecrawl stream](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Ffirecrawler.gif&w=3840&q=75)
 This gif shows the document crawling and indexing functionality in action. When a user inputs a URL, the Firecrawl web crawling service that is self-hosted on DigitalOcean efficiently traverses through documentation sources, extracting relevant content, and processes it for the vector database. This automated process ensures that all documentation is properly indexed and ready for semantic search and retrieval.
 
 ### Chatbot in Action
 
-![Chatbot in action](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Fchatbot.gif&w=3840&q=75)
+![Chatbot in action](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Fchatbot.gif&w=3840&q=75)
 The chatbot interaction demonstrates the agentic RAG pipeline in practice. Users can ask complex questions about the documentation, and the system intelligently processes these queries, retrieves relevant information from the vector store, and generates comprehensive, accurate responses. Note how the system handles follow-up questions and maintains context throughout the conversation.
 
 ### Web Search Fallback
 
-![Web search fallback](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Fwebsearch.gif&w=3840&q=75)
+![Web search fallback](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fask-the-docs%2Fwebsearch.gif&w=3840&q=75)
 When information isn't available in the indexed documentation, the system seamlessly falls back to web search capabilities. This demonstration shows how the application leverages Tavily web search to supplement its knowledge base, ensuring users receive helpful responses even for queries that go beyond the scope of the ingested documentation.
 
 * * *
@@ -239,13 +239,13 @@ When information isn't available in the indexed documentation, the system seamle
 
 <|firecrawl-page-5-lllmstxt|>
 ## CNN Masked Facial Recognition
-[Projects](https://shafiqninaba.vercel.app/work)
+[Projects](https://shafiqninaba.com/work)
 
 # Facial Recognition with Accessories using CNN
 
-![image](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Ffyp%2Finference.png&w=3840&q=75)
+![image](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Ffyp%2Finference.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 February 26, 2024
 
@@ -280,23 +280,23 @@ The project successfully demonstrates how facial recognition systems can adapt t
 
 <|firecrawl-page-6-lllmstxt|>
 ## Construction Progress Tracking
-[Projects](https://shafiqninaba.vercel.app/work)
+[Projects](https://shafiqninaba.com/work)
 
 # Construction Progress Tracking with Deep Learning on 360° Imagery
 
-![image](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fcover.png&w=3840&q=75)
+![image](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fcover.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fmanager.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 March 4, 2025
 
@@ -334,13 +334,13 @@ The final solution successfully automated construction progress monitoring with 
 
 <|firecrawl-page-7-lllmstxt|>
 ## GovSeek RAG Chatbot
-[Projects](https://shafiqninaba.vercel.app/work)
+[Projects](https://shafiqninaba.com/work)
 
 # GovSeek: RAG Chatbot for Government Services
 
-![image](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fgov-seek%2Fgovseek-cover.png&w=3840&q=75)
+![image](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fgov-seek%2Fgovseek-cover.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 March 5, 2025
 
@@ -385,7 +385,7 @@ Technical skills
 
 Hobbies & Interests
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
 Asia/Singapore
 
@@ -412,13 +412,13 @@ Associate AI Engineer
 - Built a FastAPI backend to serve models with inference speeds 50% faster than required.
 - Developed CI/CD pipelines with test coverage and documentation for maintainability and handover.
 
-![My team and I at AI Singapore](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Faiap%2Faiap_1.jpg&w=3840&q=75)
+![My team and I at AI Singapore](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Faiap%2Faiap_1.jpg&w=3840&q=75)
 
-![Introducing my AIAP experience to guests](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Faiap%2Faiap_2.jpg&w=3840&q=75)
+![Introducing my AIAP experience to guests](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Faiap%2Faiap_2.jpg&w=3840&q=75)
 
-![My team and I at AI Singapore](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Faiap%2Faiap_3.jpg&w=3840&q=75)
+![My team and I at AI Singapore](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Faiap%2Faiap_3.jpg&w=3840&q=75)
 
-![AIAP Certificate](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Faiap%2Faiap_cert.png&w=3840&q=75)
+![AIAP Certificate](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Faiap%2Faiap_cert.png&w=3840&q=75)
 
 PSA Corporation LtdJan 2023 – Jul 2023
 
@@ -446,23 +446,23 @@ Web DevelopmentBuilt interactive applications with Streamlit, HTML/CSS/JS, and d
 
 BoulderingI enjoy the problem-solving aspect of bouldering, which challenges both my mental and physical abilities. It's a great way to stay active while building strength and coordination.
 
-![Climbing at a local competition](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fhobbies%2Ftransend-climb.jpg&w=3840&q=75)
+![Climbing at a local competition](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fhobbies%2Ftransend-climb.jpg&w=3840&q=75)
 
-![Podium position at a local competition](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fhobbies%2Ftransend-portrait.jpg&w=3840&q=75)
+![Podium position at a local competition](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fhobbies%2Ftransend-portrait.jpg&w=3840&q=75)
 
 Tech reviewsI love reading up & watching videos on the latest trends in technology, be it on the latest coolest gadgets, or the latest AI models and SWE frameworks!
 
 <|firecrawl-page-9-lllmstxt|>
 ## SneakerHive E-Commerce App
-[Projects](https://shafiqninaba.vercel.app/work)
+[Projects](https://shafiqninaba.com/work)
 
 # SneakerHive: A Web App for Sneaker Enthusiasts
 
-![image](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fsneakerhive%2Fbanner.png&w=3840&q=75)
+![image](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fsneakerhive%2Fbanner.png&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Favatar.jpg&w=3840&q=75)
 
-![Avatar](https://shafiqninaba.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
+![Avatar](https://shafiqninaba.com/_next/image?url=%2Fimages%2Fprojects%2Fconstruction-tracking%2Fsoftware-engineer.png&w=3840&q=75)
 
 November 13, 2023
 
