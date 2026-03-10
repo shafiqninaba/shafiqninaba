@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import classNames from "classnames";
 
 import { Footer, Header, RouteGuard } from "@/components";
-import { Chatbot } from "@/components/chatbot";
+import { Assistant } from "@/components/assistant";
 import { baseURL, effects, style, font, home } from "@/app/resources";
 
 import { Background, Column, Flex, ThemeProvider, ToastProvider } from "@/once-ui/components";
@@ -133,7 +133,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             </Flex>
             <Footer />
             <Analytics />
-            <Chatbot />
+            <Assistant />
           </Column>
         </ToastProvider>
       </ThemeProvider>
