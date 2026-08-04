@@ -68,32 +68,10 @@ const social = [
   },
 ];
 
-const home = {
-  path: "/",
-  image: "/images/og/home.jpg",
-  label: "Home",
-  title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Engineering intelligence, one pipeline at a time.</>,
-  featured: {
-    display: true,
-    title: <>Recent project: <strong className="ml-4">ask-the-docs</strong></>,
-    href: "/work/ask-the-docs",
-  },
-  subline: (
-    <>
-    I'm Shafiq, an AI Engineer crafting scalable ML systems — from computer vision to agentic systems. I build end-to-end solutions that ship.
-    <br />
-    <br />
-    In my free time, I either boulder or work on my personal projects. You can find them <a href="/work">here</a>!
-    </>
-  ),
-};
-
+// The portfolio is a single landing page served at "/"
 const about = {
-  path: "/about",
-  label: "About",
-  title: `About – ${person.name}`,
+  path: "/",
+  title: `${person.name}'s Portfolio`,
   description: `Meet ${person.name}, ${person.role} from ${person.location}`,
   tableOfContent: {
     display: true,
@@ -346,15 +324,6 @@ const blog = {
   // All posts will be listed on the /blog route
 };
 
-const work = {
-  path: "/work",
-  label: "Work",
-  title: `Projects – ${person.name}`,
-  description: `Dev projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts
-  // All projects will be listed on the /home and /work routes
-};
-
 const gallery = {
   path: "/gallery",
   label: "Gallery",
@@ -406,5 +375,5 @@ const gallery = {
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+export { person, social, newsletter, about, blog, gallery };
 
