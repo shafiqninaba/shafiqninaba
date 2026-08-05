@@ -1,12 +1,10 @@
 import "@/once-ui/styles/index.scss";
 import "@/once-ui/tokens/index.scss";
-import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import classNames from "classnames";
 
 import { Footer, Header, RouteGuard } from "@/components";
-import { Assistant } from "@/components/assistant";
-import { baseURL, effects, style, font, home } from "@/app/resources";
+import { baseURL, effects, style, font, about } from "@/app/resources";
 
 import { Background, Column, Flex, ThemeProvider, ToastProvider } from "@/once-ui/components";
 import { opacity, SpacingToken } from "@/once-ui/types";
@@ -14,11 +12,11 @@ import { Meta } from "@/once-ui/modules";
 
 export async function generateMetadata() {
   return Meta.generate({
-    title: home.title,
-    description: home.description,
+    title: about.title,
+    description: about.description,
     baseURL: baseURL,
-    path: home.path,
-    image: home.image,
+    path: about.path,
+    image: `${baseURL}/og?title=${encodeURIComponent(about.title)}`,
   });
 }
 
@@ -133,7 +131,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             </Flex>
             <Footer />
             <Analytics />
-            <Assistant />
           </Column>
         </ToastProvider>
       </ThemeProvider>
