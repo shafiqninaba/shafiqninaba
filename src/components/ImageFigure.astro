@@ -1,4 +1,75 @@
 ---
-// PLACEHOLDER — src/components/ImageFigure.astro
-// Owner: Agent D (Phase 1). Spec: §E.8. Replace this file wholesale.
+// §E.8 — one framed, clickable, enlargeable photo.
+// The button carries the data-attribute contract consumed by src/scripts/app.ts:
+//   data-enlarge (hook), data-full (built full-size URL), data-alt (alt text).
+// No client JS lives here. With JS off the button is inert and the image still renders.
+import { Image, getImage } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** rendered width in the strip, px. Default 240. */
+  w?: number;
+}
+
+const { src, alt, w = 240 } = Astro.props;
+
+// Build-time full-size variant used by the lightbox. Never exceeds the source width.
+// `layout: 'none'` is REQUIRED: getImage() inherits the global
+// `image.layout: 'constrained'` from astro.config, which makes Astro generate a
+// whole responsive breakpoint set (~5 extra files per image) even though the
+// lightbox only ever consumes `full.src`. Without it the build emits ~40 dead
+// files. Opting out changes nothing about the URL below — only what else is written.
+const full = await getImage({
+  src,
+  format: 'webp',
+  quality: 82,
+  width: Math.min(1600, src.width),
+  layout: 'none',
+});
 ---
+
+<button
+  type="button"
+  class="frame"
+  data-enlarge
+  data-full={full.src}
+  data-alt={alt}
+  aria-label={`Enlarge image: ${alt}`}
+>
+  <Image
+    src={src}
+    alt={alt}
+    width={w}
+    height={Math.round((w * src.height) / src.width)}
+    widths={[w, w * 2]}
+    sizes={`${w}px`}
+    format="webp"
+    quality={82}
+    loading="lazy"
+    decoding="async"
+    layout="none"
+  />
+</button>
+
+<style>
+  .frame {
+    display: block;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--neutral-border-medium);
+    border-radius: var(--radius-m); /* 0.75rem, playful scale */
+    background: var(--neutral-background-medium);
+    cursor: zoom-in;
+    transition: var(--transition-micro-medium);
+  }
+  .frame:hover {
+    border-color: var(--neutral-border-strong);
+  }
+  .frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

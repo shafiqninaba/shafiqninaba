@@ -1,2 +1,125 @@
-/* PLACEHOLDER — src/styles/layout.css
-   Owner: Agent A (Phase 1). Spec: §D.3. Replace this file wholesale. */
+/* ============ PAGE SKELETON ============ */
+.top-spacer { width: 100%; min-height: 1rem; }
+@media (max-width: 768px) { .top-spacer { display: none; } }
+
+.main {
+  position: relative;
+  z-index: 0;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: var(--space-l);
+}
+
+.page-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--responsive-width-m);
+}
+
+.about-row {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+@media (max-width: 768px) { .about-row { flex-direction: column; } }
+
+/* Sticky avatar sidebar — flex 3 */
+.sidebar {
+  position: sticky;
+  top: 4rem;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 3;
+  min-width: 10rem;
+  padding-left: var(--space-l);
+  padding-right: var(--space-l);
+  padding-bottom: var(--space-xl);
+  gap: var(--space-m);
+}
+@media (max-width: 768px) { .sidebar { position: static; top: auto; } }
+
+/* Content column — flex 9, FLAT 40rem (never responsive) */
+.content-col {
+  display: flex;
+  flex-direction: column;
+  flex: 9;
+  width: 100%;
+  max-width: var(--width-640);
+}
+@media (max-width: 768px) { .content-col { align-self: center; } }
+
+/* ============ SECTION RHYTHM ============ */
+/* flex-start, not center: the social buttons moved out of the hero into the
+   header pill, so the hero content is now shorter than its 10rem reserve and
+   `center` pushed the <h1> 20px below the top of the avatar. The original has
+   the name's cap-line level with the top of the avatar. */
+.hero            { display: flex; flex-direction: column; justify-content: flex-start;
+                   width: 100%; min-height: 10rem; margin-bottom: 2rem; }
+/* ≤768px the sidebar stacks ABOVE the hero, so there is no avatar to align to and
+   the 10rem reserve is pure dead space between "AI Engineer" and the intro copy. */
+@media (max-width: 768px) { .hero { min-height: 0; margin-bottom: var(--space-xl); } }
+.intro-text      { display: flex; flex-direction: column; gap: var(--space-m);
+                   margin-bottom: var(--space-xl); }
+.section         { display: flex; flex-direction: column; width: 100%; }
+.section__title            { margin-bottom: var(--space-m); }
+.section__title--wide      { margin-bottom: 2.5rem; }
+.section__list   { display: flex; flex-direction: column; gap: var(--space-l);
+                   margin-bottom: 2.5rem; }
+.entry           { display: flex; flex-direction: column; width: 100%; gap: 0.25rem; }
+.entry__head     { display: flex; width: 100%; justify-content: space-between;
+                   align-items: flex-end; gap: 1rem; margin-bottom: 0.25rem; }
+.entry__meta     { color: var(--neutral-on-background-weak); white-space: nowrap; }
+.entry__role     { color: var(--brand-on-background-weak); margin-bottom: var(--space-m); }
+.entry__bullets  { display: flex; flex-direction: column; gap: 1rem; }
+
+/* ============ IMAGE STRIP ============ */
+.image-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+  padding-top: var(--space-m);
+}
+.image-strip--indented { padding-left: 2.5rem; }
+@media (max-width: 768px) { .image-strip--indented { padding-left: 0; } }
+
+/* ============ FOOTER ============ */
+.footer { display: flex; width: 100%; padding: 0.5rem; justify-content: center; }
+.footer__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: var(--responsive-width-m);
+  padding: 0.5rem 1rem; gap: 1rem;
+  font-size: 0.875rem; line-height: 1.125rem;
+}
+/* Mirrors the scoped rule in Footer.astro (§E.10) — declarations are identical, so the
+   scoped copy winning on specificity changes nothing. Present here because the §K
+   Phase-1 contract lists .footer__links among Agent A's exports. */
+.footer__links { display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0; }
+.footer__links li { margin: 0; padding: 0; }
+@media (max-width: 768px) {
+  .footer { flex-direction: column; }
+  .footer__inner { flex-direction: column; align-items: center; text-align: center; }
+  .footer__mobile-spacer { height: 5rem; }
+}
+
+/* ============ TAG (language chips) ============ */
+.tag {
+  display: inline-flex; align-items: center; width: fit-content; gap: 0.25rem;
+  /* 1rem, not 0.75rem: the original nests the label in a `px-4` box inside a
+     `4px 12px` chip, so the real inset is 16px a side (chip = 77×26 for
+     "English"). Flattened here because this chip has no inner wrapper. */
+  padding: 0.25rem 1rem;
+  border: 1px solid var(--neutral-border-medium);
+  border-radius: var(--radius-l);
+  background-color: var(--surface-background);
+  -webkit-backdrop-filter: var(--backdrop-filter);
+          backdrop-filter: var(--backdrop-filter);
+  color: var(--neutral-on-background-medium);
+  font-size: 0.825rem; line-height: 1rem; font-weight: 400;
+  white-space: nowrap; user-select: none;
+}

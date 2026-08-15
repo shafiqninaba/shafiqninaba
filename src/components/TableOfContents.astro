@@ -1,4 +1,92 @@
 ---
-// PLACEHOLDER — src/components/TableOfContents.astro
-// Owner: Agent D (Phase 1). Spec: §E.6. Replace this file wholesale.
+// §E.6 — fixed left rail. Real anchor links (crawlable, work with JS off).
+// Scroll-spy is applied by src/scripts/app.ts, which queries `[data-toc] a`
+// and sets aria-current="true" on the active anchor. Sub-items are not rendered.
+interface Props {
+  sections: { id: string; label: string }[];
+}
+
+const { sections } = Astro.props;
 ---
+
+<nav class="toc" data-toc aria-label="On this page">
+  <ul>
+    {
+      sections.map((s) => (
+        <li>
+          <a class="toc__item" href={`#${s.id}`}>
+            <span class="toc__rule" aria-hidden="true" />
+            <span class="toc__label t-body-default-m">{s.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .toc {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 8;
+    padding-left: 1.5rem;
+    white-space: nowrap;
+  }
+  .toc ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .toc li {
+    margin: 0;
+    padding: 0;
+  }
+  /* Every selector below is qualified with the `.toc` ancestor so it resolves to
+     at least (0,2,x) and beats base.css's `a:not(.btn)` (0,1,1) REGARDLESS of
+     stylesheet order. Astro compiles its scope hook to `:where(.astro-…)`, which
+     contributes zero specificity, so an unqualified `.toc__item` (0,1,0) loses to
+     `a:not(.btn)` outright and the INACTIVE items render brand green — the exact
+     inversion this fixes. The original colours every item neutral and expresses
+     the active state through the leading dash. */
+  .toc a.toc__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--neutral-on-background-medium);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-micro-medium);
+  }
+  .toc a.toc__item:hover {
+    transform: translateX(0.25rem);
+    color: var(--static-white);
+  }
+  .toc .toc__rule {
+    display: block;
+    height: 1px;
+    min-width: 1rem;
+    width: 1rem;
+    background: var(--neutral-background-strong);
+    transition: var(--transition-micro-medium);
+  }
+  /* Active = brighter label + a LONGER, BRIGHTER dash. Neutral throughout; the
+     dash carries the state, never a colour change on the other items. */
+  .toc a.toc__item[aria-current='true'] {
+    color: var(--static-white);
+  }
+  .toc a.toc__item[aria-current='true'] .toc__rule {
+    width: 2rem;
+    min-width: 2rem;
+    background: var(--neutral-on-background-weak);
+  }
+  @media (max-width: 1024px) {
+    .toc {
+      display: none;
+    }
+  }
+</style>

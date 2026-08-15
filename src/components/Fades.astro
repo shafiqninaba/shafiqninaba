@@ -1,4 +1,52 @@
 ---
-// PLACEHOLDER — src/components/Fades.astro
-// Owner: Agent C (Phase 1). Spec: §E.3. Replace this file wholesale.
+/**
+ * Fades — the top (desktop) and bottom (mobile) blur/fade overlays. Spec §E.3.
+ * Zero JS, zero props.
+ */
 ---
+
+<div class="fade fade--top" aria-hidden="true"></div>
+<div class="fade fade--bottom" aria-hidden="true"></div>
+
+<style>
+  .fade {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 5rem;
+    z-index: 9;
+    pointer-events: none;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+
+  /* The 1rem .top-spacer precedes it in flow. Mask starts fading at 20%. */
+  .fade--top {
+    top: 1rem;
+    -webkit-backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.5rem);
+    background: linear-gradient(180deg, var(--page-background), transparent);
+    -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 20%, transparent 100%);
+  }
+
+  .fade--bottom {
+    display: none;
+    top: auto;
+    bottom: 0;
+    -webkit-backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.5rem);
+    background: linear-gradient(0deg, var(--page-background), transparent);
+    -webkit-mask-image: linear-gradient(0deg, #000 20%, transparent 100%);
+    mask-image: linear-gradient(0deg, #000 20%, transparent 100%);
+  }
+
+  @media (max-width: 768px) {
+    .fade--top {
+      display: none;
+    }
+    .fade--bottom {
+      display: block;
+    }
+  }
+</style>

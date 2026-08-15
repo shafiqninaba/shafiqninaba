@@ -1,2 +1,222 @@
-/* PLACEHOLDER — src/styles/tokens.css
-   Owner: Agent A (Phase 1). Spec: §D.1. Replace this file wholesale. */
+/* ============================================================================
+   Design tokens — resolved from Once UI:
+   neutral=sand · brand=green · accent=emerald · solid=contrast · solidStyle=flat
+   border=playful · surface=translucent · theme=dark · scaling=100
+   Root font-size is 16px at EVERY breakpoint. 1rem === 16px everywhere.
+   ============================================================================ */
+
+:root {
+  color-scheme: dark;
+
+  /* ============ FONT FAMILIES ============
+     --font-geist is defined by <Font cssVariable="--font-geist"> in <head>.
+     Geist Mono is NOT loaded — the page renders no code. */
+  --font-primary: var(--font-geist), "Geist", system-ui, -apple-system,
+                  BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-code:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+                  "Liberation Mono", monospace;
+  --font-family-body:    var(--font-primary);
+  --font-family-heading: var(--font-primary);
+  --font-family-label:   var(--font-primary);
+  --font-family-code:    var(--font-code);
+
+  /* ============ STATIC ============ */
+  --static-transparent:  rgba(0, 0, 0, 0);
+  --static-white:        #ffffff;
+  --static-white-medium: rgba(255, 255, 255, 0.302);
+  --static-black:        #000000;
+  --static-black-medium: rgba(0, 0, 0, 0.302);
+
+  /* ============ PAGE / SURFACE ============ */
+  --page-background:    #0D0A00;                 /* sand-100 */
+  --backdrop:           rgba(0, 0, 0, 0.302);
+  --surface-background: rgba(0, 0, 0, 0.302);    /* translucent + dark */
+  --surface-border:     rgba(153, 148, 134, 0.302);
+  --backdrop-filter:    blur(1rem);
+
+  /* ============ NEUTRAL (sand) ============ */
+  --neutral-background-weak:      #0D0A00;
+  --neutral-background-medium:    #1B1608;
+  --neutral-background-strong:    #443F30;
+
+  --neutral-on-background-strong: #ffffff;
+  --neutral-on-background-medium: #E5E0D2;
+  --neutral-on-background-weak:   #B7B2A4;
+
+  --neutral-border-weak:          #1B1608;
+  --neutral-border-medium:        #443F30;
+  --neutral-border-strong:        #5E594C;
+
+  --neutral-alpha-weak:           rgba(153, 148, 134, 0.102);
+  --neutral-alpha-medium:         rgba(153, 148, 134, 0.302);
+  --neutral-alpha-strong:         rgba(153, 148, 134, 0.502);
+
+  --neutral-solid-weak:           #443F30;
+  --neutral-solid-medium:         #5E594C;
+  --neutral-solid-strong:         #797465;
+  --neutral-on-solid-strong:      #ffffff;
+  --neutral-on-solid-weak:        #E5E0D2;
+
+  /* ============ BRAND (green) ============ */
+  --brand-background-weak:      #040B07;
+  --brand-background-medium:    #081810;
+  --brand-background-strong:    #0D4929;
+
+  --brand-on-background-strong: #ffffff;
+  --brand-on-background-medium: #91F88C;   /* link colour */
+  --brand-on-background-weak:   #01CF38;   /* list markers, role line */
+
+  --brand-border-weak:          #081810;
+  --brand-border-medium:        #0D4929;
+  --brand-border-strong:        #0C6731;
+
+  --brand-alpha-weak:           rgba(8, 172, 58, 0.102);
+  --brand-alpha-medium:         rgba(8, 172, 58, 0.302);
+  --brand-alpha-strong:         rgba(8, 172, 58, 0.502);
+
+  /* solid="contrast" ⇒ brand SOLIDS are neutral/white, NOT green */
+  --brand-solid-weak:           #E5E0D2;
+  --brand-solid-medium:         #ffffff;
+  --brand-solid-strong:         #F2EDDF;
+  --brand-on-solid-strong:      #000000;
+  --brand-on-solid-weak:        #1B1608;
+
+  /* ============ ACCENT (emerald) ============ */
+  --accent-background-weak:      #040B0A;
+  --accent-background-medium:    #081816;
+  --accent-background-strong:    #0D483C;   /* gradient start */
+
+  --accent-on-background-strong: #ffffff;
+  --accent-on-background-medium: #84F6C3;
+  --accent-on-background-weak:   #01CB90;   /* globe icon */
+
+  --accent-border-weak:          #081816;
+  --accent-border-medium:        #0D483C;
+  --accent-border-strong:        #0C6551;
+
+  --accent-alpha-weak:           rgba(8, 169, 124, 0.102);
+  --accent-alpha-medium:         rgba(8, 169, 124, 0.302);
+  --accent-alpha-strong:         rgba(8, 169, 124, 0.502);
+
+  --accent-solid-weak:           #0D483C;
+  --accent-solid-medium:         #0C6551;
+  --accent-solid-strong:         #0A8466;
+  --accent-on-solid-strong:      #ffffff;
+  --accent-on-solid-weak:        #84F6C3;
+
+  /* solidStyle="flat" ⇒ no inset, no solid border */
+  --solid-inset-distance: 0;
+  --solid-inset-size:     0;
+  --solid-border-width:   0;
+
+  /* ============ SPACING (static) ============ */
+  --space-0:   0;
+  --space-1:   1px;
+  --space-2:   0.125rem;
+  --space-4:   0.25rem;
+  --space-8:   0.5rem;
+  --space-12:  0.75rem;
+  --space-16:  1rem;
+  --space-20:  1.25rem;
+  --space-24:  1.5rem;
+  --space-32:  2rem;
+  --space-40:  2.5rem;
+  --space-48:  3rem;
+  --space-56:  3.5rem;
+  --space-64:  4rem;
+  --space-80:  5rem;
+  --space-104: 6.5rem;
+  --space-128: 8rem;
+  --space-160: 10rem;
+
+  /* ============ SPACING (named, RESPONSIVE — see media queries) ============ */
+  --space-xs: 0.75rem;
+  --space-s:  1rem;
+  --space-m:  1.5rem;
+  --space-l:  2.5rem;
+  --space-xl: 5rem;
+
+  /* ============ WIDTHS ============ */
+  --width-320:  20rem;
+  --width-400:  25rem;
+  --width-560:  35rem;
+  --width-640:  40rem;    /* the content column — FLAT, never responsive */
+  --width-768:  48rem;
+  --width-880:  55rem;
+  --width-1024: 64rem;
+  --width-1200: 75rem;
+  --width-1440: 90rem;
+
+  --responsive-width-xs: 40rem;
+  --responsive-width-s:  48rem;
+  --responsive-width-m:  64rem;   /* the page column */
+  --responsive-width-l:  75rem;
+  --responsive-width-xl: 90rem;
+
+  /* ============ RADIUS — border="playful" ============ */
+  --radius-xs:        0.25rem;
+  --radius-xs-nest-4: 0.375rem;
+  --radius-xs-nest-8: 0.5rem;
+  --radius-s:         0.5rem;
+  --radius-s-nest-4:  0.75rem;
+  --radius-s-nest-8:  1rem;
+  --radius-m:         0.75rem;
+  --radius-m-nest-4:  1rem;
+  --radius-m-nest-8:  1.25rem;
+  --radius-l:         1rem;
+  --radius-l-nest-4:  1.25rem;
+  --radius-l-nest-8:  1.75rem;
+  --radius-xl:        1.25rem;
+  --radius-xl-nest-4: 1.5rem;
+  --radius-xl-nest-8: 1.875rem;
+  --radius-full:      999rem;
+
+  /* RADIUS — "rounded" scope. The header pill and the social buttons sat inside
+     data-border="rounded" in the original, so they use THESE, not the playful ones. */
+  --radius-rounded-m:        1.25rem;
+  --radius-rounded-m-nest-4: 1.5rem;   /* ← the header pill */
+  --radius-rounded-l:        1.75rem;
+
+  /* ============ SHADOWS ============ */
+  --shadow-xs: 0 0 1px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.08);
+  --shadow-s:  0 0 2px rgba(0,0,0,.12), 0 1px 4px rgba(0,0,0,.08), 0 4px 8px rgba(0,0,0,.08);
+  --shadow-m:  0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.08), 0 8px 8px rgba(0,0,0,.08);
+  --shadow-l:  0 2px 4px rgba(0,0,0,.12), 0 8px 12px rgba(0,0,0,.08), 0 8px 16px rgba(0,0,0,.08);
+  --shadow-xl: 0 4px 4px rgba(0,0,0,.12), 0 8px 12px rgba(0,0,0,.08), 0 24px 24px rgba(0,0,0,.08);
+
+  /* ============ TRANSITIONS ============ */
+  --transition-micro-short:  all 0.1s  ease-in-out;
+  --transition-micro-medium: all 0.2s  ease-in-out;
+  --transition-micro-long:   all 0.4s  ease-in-out;
+  --transition-macro-short:  all 0.15s ease-in-out;
+  --transition-macro-medium: all 0.3s  ease-in-out;
+  --transition-macro-long:   all 0.6s  ease-in-out;
+
+  --cursor-interactive: pointer;
+}
+
+/* Breakpoints are MAX-WIDTH based: --s = 768px, --m = 1024px, --l = 1440px */
+
+@media (max-width: 1024px) {
+  :root {
+    --space-xs: 0.5rem;
+    --space-s:  0.75rem;
+    --space-m:  1rem;
+    --space-l:  1.5rem;
+    --space-xl: 4rem;
+
+    --responsive-width-m:  55rem;
+    --responsive-width-l:  64rem;
+    --responsive-width-xl: 64rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --space-xs: 0.25rem;
+    --space-s:  0.5rem;
+    --space-m:  0.75rem;
+    --space-l:  1rem;
+    --space-xl: 2.5rem;
+  }
+}

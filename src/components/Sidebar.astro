@@ -1,4 +1,84 @@
 ---
-// PLACEHOLDER — src/components/Sidebar.astro
-// Owner: Agent D (Phase 1). Spec: §E.5. Replace this file wholesale.
+// §E.5 — sticky avatar column: avatar (LCP), location line, language tags.
+// No props. No client JS.
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.jpg';
+import GlobeSvg from '../assets/icons/globe.svg';
+import { PERSON } from '../data/site';
+
+// §E.5 requires BOTH `layout="none"` (so the global `image.layout: 'constrained'`
+// does not generate `widths` and strip `densities`) AND `densities={[1, 2]}`.
+// Astro's *type* union declares the two mutually exclusive, but the runtime
+// supports the pair exactly as specified — `assets/internal.js` only deletes
+// `densities` when the resolved layout is NOT 'none'. The pair is therefore
+// spread through a cast; the emitted markup is precisely what §E.5 prescribes
+// (srcset "…160w 1x, …320w 2x", no sizes, no data-astro-image styling hooks).
+const avatarSizing = { layout: 'none', densities: [1, 2] } as any;
 ---
+
+<aside class="sidebar">
+  <Image
+    class="avatar"
+    src={avatar}
+    alt={PERSON.name}
+    width={160}
+    height={160}
+    {...avatarSizing}
+    format="webp"
+    quality={82}
+    priority
+  />
+
+  <p class="sidebar__location t-body-default-m">
+    <GlobeSvg aria-hidden="true" />{PERSON.locationLabel}
+  </p>
+
+  <ul class="sidebar__tags">
+    {PERSON.languages.map((language) => <li class="tag">{language}</li>)}
+  </ul>
+</aside>
+
+<style>
+  .avatar {
+    width: 10rem;
+    height: 10rem; /* static-space-160, NOT responsive */
+    border-radius: var(--radius-full);
+    border: 1px solid var(--neutral-border-strong);
+    background: var(--surface-background);
+    -webkit-backdrop-filter: var(--backdrop-filter);
+    backdrop-filter: var(--backdrop-filter);
+    object-fit: cover;
+  }
+  .sidebar__location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .sidebar__location svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--accent-on-background-weak);
+  }
+  .sidebar__tags {
+    display: flex;
+    flex-wrap: wrap;
+    /* The column is `align-items: center`, but this <ul> stretches to the full
+       column width, so the chips need their own centring — without it they hug
+       the left edge while the avatar and the location line stay centred. Most
+       visible at ≤768px, where the column is the whole viewport. */
+    justify-content: center;
+    width: 100%;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  /* NO `padding` here. `.sidebar__tags li` is (0,1,1) and would beat `.tag`
+     (0,1,0) in layout.css, collapsing the chips to text with a border round it.
+     base.css's `ul > li { padding-left: .5rem }` is only (0,0,2), so `.tag`
+     still wins the padding and the chips keep their pill shape. */
+  .sidebar__tags li {
+    margin: 0;
+    line-height: 1rem;
+  }
+</style>

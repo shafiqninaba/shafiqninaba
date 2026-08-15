@@ -1,4 +1,373 @@
 ---
-// PLACEHOLDER — src/pages/index.astro
-// Owner: Agent 0 (Phase 2) (Phase 1). Spec: §E.13. Replace this file wholesale.
+/**
+ * src/pages/index.astro — the only page. Spec §E.13 (structure) + §F (JSON-LD).
+ *
+ * Heading contract (this is the SEO fix — the live site has ZERO real headings):
+ *   h1  ×1   the name, in the hero
+ *   h2  ×5   one per <section>, each the target of its `aria-labelledby`
+ *   h3  ×N   one per company / institution / skill / hobby
+ * The Introduction <h2> is `.visually-hidden`: the section still needs an
+ * accessible name and the TOC still needs a target, but a visible "Introduction"
+ * label sitting above the <h1> would be redundant.
+ *
+ * Lightbox and the client script are mounted by BaseLayout, exactly once each.
+ * Do NOT add them here — a second <Lightbox /> duplicates id="lightbox", and a
+ * second `<script src="../scripts/app.ts">` registers the click handler twice.
+ */
+import { getImage } from 'astro:assets';
+
+import avatar from '../assets/avatar.jpg';
+import ImageFigure from '../components/ImageFigure.astro';
+import LogoLoop from '../components/LogoLoop.astro';
+import Sidebar from '../components/Sidebar.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import { HOBBIES, INTRO, SECTIONS, SKILLS, STUDIES, WORK } from '../data/content';
+import { LOGOS } from '../data/logo-paths';
+import { PERSON, SITE, SOCIAL } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// @ts-ignore - `@types/node` is not a dependency; `node:child_process` is resolved
+// by Vite at build time only. This frontmatter never reaches the browser.
+import { execSync } from 'node:child_process';
+
+/* ---------------------------------------------------------------- JSON-LD ---
+ * §F is authored as literal JSON with four build-time substitutions:
+ * {{AVATAR_URL}}, {{AVATAR_W}}, {{AVATAR_H}} and {{DATE_MODIFIED}}. It is built
+ * here as a JS object and serialised with JSON.stringify so escaping is the
+ * runtime's problem, and so the affiliation / credential nodes are DERIVED from
+ * the same content.ts arrays the HTML below renders. Google's structured-data
+ * policies prohibit marking up content that is not visible; deriving makes that
+ * violation impossible by construction rather than by discipline.
+ */
+
+// {{AVATAR_URL}} — the built 800px WebP, made absolute against `site`.
+// `layout: 'none'` for the same reason as ImageFigure: getImage() otherwise
+// inherits `image.layout: 'constrained'` and emits a breakpoint set we never link.
+const avatarImg = await getImage({ src: avatar, format: 'webp', width: 800, layout: 'none' });
+const AVATAR_URL = new URL(avatarImg.src, Astro.site).href;
+const AVATAR_W = Math.min(800, avatar.width);
+const AVATAR_H = Math.round((AVATAR_W * avatar.height) / avatar.width);
+
+// {{DATE_MODIFIED}} — last commit, same helper as sitemap.xml.ts. An honest
+// mtime; `new Date()` would claim a change on every redeploy.
+function lastCommitISO(): string {
+  try {
+    return execSync('git log -1 --format=%cI', { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim();
+  } catch {
+    return new Date().toISOString();
+  }
+}
+const DATE_MODIFIED = lastCommitISO();
+
+const ID = {
+  profilePage: `${SITE.origin}/#profilepage`,
+  website: `${SITE.origin}/#website`,
+  person: `${SITE.origin}/#person`,
+  avatar: `${SITE.origin}/#avatar`,
+  aisg: 'https://aisingapore.org/#organization',
+  psa: 'https://www.singaporepsa.com/#organization',
+  ntu: 'https://www.ntu.edu.sg/#organization',
+} as const;
+
+/** company string in content.ts -> Organization @id in the graph */
+const ORG_BY_COMPANY: Record<string, string> = {
+  'AI Singapore': ID.aisg,
+  'PSA Corporation Ltd': ID.psa,
+};
+
+// Never emit `null` — omit the property instead (§F rules).
+const affiliation = WORK.map((job) => ({
+  '@type': 'OrganizationRole',
+  roleName: job.role,
+  startDate: job.startISO,
+  ...(job.endISO ? { endDate: job.endISO } : {}),
+  memberOf: { '@id': ORG_BY_COMPANY[job.company] },
+}));
+
+const study = STUDIES[0];
+
+// `sameAs` is an array of URL STRINGS. mailto: is not a profile, so Email is
+// filtered out rather than emitted as a bogus sameAs.
+const sameAs = SOCIAL.filter((s) => s.href.startsWith('https://')).map((s) => s.href);
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfilePage',
+      '@id': ID.profilePage,
+      url: SITE.canonical,
+      name: SITE.title,
+      isPartOf: { '@id': ID.website },
+      about: { '@id': ID.person },
+      mainEntity: { '@id': ID.person },
+      primaryImageOfPage: { '@id': ID.avatar },
+      dateCreated: '2024-06-01T00:00:00+08:00',
+      dateModified: DATE_MODIFIED,
+      inLanguage: SITE.lang,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': ID.website,
+      url: SITE.canonical,
+      name: PERSON.name,
+      description: 'Personal site of Shafiq Ninaba, an AI Engineer based in Singapore.',
+      inLanguage: SITE.lang,
+      publisher: { '@id': ID.person },
+      about: { '@id': ID.person },
+    },
+    {
+      '@type': 'Person',
+      '@id': ID.person,
+      name: PERSON.name,
+      givenName: PERSON.firstName,
+      familyName: PERSON.lastName,
+      alternateName: PERSON.username,
+      url: SITE.canonical,
+      mainEntityOfPage: { '@id': ID.profilePage },
+      image: { '@id': ID.avatar },
+      email: PERSON.email,
+      jobTitle: PERSON.role,
+      description:
+        'AI Engineer building end-to-end machine learning systems across computer vision, data engineering, and LLM-powered agentic workflows.',
+      // BCP-47 tags for PERSON.languages (['English', 'Malay']), which the
+      // sidebar renders as visible chips.
+      knowsLanguage: ['en', 'ms'],
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: PERSON.locationLabel,
+        addressCountry: 'SG',
+      },
+      homeLocation: {
+        '@type': 'Place',
+        name: PERSON.locationLabel,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: PERSON.locationLabel,
+          addressCountry: 'SG',
+        },
+      },
+      worksFor: { '@id': ID.aisg },
+      hasOccupation: {
+        '@type': 'Occupation',
+        name: PERSON.role,
+        occupationLocation: { '@type': 'Country', name: PERSON.locationLabel },
+        skills:
+          'Machine learning, MLOps, computer vision, LLM agents, Kubernetes, Azure, PyTorch, FastAPI',
+      },
+      affiliation,
+      alumniOf: {
+        '@type': 'CollegeOrUniversity',
+        '@id': ID.ntu,
+        name: 'Nanyang Technological University',
+        alternateName: 'NTU Singapore',
+        url: 'https://www.ntu.edu.sg/',
+        sameAs: 'https://en.wikipedia.org/wiki/Nanyang_Technological_University',
+      },
+      hasCredential: {
+        '@type': 'EducationalOccupationalCredential',
+        name: study.degree,
+        credentialCategory: 'degree',
+        educationalLevel: "Bachelor's Degree",
+        recognizedBy: { '@id': ID.ntu },
+        dateCreated: study.endISO,
+      },
+      knowsAbout: [
+        {
+          '@type': 'Thing',
+          name: 'Machine learning',
+          sameAs: 'https://en.wikipedia.org/wiki/Machine_learning',
+        },
+        {
+          '@type': 'Thing',
+          name: 'Computer vision',
+          sameAs: 'https://en.wikipedia.org/wiki/Computer_vision',
+        },
+        {
+          '@type': 'Thing',
+          name: 'Kubernetes',
+          sameAs: 'https://en.wikipedia.org/wiki/Kubernetes',
+        },
+        { '@type': 'Thing', name: 'PyTorch', sameAs: 'https://en.wikipedia.org/wiki/PyTorch' },
+        'MLOps',
+        'LLM agents',
+        'Microsoft Azure',
+        'FastAPI',
+        'Data engineering',
+        'CI/CD',
+      ],
+      sameAs,
+    },
+    {
+      '@type': 'Organization',
+      '@id': ID.aisg,
+      name: 'AI Singapore',
+      url: 'https://aisingapore.org/',
+      sameAs: [
+        'https://www.linkedin.com/company/ai-singapore/',
+        'https://en.wikipedia.org/wiki/AI_Singapore',
+      ],
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Singapore',
+        addressCountry: 'SG',
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': ID.psa,
+      name: 'PSA Corporation Ltd',
+      url: 'https://www.singaporepsa.com/',
+      sameAs: 'https://en.wikipedia.org/wiki/PSA_International',
+    },
+    {
+      '@type': 'ImageObject',
+      '@id': ID.avatar,
+      url: AVATAR_URL,
+      contentUrl: AVATAR_URL,
+      width: String(AVATAR_W),
+      height: String(AVATAR_H),
+      caption: PERSON.name,
+    },
+  ],
+});
 ---
+
+<BaseLayout
+  title={SITE.title}
+  description={SITE.description}
+  canonical={SITE.canonical}
+  ogImage={SITE.ogImage}
+  ogImageAlt={SITE.ogImageAlt}
+  jsonLd={jsonLd}
+>
+  <div class="about-row">
+    {/* First in the DOM so keyboard users reach the rail before the prose.
+        It is position:fixed, so this costs nothing visually. */}
+    <TableOfContents sections={[...SECTIONS]} />
+
+    <Sidebar />
+
+    <div class="content-col">
+      <!-- ============================ INTRODUCTION ============================ -->
+      <section id="introduction" aria-labelledby="introduction-h" class="section">
+        <div class="hero">
+          <h1 class="t-display-strong-xl">{PERSON.name}</h1>
+          <p class="t-display-default-xs c-neutral-weak">{PERSON.role}</p>
+        </div>
+
+        <h2 id="introduction-h" class="visually-hidden">Introduction</h2>
+
+        <div class="intro-text t-body-default-l">
+          <p>{INTRO}</p>
+        </div>
+
+        <LogoLoop logos={LOGOS} />
+      </section>
+
+      <!-- ========================== WORK EXPERIENCE =========================== -->
+      <section id="work" aria-labelledby="work-h" class="section">
+        <h2 id="work-h" class="t-display-strong-s section__title">Work Experience</h2>
+        <div class="section__list">
+          {
+            WORK.map((job) => (
+              <article class="entry">
+                <div class="entry__head">
+                  <h3 class="t-heading-strong-l">{job.company}</h3>
+                  <p class="t-heading-default-xs entry__meta">
+                    <time datetime={job.startISO}>{job.startLabel}</time>
+                    {' – '}
+                    {job.endISO ? (
+                      <time datetime={job.endISO}>{job.endLabel}</time>
+                    ) : (
+                      job.endLabel
+                    )}
+                  </p>
+                </div>
+                <p class="t-body-default-s entry__role">{job.role}</p>
+                <ul class="entry__bullets t-body-default-m">
+                  {job.achievements.map((a) => (
+                    <li>{a}</li>
+                  ))}
+                </ul>
+                {job.images.length > 0 && (
+                  <div class="image-strip image-strip--indented">
+                    {job.images.map((im) => (
+                      <ImageFigure src={im.src} alt={im.alt} />
+                    ))}
+                  </div>
+                )}
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- ================================ STUDIES ============================= -->
+      <section id="studies" aria-labelledby="studies-h" class="section">
+        <h2 id="studies-h" class="t-display-strong-s section__title">Studies</h2>
+        <div class="section__list">
+          {
+            STUDIES.map((s) => (
+              <article class="entry">
+                <div class="entry__head">
+                  <h3 class="t-heading-strong-l">{s.name}</h3>
+                  <p class="t-heading-default-xs entry__meta">
+                    <time datetime={s.startISO}>{s.startLabel}</time>
+                    {' – '}
+                    {s.endISO ? <time datetime={s.endISO}>{s.endLabel}</time> : s.endLabel}
+                  </p>
+                </div>
+                <p class="t-body-default-s entry__role">{s.degree}</p>
+                <p class="t-body-default-m">{s.description}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- =========================== TECHNICAL SKILLS ========================= -->
+      <section id="skills" aria-labelledby="skills-h" class="section">
+        <h2 id="skills-h" class="t-display-strong-s section__title section__title--wide">
+          Technical skills
+        </h2>
+        <div class="section__list">
+          {
+            SKILLS.map((skill) => (
+              <article class="entry">
+                <h3 class="t-heading-strong-l">{skill.title}</h3>
+                <p class="t-body-default-m">{skill.description}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- ========================= HOBBIES & INTERESTS ========================= -->
+      <section id="hobbies" aria-labelledby="hobbies-h" class="section">
+        <h2 id="hobbies-h" class="t-display-strong-s section__title section__title--wide">
+          Hobbies &amp; Interests
+        </h2>
+        <div class="section__list">
+          {
+            HOBBIES.map((hobby) => (
+              <article class="entry">
+                <h3 class="t-heading-strong-l">{hobby.name}</h3>
+                <p class="t-body-default-m">{hobby.description}</p>
+                {hobby.images.length > 0 && (
+                  <div class="image-strip">
+                    {hobby.images.map((im) => (
+                      <ImageFigure src={im.src} alt={im.alt} />
+                    ))}
+                  </div>
+                )}
+              </article>
+            ))
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

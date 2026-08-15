@@ -1,4 +1,115 @@
 ---
-// PLACEHOLDER — src/components/LogoLoop.astro
-// Owner: Agent D (Phase 1). Spec: §E.7. Replace this file wholesale.
+// §E.7 — infinite horizontal marquee of the tech logos. CSS-ONLY, zero JS.
+// The list is rendered twice inside the track; the track translates by exactly
+// -50%, so the second copy lands where the first began and the loop is seamless.
+// The second copy is aria-hidden + tabindex="-1" so assistive tech and crawlers
+// see each logo exactly once.
+interface Props {
+  logos: { title: string; href: string; path: string }[];
+  ariaLabel?: string;
+}
+
+const { logos, ariaLabel = 'Technologies I work with' } = Astro.props;
 ---
+
+<div class="logoloop" role="region" aria-label={ariaLabel}>
+  <div class="logoloop__track">
+    <ul class="logoloop__list">
+      {
+        logos.map((l) => (
+          <li>
+            <a href={l.href} target="_blank" rel="noopener" title={l.title}>
+              <svg viewBox="0 0 24 24" role="img" aria-label={l.title}>
+                <title>{l.title}</title>
+                <path d={l.path} />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <ul class="logoloop__list" aria-hidden="true">
+      {
+        logos.map((l) => (
+          <li>
+            <a href={l.href} tabindex="-1" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d={l.path} />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .logoloop {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: var(--space-xl);
+    /* fadeOut: edges dissolve into the page background */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .logoloop__track {
+    display: flex;
+    width: max-content;
+    animation: logoloop-scroll 45s linear infinite;
+  }
+  .logoloop:hover .logoloop__track,
+  .logoloop:focus-within .logoloop__track {
+    animation-play-state: paused;
+  }
+
+  .logoloop__list {
+    display: flex;
+    align-items: center;
+    gap: 3rem; /* gap={48} */
+    list-style: none;
+    margin: 0;
+    padding: 0 1.5rem 0 0;
+  }
+  .logoloop__list li {
+    margin: 0;
+    padding: 0;
+  }
+  /* Qualified with the outer `.logoloop` so this resolves to (0,2,1) and beats
+     base.css's `a:not(.btn)` (0,1,1) REGARDLESS of stylesheet order — Astro
+     compiles scope hooks to `:where(.astro-…)`, which adds zero specificity, so
+     a bare `.logoloop__list a` only ties with `a:not(.btn)` and loses on order.
+     The original renders these marks in the strong neutral (#fff), NOT brand green. */
+  .logoloop .logoloop__list a {
+    display: flex;
+    color: var(--neutral-on-background-strong);
+    transition: var(--transition-micro-medium);
+  }
+  .logoloop .logoloop__list a:hover {
+    color: var(--neutral-on-background-medium);
+  }
+  .logoloop__list svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    fill: currentColor;
+  } /* logoHeight={40} */
+
+  @keyframes logoloop-scroll {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  /* base.css already kills this globally; repeated here so the component is
+     self-contained and can never animate under reduced-motion. */
+  @media (prefers-reduced-motion: reduce) {
+    .logoloop__track {
+      animation: none;
+      transform: none;
+    }
+  }
+</style>

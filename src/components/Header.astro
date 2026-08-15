@@ -1,4 +1,178 @@
 ---
-// PLACEHOLDER — src/components/Header.astro
-// Owner: Agent C (Phase 1). Spec: §E.4. Replace this file wholesale.
+/**
+ * Header — the sticky pill nav. Spec §E.4.
+ *
+ * This is where the GitHub / LinkedIn / Email icons now live; they are removed
+ * from the hero entirely (explicit user requirement). There is NO theme toggle.
+ *
+ * Icons are Astro SVG components compiled from local .svg imports: inline SVG,
+ * zero JS, zero extra network requests. All four inherit `currentColor`.
+ */
+import EnvelopeSvg from '../assets/icons/envelope.svg';
+import GithubSvg from '../assets/icons/github.svg';
+import GlobeSvg from '../assets/icons/globe.svg';
+import LinkedinSvg from '../assets/icons/linkedin.svg';
+import { PERSON } from '../data/site';
 ---
+
+<header class="header">
+  <div class="header__side header__side--left t-body-default-s">
+    <GlobeSvg class="header__globe" aria-hidden="true" />
+    {PERSON.locationLabel}
+  </div>
+
+  <div class="header__pill">
+    <nav class="header__pill-inner" aria-label="Social profiles">
+      <a
+        class="pill-btn"
+        href="https://github.com/shafiqninaba"
+        rel="me noopener"
+        target="_blank"
+        aria-label="GitHub profile"
+      >
+        <GithubSvg aria-hidden="true" /><span class="pill-btn__label">GitHub</span>
+      </a>
+      <a
+        class="pill-btn"
+        href="https://www.linkedin.com/in/shafiq-ninaba/"
+        rel="me noopener"
+        target="_blank"
+        aria-label="LinkedIn profile"
+      >
+        <LinkedinSvg aria-hidden="true" /><span class="pill-btn__label">LinkedIn</span>
+      </a>
+      <a class="pill-btn" href={`mailto:${PERSON.email}`} aria-label="Email Shafiq Ninaba">
+        <EnvelopeSvg aria-hidden="true" /><span class="pill-btn__label">Email</span>
+      </a>
+    </nav>
+  </div>
+
+  {/* Static string, NOT a live clock: JS would render "" then "14:32" and cost CLS. */}
+  <div class="header__side header__side--right t-body-default-s">{PERSON.utcOffsetLabel}</div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: fit-content;
+    padding: 0.5rem;
+  }
+
+  .header__side {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  .header__side--left {
+    padding-left: 0.75rem;
+  }
+  .header__side--right {
+    justify-content: flex-end;
+    padding-right: 0.75rem;
+    gap: 1.25rem;
+  }
+  .header__globe {
+    width: 1rem;
+    height: 1rem;
+    color: var(--accent-on-background-weak);
+  }
+
+  @media (max-width: 768px) {
+    .header {
+      position: fixed;
+      top: auto;
+      bottom: 1.5rem;
+    }
+    .header__side {
+      display: none;
+    }
+  }
+
+  /* THE PILL — radius comes from the ROUNDED scale (1.5rem), not playful (1rem). */
+  .header__pill {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border: 1px solid var(--neutral-alpha-medium);
+    border-radius: var(--radius-rounded-m-nest-4);
+    background-color: var(--surface-background);
+    -webkit-backdrop-filter: var(--backdrop-filter);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--shadow-l);
+  }
+  .header__pill-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  /* `a:not(.btn)` in base.css would colour these links green. It resolves to
+     (0,1,1), so the selector below is qualified with `a` to match that
+     specificity exactly — component styles come last in the cascade, so it wins
+     on source order. Do not rename the class or drop the `a`. */
+  a.pill-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.75rem;
+    width: fit-content;
+    border: 1px solid transparent;
+    border-radius: var(--radius-rounded-m); /* 1.25rem */
+    background: transparent;
+    color: var(--static-white);
+    font-family: var(--font-family-label);
+    font-size: 0.825rem;
+    line-height: 1rem;
+    font-weight: 400;
+    text-decoration: none;
+    white-space: nowrap;
+    user-select: none;
+    transition: var(--transition-micro-medium);
+  }
+  a.pill-btn:hover,
+  a.pill-btn:focus-visible {
+    background: var(--neutral-alpha-weak);
+    border-color: var(--neutral-alpha-weak);
+    color: var(--static-white);
+  }
+  .pill-btn svg {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  /* ≤768px the pill is the primary nav and sits at the bottom:
+     icons only, 44px tap targets. */
+  @media (max-width: 768px) {
+    /* Qualified with `a` to keep the same (0,1,1) specificity as the base
+       `a.pill-btn` rule above — a bare `.pill-btn` here would lose to it. */
+    a.pill-btn {
+      padding: 0;
+      width: 2.75rem;
+      height: 2.75rem;
+      justify-content: center;
+    }
+    .pill-btn__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+</style>
