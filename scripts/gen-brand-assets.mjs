@@ -32,7 +32,8 @@ const PUBLIC = join(ROOT, 'public');
 
 /* ── palette (src/styles/tokens.css) ─────────────────────────────────────────────────── */
 const PAGE = '#1A160D'; // --page-background
-const WHITE = '#FFFFFF'; // --neutral-on-background-strong
+const WHITE = '#FFFFFF'; // the avatar ring, which is pure white on the site too
+const INK = '#F7F4EC'; // --neutral-on-background-strong (softened off pure white)
 const MUTED = '#B7B2A4'; // --neutral-on-background-weak
 const FAINT = '#797465'; // --neutral-solid-strong
 const GREEN = '#01CF38'; // --brand-on-background-weak  role line / list markers
@@ -99,7 +100,7 @@ function outline(text, o) {
     return d;
   });
 
-  return { d: `<path d="${parts.join('')}" fill="${o.fill ?? WHITE}"/>`, width: advance };
+  return { d: `<path d="${parts.join('')}" fill="${o.fill ?? INK}"/>`, width: advance };
 }
 
 /* ── the mark: a rounded tile carrying a Geist 600 "S" ───────────────────────────────── */
@@ -221,11 +222,79 @@ const ico = buildIco(icoFrames);
 await writeFile(join(PUBLIC, 'favicon.ico'), ico);
 console.log(`favicon.ico           48 + 32 + 16  ${(ico.length / 1024).toFixed(1)} kB`);
 
-/* ── public/og.png — 1200x630 ────────────────────────────────────────────────────────── */
+/* ── public/og.png — 1200x630 ────────────────────────────────────────────────────────
+ *
+ * Matches the live page rather than inventing a card: the same #1A160D ground, the same
+ * flickering dot-grid strip fading down from the top edge, the same Geist setting, the
+ * same circular avatar, and a row of the outlined skill pills that are now the page's
+ * most recognisable element. The old card's green radial wash is gone for the same
+ * reason it is gone from the site.
+ */
 
 const W = 1200;
 const H = 630;
 const PAD = 96;
+
+/* The dot grid, built as raw pixels rather than ~15 000 <rect>s. Deterministic: a seeded
+   PRNG, so re-running the generator produces a byte-identical card. */
+function gridPng(width, height) {
+  const SQ = 2;
+  const STEP = 4; // 2px square + 2px gap, exactly as Background.astro
+  const MAX_ALPHA = 0.3;
+  let seed = 0x5eed1e; // any fixed value; only needs to be stable
+  const rand = () => {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 0x100000000;
+  };
+
+  const buf = Buffer.alloc(width * height * 4, 0);
+  for (let y = 0; y < height; y += STEP) {
+    // Linear fade to transparent at the bottom edge — the CSS mask, in pixels.
+    const fade = 1 - y / height;
+    for (let x = 0; x < width; x += STEP) {
+      const a = Math.round(rand() * MAX_ALPHA * fade * 255);
+      if (!a) continue;
+      for (let dy = 0; dy < SQ; dy++) {
+        for (let dx = 0; dx < SQ; dx++) {
+          const i = ((y + dy) * width + x + dx) * 4;
+          buf[i] = 255;
+          buf[i + 1] = 255;
+          buf[i + 2] = 255;
+          buf[i + 3] = a;
+        }
+      }
+    }
+  }
+  return sharp(buf, { raw: { width, height, channels: 4 } }).png().toBuffer();
+}
+
+const GRID_H = 220;
+const gridBuf = await gridPng(W, GRID_H);
+
+/* A row of skill pills, echoing the Technical skills section. Outlined chips, measured
+   with the same routine that sets the type so the capsules actually fit their labels. */
+const PILL_LABELS = ['Python', 'PyTorch', 'Kubernetes', 'Azure', 'LangGraph'];
+const PILL_H = 44;
+const PILL_PAD = 22;
+const PILL_GAP = 12;
+const PILL_Y = 520;
+
+let pillX = PAD;
+const pills = PILL_LABELS.map((label) => {
+  const t = outline(label, {
+    weight: 400,
+    size: 22,
+    x: pillX + PILL_PAD,
+    y: PILL_Y + PILL_H / 2 + 8,
+    fill: MUTED,
+  });
+  const w = Math.round(t.width + PILL_PAD * 2);
+  const rect =
+    `<rect x="${pillX}" y="${PILL_Y}" width="${w}" height="${PILL_H}" rx="${PILL_H / 2}" ` +
+    `fill="none" stroke="${HAIRLINE}" stroke-width="1"/>`;
+  pillX += w + PILL_GAP;
+  return rect + t.d;
+}).join('');
 
 const eyebrow = outline('SHAFIQNINABA.COM', {
   weight: 600,
@@ -237,8 +306,7 @@ const eyebrow = outline('SHAFIQNINABA.COM', {
 });
 
 const name = outline('Shafiq Ninaba', { weight: 600, size: 112, x: PAD, y: 380, tracking: -2.4 });
-const role = outline('AI Engineer', { weight: 300, size: 52, x: PAD, y: 462, fill: GREEN });
-const place = outline('Singapore', { weight: 400, size: 28, x: PAD, y: 534, fill: MUTED });
+const role = outline('AI Engineer', { weight: 300, size: 52, x: PAD, y: 452, fill: GREEN });
 
 const AVATAR_DATA_URI =
   'data:image/jpeg;base64,' +
@@ -248,26 +316,12 @@ const AVATAR_DATA_URI =
 
 const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <defs>
-    <radialGradient id="glow" cx="0.12" cy="0.06" r="0.85">
-      <stop offset="0%"  stop-color="#01CF38" stop-opacity="0.20"/>
-      <stop offset="45%" stop-color="#01CF38" stop-opacity="0.05"/>
-      <stop offset="100%" stop-color="#01CF38" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%"   stop-color="#01CF38" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#01CF38" stop-opacity="0"/>
-    </linearGradient>
     <clipPath id="avatarClip">
       <circle cx="${PAD + 32}" cy="${104 + 32}" r="32"/>
     </clipPath>
   </defs>
 
   <rect width="${W}" height="${H}" fill="${PAGE}"/>
-  <rect width="${W}" height="${H}" fill="url(#glow)"/>
-
-  <!-- top hairline + brand accent, echoing the site header border -->
-  <rect x="0" y="0" width="${W}" height="4" fill="${PAGE}"/>
-  <rect x="0" y="0" width="${W}" height="4" fill="url(#rule)"/>
 
   <!-- avatar + wordmark, top-left. The avatar is embedded as a data: URI because
        librsvg (sharp's SVG backend) will not fetch external hrefs. -->
@@ -280,17 +334,16 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}
   ${name.d}
   ${role.d}
 
-  <!-- footer rule + locality -->
-  <rect x="${PAD}" y="${498}" width="${W - PAD * 2}" height="1" fill="${HAIRLINE}"/>
-  ${place.d}
+  <!-- skill pills -->
+  ${pills}
 </svg>`;
 
-// 8-bit palette quantisation leaves visible concentric banding in the radial glow, and the
-// budget is nowhere near tight (~30 kB of 200 kB), so keep full truecolour.
+// 8-bit palette quantisation leaves visible banding in the dot grid, and the budget is
+// nowhere near tight, so keep full truecolour.
 const og = await sharp(Buffer.from(ogSvg))
+  .composite([{ input: gridBuf, top: 0, left: 0 }])
   .png({ compressionLevel: 9, palette: false })
   .toBuffer();
-
 await writeFile(join(PUBLIC, 'og.png'), og);
 const ogKb = og.length / 1024;
 console.log(`og.png                ${W}x${H}  ${ogKb.toFixed(1)} kB`);
