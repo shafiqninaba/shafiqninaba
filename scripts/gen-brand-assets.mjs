@@ -5,7 +5,7 @@
  *   public/og.png             1200x630, <= 200 kB   (D7: hand-made, no satori / edge route)
  *   public/apple-touch-icon.png  180x180, opaque
  *   public/icon-192.png / icon-512.png  manifest icons
- *   public/favicon.ico        48 + 32 + 16 frames (circular avatar, as on the old site)
+ *   (public/favicon.ico is NOT generated — it is committed verbatim from the old site)
  *
  *   node scripts/gen-brand-assets.mjs      (or: pnpm gen:brand)
  *
@@ -180,45 +180,21 @@ for (const size of [192, 512]) {
   console.log(`icon-${size}.png${' '.repeat(9 - String(size).length)}  ${size}x${size}  ${(png.length / 1024).toFixed(1)} kB`);
 }
 
-/* ── public/favicon.ico — 48 + 32 + 16 frames, all PNG-compressed ────────────────────── */
-
-// Each frame is rendered from the 800px source at its own size. Downscaling per frame
-// keeps the 16px one legible; resizing one 48px raster down to 16px does not.
-const icoFrames = await Promise.all(
-  [48, 32, 16].map(async (size) => ({ size, png: await avatarIcon(size) }))
-);
-
-/**
- * Minimal ICO container. Each frame is stored as a whole PNG, which every browser in use
- * since IE11 accepts and which keeps a 32x32 icon under 1 kB.
+/* ── public/favicon.ico — NOT GENERATED ──────────────────────────────────────────────
+ *
+ * favicon.ico is committed verbatim from the pre-Astro site (main:src/app/favicon.ico),
+ * byte-identical to what https://www.shafiqninaba.com/favicon.ico still serves. It is a
+ * single 16x16 frame of a tight portrait crop with a thick white ring.
+ *
+ * It is deliberately NOT regenerated here. A grid search over crop / vertical bias / ring
+ * width could not get closer than a mean error of 32/255 per channel against the real
+ * frame, which means it is not a crop of avatar.jpg at all — it comes from a different,
+ * tighter source photo that was never in this repo. Regenerating it would silently
+ * substitute a different image, which is exactly the bug this replaced.
+ *
+ * If a high-resolution version of that original photo turns up, add it to src/assets and
+ * this file can start emitting 32 and 48 frames too.
  */
-function buildIco(frames) {
-  const header = Buffer.alloc(6);
-  header.writeUInt16LE(0, 0); // reserved
-  header.writeUInt16LE(1, 2); // type 1 = icon
-  header.writeUInt16LE(frames.length, 4);
-
-  let offset = 6 + frames.length * 16;
-  const entries = frames.map((f) => {
-    const e = Buffer.alloc(16);
-    e.writeUInt8(f.size === 256 ? 0 : f.size, 0); // width  (0 means 256)
-    e.writeUInt8(f.size === 256 ? 0 : f.size, 1); // height
-    e.writeUInt8(0, 2); // palette size — 0 for truecolour
-    e.writeUInt8(0, 3); // reserved
-    e.writeUInt16LE(1, 4); // colour planes
-    e.writeUInt16LE(32, 6); // bits per pixel
-    e.writeUInt32LE(f.png.length, 8);
-    e.writeUInt32LE(offset, 12);
-    offset += f.png.length;
-    return e;
-  });
-
-  return Buffer.concat([header, ...entries, ...frames.map((f) => f.png)]);
-}
-
-const ico = buildIco(icoFrames);
-await writeFile(join(PUBLIC, 'favicon.ico'), ico);
-console.log(`favicon.ico           48 + 32 + 16  ${(ico.length / 1024).toFixed(1)} kB`);
 
 /* ── public/og.png — 1200x630 ────────────────────────────────────────────────────────
  *
