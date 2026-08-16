@@ -28,22 +28,27 @@
   --static-black-medium: rgba(0, 0, 0, 0.302);
 
   /* ============ PAGE / SURFACE ============ */
-  --page-background:    #0D0A00;                 /* sand-100 */
+  --page-background:    #1A160D;   /* lifted off sand-100 (#0D0A00): near-pure
+                                      black under near-pure white was reported as
+                                      harsh to read against. Still 18:1. */
   --backdrop:           rgba(0, 0, 0, 0.302);
   --surface-background: rgba(0, 0, 0, 0.302);    /* translucent + dark */
   --surface-border:     rgba(153, 148, 134, 0.302);
   --backdrop-filter:    blur(1rem);
 
   /* ============ NEUTRAL (sand) ============ */
-  --neutral-background-weak:      #0D0A00;
-  --neutral-background-medium:    #1B1608;
+  --neutral-background-weak:      #1A160D;
+  --neutral-background-medium:    #262114;   /* lifted with the page bg, or it
+                                                would be indistinguishable from it */
   --neutral-background-strong:    #443F30;
 
-  --neutral-on-background-strong: #ffffff;
+  --neutral-on-background-strong: #F7F4EC;   /* not pure #fff — 16.4:1 rather than
+                                                19.8:1, which is the other half of the
+                                                glare. Headings, active TOC item. */
   --neutral-on-background-medium: #E5E0D2;
   --neutral-on-background-weak:   #B7B2A4;
 
-  --neutral-border-weak:          #1B1608;
+  --neutral-border-weak:          #262114;
   --neutral-border-medium:        #443F30;
   --neutral-border-strong:        #5E594C;
 

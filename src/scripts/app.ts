@@ -131,6 +131,8 @@ if (dock && matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduc
   const MAG = 60;
   const DIST = 100;
 
+  // --sz drives WIDTH only (see Header.astro); height stays pinned so the
+  // document never reflows vertically while the pointer moves.
   const size = (el: HTMLElement, px: number) => {
     el.style.setProperty('--sz', px + 'px');
     el.style.setProperty('--icon-sz', px * 0.5 + 'px');

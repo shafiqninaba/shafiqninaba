@@ -32,7 +32,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC = join(ROOT, 'public');
 
 /* ── palette (src/styles/tokens.css) ─────────────────────────────────────────────────── */
-const PAGE = '#0D0A00'; // --page-background          sand-100
+const PAGE = '#1A160D'; // --page-background
 const WHITE = '#FFFFFF'; // --neutral-on-background-strong
 const MUTED = '#B7B2A4'; // --neutral-on-background-weak
 const FAINT = '#797465'; // --neutral-solid-strong

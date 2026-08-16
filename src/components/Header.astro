@@ -155,12 +155,13 @@ import { PERSON } from '../data/site';
   }
   .header__pill-inner {
     display: flex;
-    /* align-items:end so magnified items grow upward out of the pill like a
-       macOS dock, rather than expanding it symmetrically. */
-    align-items: flex-end;
+    align-items: center;
     gap: 0.25rem;
-    /* Tall enough that a 60px magnified item never clips. */
-    min-height: 2.5rem;
+    /* FIXED, never min-height. The dock magnifies items horizontally only (see
+       the height rule on .pill-btn) so this box must not be allowed to grow —
+       the header is in normal flow, so any height change here reflows the whole
+       document on every mousemove. */
+    height: 2.5rem;
   }
 
   .header__sep {
@@ -182,9 +183,16 @@ import { PERSON } from '../data/site';
     align-items: center;
     justify-content: center;
     /* --sz is written by the dock script; 2.5rem is the un-magnified base and
-       the value every no-JS / reduced-motion / touch visitor keeps. */
+       the value every no-JS / reduced-motion / touch visitor keeps.
+
+       WIDTH ONLY. Height is pinned at the base size: magnifying it too made the
+       pill, the header and therefore the entire document taller on every
+       mousemove, which read as the page juddering up and down. Width still
+       animates, so neighbours are still pushed apart — that is the part of the
+       dock effect you actually see — and the icon still scales inside the fixed
+       box (max 30px in a 40px square, so it never clips). */
     width: var(--sz, 2.5rem);
-    height: var(--sz, 2.5rem);
+    height: 2.5rem;
     flex: none;
     padding: 0;
     border: 1px solid transparent;
@@ -260,7 +268,6 @@ import { PERSON } from '../data/site';
     a.pill-btn,
     button.pill-btn {
       width: 2.5rem !important;
-      height: 2.5rem !important;
     }
     .pill-btn :global(svg),
     .pill-btn > svg {
