@@ -72,8 +72,10 @@ const { title, description, canonical, ogImage, ogImageAlt, jsonLd } = Astro.pro
 </script>
 
 <!-- Icons / manifest -->
-<link rel="icon" href="/favicon.ico" sizes="32x32" />
-<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+{/* The mark is a photograph (the avatar), so there is no icon.svg — a vector
+    form of it would be a fiction. Real PNG sizes instead. */}
+<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" />
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />

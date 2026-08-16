@@ -3,9 +3,9 @@
  * One-shot generator for the static brand assets in public/ — §A.3 / §E.16 of the build spec:
  *
  *   public/og.png             1200x630, <= 200 kB   (D7: hand-made, no satori / edge route)
- *   public/icon.svg           monochrome mark, any size
- *   public/apple-touch-icon.png  180x180
- *   public/favicon.ico        32x32 + 16x16 frames
+ *   public/apple-touch-icon.png  180x180, opaque
+ *   public/icon-192.png / icon-512.png  manifest icons
+ *   public/favicon.ico        48 + 32 + 16 frames (circular avatar, as on the old site)
  *
  *   node scripts/gen-brand-assets.mjs      (or: pnpm gen:brand)
  *
@@ -14,9 +14,8 @@
  *
  * TEXT IS CONVERTED TO OUTLINES. The card is set in Geist — the same family the site loads —
  * whose TTFs are pulled from Google Fonts and turned into `<path>` data by opentype.js. That
- * keeps rendering deterministic (no fontconfig, no system-font substitution) and lets
- * icon.svg ship a real glyph outline instead of a `<text>` element no favicon renderer would
- * resolve.
+ * keeps
+ * the OG card render deterministically (no fontconfig, no system-font substitution).
  *
  * Requires network access on the (rare) occasions it is re-run. The outputs are committed.
  */
@@ -105,69 +104,89 @@ function outline(text, o) {
 
 /* ── the mark: a rounded tile carrying a Geist 600 "S" ───────────────────────────────── */
 
-/**
- * @param {number} size box size
- * @param {{ tile: string, glyph: string }} colors
+/* ── the site icon is the AVATAR, not a monogram ─────────────────────────────────────────
+ *
+ * The pre-Astro site's favicon was a circular crop of the avatar with a white ring, and
+ * that is the mark people recognise in a tab strip. An earlier pass replaced it with a
+ * generated "S" tile purely because the original .ico held a single 16x16 frame — that
+ * fixed the resolution and broke the identity. This restores the original mark and gives
+ * it the resolutions it was missing, generated from the 800x800 source rather than
+ * upscaled from 16px.
+ *
+ * No icon.svg: the mark is a photograph, so there is no honest vector form of it. The
+ * <link rel="icon" type="image/svg+xml"> and the manifest's svg entry are dropped in
+ * favour of real PNG sizes.
  */
-function mark(size, colors) {
-  const r = size * 0.225; // squircle-ish corner, matches --radius-l at this scale
-  const glyphSize = size * 0.62;
-  // Optical centring: cap-height is ~0.7em in Geist, so the baseline sits below the middle.
-  const baseline = size / 2 + glyphSize * 0.355;
-  const s = outline('S', {
-    weight: 600,
-    size: glyphSize,
-    x: size / 2,
-    y: baseline,
-    anchor: 'middle',
-    fill: colors.glyph,
+const AVATAR = join(ROOT, 'src', 'assets', 'avatar.jpg');
+
+/**
+ * The icons crop tighter than the sidebar portrait does. At 16px the full frame
+ * is mostly foliage and the face is a few pixels wide; 0.66 of the source, biased
+ * up toward the head, is the tightest crop that still clears the hair. The page
+ * avatar is unaffected — this crop exists only for the icons.
+ */
+const ICON_CROP = 0.66;
+const ICON_BIAS = 0.3;
+
+/** @returns {import('sharp').Sharp} the cropped source, ready to resize */
+function avatarSource() {
+  const SRC = 800; // avatar.jpg is 800x800
+  const side = Math.round(SRC * ICON_CROP);
+  return sharp(AVATAR).extract({
+    left: Math.round((SRC - side) / 2),
+    top: Math.round((SRC - side) * ICON_BIAS),
+    width: side,
+    height: side,
   });
-  return `<rect width="${size}" height="${size}" rx="${r}" ry="${r}" fill="${colors.tile}"/>${s.d}`;
 }
 
-/* ── public/icon.svg — monochrome, scalable ──────────────────────────────────────────── */
-
-const ICON_SVG =
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Shafiq Ninaba">` +
-  `<title>Shafiq Ninaba</title>` +
-  mark(64, { tile: GREEN, glyph: PAGE }) +
-  `</svg>\n`;
-
-await writeFile(join(PUBLIC, 'icon.svg'), ICON_SVG);
-console.log('icon.svg              64x64 vector');
+/**
+ * Circular avatar with a white ring, on transparency.
+ * @param {number} size
+ */
+async function avatarIcon(size) {
+  // 6% ring reads at 16px without swallowing the face, and matches the original.
+  const ring = Math.max(1, Math.round(size * 0.06));
+  const r = size / 2 - ring / 2;
+  const circle = `<svg width="${size}" height="${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#fff"/></svg>`;
+  const stroke = `<svg width="${size}" height="${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${WHITE}" stroke-width="${ring}"/></svg>`;
+  return avatarSource()
+    .resize(size, size, { fit: 'cover' })
+    .composite([
+      { input: Buffer.from(circle), blend: 'dest-in' }, // knock out the corners
+      { input: Buffer.from(stroke), blend: 'over' }, // then draw the ring on top
+    ])
+    .png({ compressionLevel: 9, palette: true, quality: 90 })
+    .toBuffer();
+}
 
 /* ── public/apple-touch-icon.png — 180x180, opaque, no transparency ──────────────────── */
 
-// iOS masks the corners itself, so the tile bleeds to the edges and the glyph is inset.
+// iOS masks the corners itself and renders an alpha channel as BLACK, so this one is a
+// full-bleed square crop flattened onto the page colour — no circle, no transparency.
 const TOUCH = 180;
-const touchSvg =
-  `<svg xmlns="http://www.w3.org/2000/svg" width="${TOUCH}" height="${TOUCH}" viewBox="0 0 ${TOUCH} ${TOUCH}">` +
-  `<rect width="${TOUCH}" height="${TOUCH}" fill="${GREEN}"/>` +
-  outline('S', {
-    weight: 600,
-    size: TOUCH * 0.6,
-    x: TOUCH / 2,
-    y: TOUCH / 2 + TOUCH * 0.6 * 0.355,
-    anchor: 'middle',
-    fill: PAGE,
-  }).d +
-  `</svg>`;
-
-// iOS renders an alpha channel as black, so ship it opaque.
-const touchPng = await sharp(Buffer.from(touchSvg))
-  .flatten({ background: GREEN })
-  .png({ compressionLevel: 9 })
+const touchPng = await avatarSource()
+  .resize(TOUCH, TOUCH, { fit: 'cover' })
+  .flatten({ background: PAGE })
+  .png({ compressionLevel: 9, palette: true, quality: 90 })
   .toBuffer();
 await writeFile(join(PUBLIC, 'apple-touch-icon.png'), touchPng);
 console.log(`apple-touch-icon.png  ${TOUCH}x${TOUCH}  ${(touchPng.length / 1024).toFixed(1)} kB`);
 
-/* ── public/favicon.ico — 32x32 primary + 16x16 frame, both PNG-compressed ───────────── */
+/* ── public/icon-192.png, icon-512.png — manifest / Android ──────────────────────────── */
 
+for (const size of [192, 512]) {
+  const png = await avatarIcon(size);
+  await writeFile(join(PUBLIC, `icon-${size}.png`), png);
+  console.log(`icon-${size}.png${' '.repeat(9 - String(size).length)}  ${size}x${size}  ${(png.length / 1024).toFixed(1)} kB`);
+}
+
+/* ── public/favicon.ico — 48 + 32 + 16 frames, all PNG-compressed ────────────────────── */
+
+// Each frame is rendered from the 800px source at its own size. Downscaling per frame
+// keeps the 16px one legible; resizing one 48px raster down to 16px does not.
 const icoFrames = await Promise.all(
-  [32, 16].map(async (size) => ({
-    size,
-    png: await sharp(Buffer.from(ICON_SVG)).resize(size, size).png({ compressionLevel: 9 }).toBuffer(),
-  }))
+  [48, 32, 16].map(async (size) => ({ size, png: await avatarIcon(size) }))
 );
 
 /**
@@ -200,7 +219,7 @@ function buildIco(frames) {
 
 const ico = buildIco(icoFrames);
 await writeFile(join(PUBLIC, 'favicon.ico'), ico);
-console.log(`favicon.ico           32x32 + 16x16  ${(ico.length / 1024).toFixed(1)} kB`);
+console.log(`favicon.ico           48 + 32 + 16  ${(ico.length / 1024).toFixed(1)} kB`);
 
 /* ── public/og.png — 1200x630 ────────────────────────────────────────────────────────── */
 
@@ -221,6 +240,12 @@ const name = outline('Shafiq Ninaba', { weight: 600, size: 112, x: PAD, y: 380, 
 const role = outline('AI Engineer', { weight: 300, size: 52, x: PAD, y: 462, fill: GREEN });
 const place = outline('Singapore', { weight: 400, size: 28, x: PAD, y: 534, fill: MUTED });
 
+const AVATAR_DATA_URI =
+  'data:image/jpeg;base64,' +
+  (await avatarSource().resize(128, 128, { fit: 'cover' }).jpeg({ quality: 88 }).toBuffer()).toString(
+    'base64'
+  );
+
 const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <defs>
     <radialGradient id="glow" cx="0.12" cy="0.06" r="0.85">
@@ -232,6 +257,9 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}
       <stop offset="0%"   stop-color="#01CF38" stop-opacity="0.9"/>
       <stop offset="100%" stop-color="#01CF38" stop-opacity="0"/>
     </linearGradient>
+    <clipPath id="avatarClip">
+      <circle cx="${PAD + 32}" cy="${104 + 32}" r="32"/>
+    </clipPath>
   </defs>
 
   <rect width="${W}" height="${H}" fill="${PAGE}"/>
@@ -241,8 +269,11 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}
   <rect x="0" y="0" width="${W}" height="4" fill="${PAGE}"/>
   <rect x="0" y="0" width="${W}" height="4" fill="url(#rule)"/>
 
-  <!-- mark + wordmark, top-left -->
-  <g transform="translate(${PAD}, ${104})">${mark(64, { tile: GREEN, glyph: PAGE })}</g>
+  <!-- avatar + wordmark, top-left. The avatar is embedded as a data: URI because
+       librsvg (sharp's SVG backend) will not fetch external hrefs. -->
+  <image x="${PAD}" y="${104}" width="64" height="64" href="${AVATAR_DATA_URI}"
+         clip-path="url(#avatarClip)" preserveAspectRatio="xMidYMid slice"/>
+  <circle cx="${PAD + 32}" cy="${104 + 32}" r="31" fill="none" stroke="${WHITE}" stroke-width="2"/>
   ${eyebrow.d}
 
   <!-- name / role -->
@@ -266,7 +297,13 @@ console.log(`og.png                ${W}x${H}  ${ogKb.toFixed(1)} kB`);
 if (ogKb > 200) throw new Error(`og.png is ${ogKb.toFixed(1)} kB — the budget is 200 kB`);
 
 /* ── sanity: every file exists and is non-empty ──────────────────────────────────────── */
-for (const f of ['og.png', 'icon.svg', 'apple-touch-icon.png', 'favicon.ico']) {
+for (const f of [
+  'og.png',
+  'icon-192.png',
+  'icon-512.png',
+  'apple-touch-icon.png',
+  'favicon.ico',
+]) {
   const bytes = (await readFile(join(PUBLIC, f))).length;
   if (!bytes) throw new Error(`public/${f} is empty`);
 }
