@@ -34,10 +34,8 @@ const PUBLIC = join(ROOT, 'public');
 const PAGE = '#1A160D'; // --page-background
 const WHITE = '#FFFFFF'; // the avatar ring, which is pure white on the site too
 const INK = '#F7F4EC'; // --neutral-on-background-strong (softened off pure white)
-const MUTED = '#B7B2A4'; // --neutral-on-background-weak
 const FAINT = '#797465'; // --neutral-solid-strong
 const GREEN = '#01CF38'; // --brand-on-background-weak  role line / list markers
-const HAIRLINE = 'rgba(153,148,134,0.302)'; // --neutral-alpha-medium
 
 /* ── Geist, straight from the Google Fonts CSS API ───────────────────────────────────── */
 const GEIST_CSS = 'https://fonts.googleapis.com/css2?family=Geist:wght@300;400;600';
@@ -226,9 +224,8 @@ console.log(`favicon.ico           48 + 32 + 16  ${(ico.length / 1024).toFixed(1
  *
  * Matches the live page rather than inventing a card: the same #1A160D ground, the same
  * flickering dot-grid strip fading down from the top edge, the same Geist setting, the
- * same circular avatar, and a row of the outlined skill pills that are now the page's
- * most recognisable element. The old card's green radial wash is gone for the same
- * reason it is gone from the site.
+ * same circular avatar. The old card's green radial wash is gone for the same reason it
+ * is gone from the site.
  */
 
 const W = 1200;
@@ -271,31 +268,6 @@ function gridPng(width, height) {
 const GRID_H = 220;
 const gridBuf = await gridPng(W, GRID_H);
 
-/* A row of skill pills, echoing the Technical skills section. Outlined chips, measured
-   with the same routine that sets the type so the capsules actually fit their labels. */
-const PILL_LABELS = ['Python', 'PyTorch', 'Kubernetes', 'Azure', 'LangGraph'];
-const PILL_H = 44;
-const PILL_PAD = 22;
-const PILL_GAP = 12;
-const PILL_Y = 520;
-
-let pillX = PAD;
-const pills = PILL_LABELS.map((label) => {
-  const t = outline(label, {
-    weight: 400,
-    size: 22,
-    x: pillX + PILL_PAD,
-    y: PILL_Y + PILL_H / 2 + 8,
-    fill: MUTED,
-  });
-  const w = Math.round(t.width + PILL_PAD * 2);
-  const rect =
-    `<rect x="${pillX}" y="${PILL_Y}" width="${w}" height="${PILL_H}" rx="${PILL_H / 2}" ` +
-    `fill="none" stroke="${HAIRLINE}" stroke-width="1"/>`;
-  pillX += w + PILL_GAP;
-  return rect + t.d;
-}).join('');
-
 const eyebrow = outline('SHAFIQNINABA.COM', {
   weight: 600,
   size: 22,
@@ -305,8 +277,8 @@ const eyebrow = outline('SHAFIQNINABA.COM', {
   fill: FAINT,
 });
 
-const name = outline('Shafiq Ninaba', { weight: 600, size: 112, x: PAD, y: 380, tracking: -2.4 });
-const role = outline('AI Engineer', { weight: 300, size: 52, x: PAD, y: 452, fill: GREEN });
+const name = outline('Shafiq Ninaba', { weight: 600, size: 112, x: PAD, y: 400, tracking: -2.4 });
+const role = outline('AI Engineer', { weight: 300, size: 52, x: PAD, y: 476, fill: GREEN });
 
 const AVATAR_DATA_URI =
   'data:image/jpeg;base64,' +
@@ -333,9 +305,6 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}
   <!-- name / role -->
   ${name.d}
   ${role.d}
-
-  <!-- skill pills -->
-  ${pills}
 </svg>`;
 
 // 8-bit palette quantisation leaves visible banding in the dot grid, and the budget is

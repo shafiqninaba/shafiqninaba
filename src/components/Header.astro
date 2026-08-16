@@ -18,17 +18,11 @@
  */
 import EnvelopeSvg from '../assets/icons/envelope.svg';
 import GithubSvg from '../assets/icons/github.svg';
-import GlobeSvg from '../assets/icons/globe.svg';
 import LinkedinSvg from '../assets/icons/linkedin.svg';
 import { PERSON } from '../data/site';
 ---
 
 <header class="header">
-  <div class="header__side header__side--left t-body-default-s">
-    <GlobeSvg class="header__globe" aria-hidden="true" />
-    {PERSON.locationLabel}
-  </div>
-
   <div class="header__pill">
     <nav class="header__pill-inner" aria-label="Social profiles" data-dock>
       <a
@@ -89,9 +83,6 @@ import { PERSON } from '../data/site';
       </button>
     </nav>
   </div>
-
-  {/* Static string, NOT a live clock: JS would render "" then "14:32" and cost CLS. */}
-  <div class="header__side header__side--right t-body-default-s">{PERSON.utcOffsetLabel}</div>
 </header>
 
 <style>
@@ -107,34 +98,12 @@ import { PERSON } from '../data/site';
     padding: 0.5rem;
   }
 
-  .header__side {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-  }
-  .header__side--left {
-    padding-left: 0.75rem;
-  }
-  .header__side--right {
-    justify-content: flex-end;
-    padding-right: 0.75rem;
-    gap: 1.25rem;
-  }
-  .header__globe {
-    width: 1rem;
-    height: 1rem;
-    color: var(--accent-on-background-weak);
-  }
 
   @media (max-width: 768px) {
     .header {
       position: fixed;
       top: auto;
       bottom: 1.5rem;
-    }
-    .header__side {
-      display: none;
     }
   }
 

@@ -24,7 +24,6 @@ export const PERSON = {
   locationLabel: 'Singapore',
   /** IANA zone, kept only if a clock is ever added. Never rendered as prose. */
   timezone: 'Asia/Singapore',
-  utcOffsetLabel: 'GMT+8',
   languages: ['English', 'Malay'] as const,
 } as const;
 

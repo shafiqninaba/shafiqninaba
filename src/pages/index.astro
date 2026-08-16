@@ -334,19 +334,19 @@ const jsonLd = JSON.stringify({
                   target="_blank"
                   rel="noopener"
                 >
-                  {skill.path && (
-                    <svg
-                      class="pill__mark"
-                      viewBox="0 0 24 24"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d={skill.path} />
-                    </svg>
-                  )}
+                  <svg
+                    class="pill__mark"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    {/* fill-rule only where merged subpaths need it (Langfuse);
+                        omitted elsewhere so simple-icons' nonzero winding stands. */}
+                    <path d={skill.path} fill-rule={skill.fillRule} />
+                  </svg>
                   {skill.title}
                 </a>
               </li>
