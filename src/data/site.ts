@@ -2,7 +2,11 @@ export const SITE = {
   /** apex, no www, no trailing slash — matches astro.config `site` */
   origin: 'https://shafiqninaba.com',
   canonical: 'https://shafiqninaba.com/',
-  title: 'Shafiq Ninaba — AI Engineer in Singapore',
+  /** Drives <title>, og:title, twitter:title and the JSON-LD ProfilePage name.
+   *  Deliberately just the name: the role and location still reach search via the
+   *  description below, the <h1>/role in the hero, and Person.jobTitle in the
+   *  JSON-LD, so nothing is lost from the machine-readable picture. */
+  title: 'Shafiq Ninaba',
   description:
     'Shafiq Ninaba is an AI Engineer at AI Singapore building production ML systems — computer vision, MLOps on Kubernetes and Azure, and LLM agent workflows.',
   ogImage: 'https://shafiqninaba.com/og.png',
