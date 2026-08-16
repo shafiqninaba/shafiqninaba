@@ -2,8 +2,10 @@
 /**
  * Header — the sticky pill nav.
  *
- * Icon-only: GitHub / LinkedIn / Email carry `aria-label`s and a CSS-only
- * tooltip, no visible text. The theme toggle sits after a hairline separator,
+ * Icon-only, and label-less on hover: the marks are self-evident. The
+ * `aria-label`s stay — they are the accessible name for an icon-only control,
+ * not a visual affordance, and removing them would leave screen readers
+ * announcing "link". The theme toggle sits after a hairline separator,
  * matching the starfolio dock's layout.
  *
  * Hover behaviour is starfolio's magicui <Dock>: items magnify by proximity to
@@ -28,7 +30,6 @@ import { PERSON } from '../data/site';
       <a
         class="pill-btn"
         data-dock-item
-        data-tip="GitHub"
         href="https://github.com/shafiqninaba"
         rel="me noopener"
         target="_blank"
@@ -39,7 +40,6 @@ import { PERSON } from '../data/site';
       <a
         class="pill-btn"
         data-dock-item
-        data-tip="LinkedIn"
         href="https://www.linkedin.com/in/shafiq-ninaba/"
         rel="me noopener"
         target="_blank"
@@ -50,7 +50,6 @@ import { PERSON } from '../data/site';
       <a
         class="pill-btn"
         data-dock-item
-        data-tip="Email"
         href={`mailto:${PERSON.email}`}
         aria-label="Email Shafiq Ninaba"
       >
@@ -67,7 +66,6 @@ import { PERSON } from '../data/site';
       <button
         class="pill-btn"
         data-dock-item
-        data-tip="Theme"
         data-theme-toggle
         type="button"
         aria-label="Switch to light theme"
@@ -164,60 +162,29 @@ import { PERSON } from '../data/site';
     height: 2.5rem;
     flex: none;
     padding: 0;
-    border: 1px solid transparent;
+    border: 0;
+    /* Kept only so the focus ring hugs the icon as a circle. There is no hover
+       fill: at 60x40 a border-radius:50% highlight stretches into an oval, and
+       the magnification is already the affordance. */
     border-radius: 50%;
     background: transparent;
     color: var(--neutral-on-background-strong);
     text-decoration: none;
     cursor: pointer;
     user-select: none;
-    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out,
-      color 0.2s ease-in-out;
   }
-  a.pill-btn:hover,
+  /* base.css gives :focus-visible a 2px radius, which would square off a round
+     control. Keyboard focus must stay visible, so re-round it here rather than
+     dropping the outline. */
   a.pill-btn:focus-visible,
-  button.pill-btn:hover,
   button.pill-btn:focus-visible {
-    background: var(--neutral-alpha-weak);
-    border-color: var(--neutral-alpha-weak);
-    color: var(--neutral-on-background-strong);
+    border-radius: 50%;
   }
   .pill-btn :global(svg),
   .pill-btn > svg {
     width: var(--icon-sz, 1rem);
     height: var(--icon-sz, 1rem);
     flex: none;
-  }
-
-  /* CSS-only tooltip, matching the template's floating label. */
-  .pill-btn::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: calc(100% + 0.5rem);
-    left: 50%;
-    padding: 0.25rem 0.625rem;
-    border-radius: var(--radius-m);
-    background: var(--neutral-on-background-strong);
-    color: var(--page-background);
-    font-family: var(--font-family-label);
-    font-size: 0.75rem;
-    line-height: 1.125rem;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 0;
-    transform: translate(-50%, 0.25rem);
-    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
-  }
-  .pill-btn:hover::after,
-  .pill-btn:focus-visible::after {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  /* The bottom-docked mobile pill would clip a tooltip drawn above it. */
-  @media (max-width: 768px) {
-    .pill-btn::after {
-      display: none;
-    }
   }
 
   /* Only one of the two theme glyphs shows at a time. Dark is the default, so
