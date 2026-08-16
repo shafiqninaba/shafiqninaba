@@ -16,13 +16,13 @@
  */
 import { getImage } from 'astro:assets';
 
+import { Image } from 'astro:assets';
+
 import avatar from '../assets/avatar.jpg';
 import ImageFigure from '../components/ImageFigure.astro';
-import LogoLoop from '../components/LogoLoop.astro';
 import Sidebar from '../components/Sidebar.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import { HOBBIES, INTRO, SECTIONS, SKILLS, STUDIES, WORK } from '../data/content';
-import { LOGOS } from '../data/logo-paths';
 import { PERSON, SITE, SOCIAL } from '../data/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
@@ -154,8 +154,10 @@ const jsonLd = JSON.stringify({
         '@type': 'Occupation',
         name: PERSON.role,
         occupationLocation: { '@type': 'Country', name: PERSON.locationLabel },
-        skills:
-          'Machine learning, MLOps, computer vision, LLM agents, Kubernetes, Azure, PyTorch, FastAPI',
+        // Derived from the visible pill list, not hand-written: Google's
+        // structured-data policy forbids marking up content that is not on the
+        // page, and deriving makes drift impossible.
+        skills: SKILLS.join(', '),
       },
       affiliation,
       alumniOf: {
@@ -263,8 +265,6 @@ const jsonLd = JSON.stringify({
         <div class="intro-text t-body-default-l">
           <p>{INTRO}</p>
         </div>
-
-        <LogoLoop logos={LOGOS} />
       </section>
 
       <!-- ========================== WORK EXPERIENCE =========================== -->
@@ -275,7 +275,18 @@ const jsonLd = JSON.stringify({
             WORK.map((job) => (
               <article class="entry">
                 <div class="entry__head">
-                  <h3 class="t-heading-strong-l">{job.company}</h3>
+                  <h3 class="t-heading-strong-l entry__company">
+                    <Image
+                      class="entry__logo"
+                      src={job.logo}
+                      alt=""
+                      width={40}
+                      height={40}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    {job.company}
+                  </h3>
                   <p class="t-heading-default-xs entry__meta">
                     <time datetime={job.startISO}>{job.startLabel}</time>
                     {' – '}
@@ -305,6 +316,19 @@ const jsonLd = JSON.stringify({
         </div>
       </section>
 
+      <!-- =========================== TECHNICAL SKILLS =========================
+           Sits directly under Work Experience: the pills are the shorthand for
+           what the roles above describe in prose. A flat list of pills rather
+           than a heading-per-category list, so this section has no h3 level. -->
+      <section id="skills" aria-labelledby="skills-h" class="section">
+        <h2 id="skills-h" class="t-display-strong-s section__title section__title--wide">
+          Technical skills
+        </h2>
+        <ul class="pills">
+          {SKILLS.map((skill) => <li class="pill t-body-default-s">{skill}</li>)}
+        </ul>
+      </section>
+
       <!-- ================================ STUDIES ============================= -->
       <section id="studies" aria-labelledby="studies-h" class="section">
         <h2 id="studies-h" class="t-display-strong-s section__title">Studies</h2>
@@ -322,23 +346,6 @@ const jsonLd = JSON.stringify({
                 </div>
                 <p class="t-body-default-s entry__role">{s.degree}</p>
                 <p class="t-body-default-m">{s.description}</p>
-              </article>
-            ))
-          }
-        </div>
-      </section>
-
-      <!-- =========================== TECHNICAL SKILLS ========================= -->
-      <section id="skills" aria-labelledby="skills-h" class="section">
-        <h2 id="skills-h" class="t-display-strong-s section__title section__title--wide">
-          Technical skills
-        </h2>
-        <div class="section__list">
-          {
-            SKILLS.map((skill) => (
-              <article class="entry">
-                <h3 class="t-heading-strong-l">{skill.title}</h3>
-                <p class="t-body-default-m">{skill.description}</p>
               </article>
             ))
           }

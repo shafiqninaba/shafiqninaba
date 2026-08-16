@@ -77,6 +77,31 @@
 .entry__role     { color: var(--brand-on-background-weak); margin-bottom: var(--space-m); }
 .entry__bullets  { display: flex; flex-direction: column; gap: 1rem; }
 
+/* Company mark beside the name. The <img> is alt="" (decorative) — the company
+   name is right next to it as real text, so announcing it twice is noise. */
+.entry__company  { display: flex; align-items: center; gap: 0.625rem; min-width: 0; }
+.entry__logo     { width: 2rem; height: 2rem; flex: none; object-fit: contain; }
+
+/* ============ SKILL PILLS ============ */
+.pills {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  width: 100%; padding: 0; list-style: none;
+  /* Same 2.5rem trailing gap as .section__list, so the run-in to the next
+     section heading matches every other section. */
+  margin: 0 0 2.5rem;
+}
+/* Same chip geometry as .tag in the sidebar, so the two read as one system.
+   Not reusing .tag itself: these are static list items with no icon slot. */
+.pill {
+  display: inline-flex; align-items: center;
+  padding: 0.3125rem 0.875rem;
+  border: 1px solid var(--neutral-border-medium);
+  border-radius: var(--radius-l);
+  background-color: var(--surface-background);
+  color: var(--neutral-on-background-medium);
+  white-space: nowrap;
+}
+
 /* ============ IMAGE STRIP ============ */
 .image-strip {
   display: flex;

@@ -4,6 +4,8 @@ import aiap1     from '../assets/aiap/aiap-1.jpg';
 import aiap2     from '../assets/aiap/aiap-2.jpg';
 import aiap3     from '../assets/aiap/aiap-3.jpg';
 import aiapCert  from '../assets/aiap/aiap-cert.png';
+import aisgLogo  from '../assets/companies/ai-singapore.png';
+import psaLogo   from '../assets/companies/psa.png';
 import climb     from '../assets/hobbies/transend-climb.jpg';
 import portrait  from '../assets/hobbies/transend-portrait.jpg';
 
@@ -11,6 +13,9 @@ export interface Photo { src: ImageMetadata; alt: string; }
 
 export interface Job {
   company: string;
+  /** Company mark shown beside the name. Decorative — the company name is
+   *  already an <h3>, so the <img> carries alt="" rather than repeating it. */
+  logo: ImageMetadata;
   role: string;
   startISO: string;  startLabel: string;
   endISO: string | null; endLabel: string;
@@ -18,11 +23,12 @@ export interface Job {
   images: Photo[];
 }
 
+/** Order here drives both the TOC rail and the reading order of the page. */
 export const SECTIONS = [
   { id: 'introduction', label: 'Introduction' },
   { id: 'work',         label: 'Work Experience' },
-  { id: 'studies',      label: 'Studies' },
   { id: 'skills',       label: 'Technical skills' },
+  { id: 'studies',      label: 'Studies' },
   { id: 'hobbies',      label: 'Hobbies & Interests' },
 ] as const;
 
@@ -37,6 +43,7 @@ export const INTRO =
 export const WORK: Job[] = [
   {
     company: 'AI Singapore',
+    logo: aisgLogo,
     role: 'AI Engineer',
     startISO: '2025-07', startLabel: 'Jul 2025',
     endISO: null,        endLabel: 'Present',
@@ -50,6 +57,7 @@ export const WORK: Job[] = [
   },
   {
     company: 'AI Singapore',
+    logo: aisgLogo,
     role: 'Associate AI Engineer',
     startISO: '2024-06', startLabel: 'Jun 2024',
     endISO: '2025-03',   endLabel: 'Mar 2025',
@@ -68,6 +76,7 @@ export const WORK: Job[] = [
   },
   {
     company: 'PSA Corporation Ltd',
+    logo: psaLogo,
     role: 'Machine Learning Intern (Smart Systems & Solutions)',
     startISO: '2023-01', startLabel: 'Jan 2023',
     endISO: '2023-07',   endLabel: 'Jul 2023',
@@ -91,27 +100,45 @@ export const STUDIES = [
   },
 ];
 
-export const SKILLS = [
-  {
-    title: 'Machine Learning & AI',
-    description:
-      'Skilled in building and deploying ML models with PyTorch, TensorFlow, scikit-learn, and MLFlow. Experienced with LangChain, LangGraph, and OpenAI APIs for building agentic systems.',
-  },
-  {
-    title: 'Backend & Infra',
-    description:
-      'Proficient with FastAPI, Flask, Docker, Azure, AWS, Google Cloud Platform, and CI/CD tools for production-grade ML systems.',
-  },
-  {
-    title: 'Data & Visualization',
-    description:
-      'Experienced with Pandas, NumPy, SQL, Apache Hive, and PySpark. Used Plotly and custom dashboards for model insights and data storytelling.',
-  },
-  {
-    title: 'Web Development',
-    description:
-      'Built interactive applications with Streamlit, HTML/CSS/JS, and deployed full-stack solutions on Heroku and DigitalOcean.',
-  },
+/**
+ * Technical skills, rendered as a flat wrapping pill list directly under Work
+ * Experience. This replaces BOTH the four prose skill categories AND the
+ * scrolling tech-logo marquee — the marquee's 17 technologies are all folded in
+ * here, so nothing the old page communicated is lost.
+ *
+ * Ordering is deliberate: language/runtime, ML, LLM tooling, serving, container
+ * + IaC, cloud, CI/CD. It is NOT alphabetical — grouping related tools keeps the
+ * wrapped rows readable.
+ */
+export const SKILLS: string[] = [
+  'Python',
+  'Linux',
+  'PyTorch',
+  'TensorFlow',
+  'scikit-learn',
+  'MLflow',
+  'Kedro',
+  'LangChain',
+  'LangGraph',
+  'Langfuse',
+  'Pydantic',
+  'OpenAI API',
+  'FastAPI',
+  'Flask',
+  'Streamlit',
+  'Docker',
+  'Kubernetes',
+  'Helm',
+  'ArgoCD',
+  'Terraform',
+  'Azure',
+  'AWS',
+  'Google Cloud',
+  'Railway',
+  'GitLab CI/CD',
+  'GitHub Actions',
+  'Apache Hive',
+  'Plotly',
 ];
 
 export const HOBBIES = [

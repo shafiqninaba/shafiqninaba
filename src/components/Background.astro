@@ -1,86 +1,59 @@
 ---
 /**
- * Background — fixed gradient + dots + 45° lines effect layer. Spec §E.2.
+ * Background — a flickering dot-grid strip across the top of the page, fading
+ * out downward over the plain page colour.
  *
- * ZERO JS. The original's requestAnimationFrame cursor-tracking mask is replaced
- * by a STATIC mask built from the original config's own non-cursor fallback
- * coordinates (x: 50, y: 0, radius: 100).
+ * Ported from the `starfolio` template's <FlickeringGrid> (magicui), which is a
+ * `client:load` React island wrapping a canvas. We keep the visual and drop the
+ * island: the grid is ~600 B of vanilla canvas code in `src/scripts/app.ts`
+ * (contract: `canvas[data-grid]`), instead of a React runtime.
+ *
+ * Same parameters as the template: 2px squares, 2px gaps, flickerChance 0.3,
+ * maxOpacity 0.3, drawn in the foreground colour and masked to transparent at
+ * the bottom edge.
+ *
+ * This layer is `absolute`, not `fixed` — like the template, it belongs to the
+ * top of the document and scrolls away rather than following the viewport.
+ *
+ * Replaced: the previous full-page green radial gradient + dot + 45° line wash.
  */
 ---
 
 <div class="bg" aria-hidden="true">
-  <div class="bg__gradient"></div>
-  <div class="bg__dots"></div>
-  <div class="bg__lines"></div>
+  <canvas data-grid></canvas>
 </div>
 
 <style>
-  /* The mask goes on the CONTAINER, never on the individual layers. */
   .bg {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Template uses h-25 (100px). A little taller reads better on our wider,
+       max-width:1200px layout without becoming a band in its own right. */
+    height: 160px;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+    /* The fade is the whole trick — a hard bottom edge would read as a banner. */
+    -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
+    mask-image: linear-gradient(to bottom, #000, transparent);
+  }
+
+  .bg canvas {
+    display: block;
     width: 100%;
     height: 100%;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
-    /* The original masks this layer with a radial gradient centred on the cursor.
-       With zero JS there is no cursor, so we use the SAME fallback the original
-       itself paints before the first pointer event — and which it therefore also
-       paints for every crawler, every screenshot and every touch device: 0, 0.
-       `50% 0%` (the earlier value) parks the mask's opaque core directly over the
-       gradient's hot spot at 50%/60%, which is what made the whole viewport read
-       as a heavy green wash and dragged body-text contrast down. At `0% 0%` the
-       mask decays to zero well before the hot spot, leaving the restrained
-       lower-left glow over near-black that the original shows.
-       The dots and lines layers are masked by the same container, so this is
-       also what pulls the 45° lines back to the original's visibility — their
-       own opacities (0.4 / 1) already match the original exactly. */
-    -webkit-mask-image: radial-gradient(100vh at 0% 0%, #000 0%, transparent 100%);
-    mask-image: radial-gradient(100vh at 0% 0%, #000 0%, transparent 100%);
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
+    /* app.ts reads this via getComputedStyle().color for the square fill, so it
+       must be set explicitly here rather than inherited from <body>.
+       Plain white, NOT --neutral-on-background-*: the sand neutral ramp is warm,
+       and warm greys at 0.3 alpha over #0D0A00 read as olive rather than as the
+       template's neutral dots. */
+    color: #fff;
   }
 
-  .bg__gradient,
-  .bg__dots,
-  .bg__lines {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-
-  /* Equivalent of the original 400%-sized box with x=50,y=60,w=100,h=50 remapped.
-     Do NOT "simplify" to 100% / 50% — these numbers are derived. */
-  .bg__gradient {
-    opacity: 1;
-    background: radial-gradient(
-      ellipse 100vw 50vh at 50% 60%,
-      var(--accent-background-strong) 0%,
-      var(--page-background) 100%
-    );
-  }
-
-  /* dots.size="2" = --static-space-2 = 0.125rem = 2px tile with 1px dots. Very fine texture. */
-  .bg__dots {
-    opacity: 0.4;
-    background-image: radial-gradient(var(--brand-background-strong) 1px, rgba(0, 0, 0, 0) 1px);
-    background-size: 2px 2px;
-  }
-
-  /* Both calc(1rem - 1px) stops must be the SAME expression or the lines
-     anti-alias unevenly. No background-size here — the original SCSS referenced
-     an undefined --lines-size and the declaration was invalid. */
-  .bg__lines {
-    opacity: 1;
-    background: repeating-linear-gradient(
-      45deg,
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0) calc(1rem - 1px),
-      var(--neutral-alpha-weak) calc(1rem - 1px),
-      var(--neutral-alpha-weak) 1rem
-    );
-  }
+  /* Deliberately no CSS fallback grid. An always-on static grid underneath the
+     canvas flattens the flicker into a uniform crosshatch — the varying
+     per-square opacity IS the effect. With no JS the strip is simply empty,
+     which is correct for a decorative layer. */
 </style>
