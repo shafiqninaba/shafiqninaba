@@ -5,7 +5,7 @@
  *   public/og.png             1200x630, <= 200 kB   (D7: hand-made, no satori / edge route)
  *   public/apple-touch-icon.png  180x180, opaque
  *   public/icon-192.png / icon-512.png  manifest icons
- *   (public/favicon.ico is NOT generated — it is committed verbatim from the old site)
+ *   public/favicon.ico        48 + 32 + 16 frames, from the GitHub cartoon avatar
  *
  *   node scripts/gen-brand-assets.mjs      (or: pnpm gen:brand)
  *
@@ -103,71 +103,75 @@ function outline(text, o) {
 
 /* ── the mark: a rounded tile carrying a Geist 600 "S" ───────────────────────────────── */
 
-/* ── the site icon is the AVATAR, not a monogram ─────────────────────────────────────────
- *
- * The pre-Astro site's favicon was a circular crop of the avatar with a white ring, and
- * that is the mark people recognise in a tab strip. An earlier pass replaced it with a
- * generated "S" tile purely because the original .ico held a single 16x16 frame — that
- * fixed the resolution and broke the identity. This restores the original mark and gives
- * it the resolutions it was missing, generated from the 800x800 source rather than
- * upscaled from 16px.
- *
- * No icon.svg: the mark is a photograph, so there is no honest vector form of it. The
- * <link rel="icon" type="image/svg+xml"> and the manifest's svg entry are dropped in
- * favour of real PNG sizes.
- */
 const AVATAR = join(ROOT, 'src', 'assets', 'avatar.jpg');
 
-/**
- * The icons crop tighter than the sidebar portrait does. At 16px the full frame
- * is mostly foliage and the face is a few pixels wide; 0.66 of the source, biased
- * up toward the head, is the tightest crop that still clears the hair. The page
- * avatar is unaffected — this crop exists only for the icons.
- */
-const ICON_CROP = 0.66;
-const ICON_BIAS = 0.3;
-
-/** @returns {import('sharp').Sharp} the cropped source, ready to resize */
+/** The OG card carries the PHOTO, matching the page's hero — not the cartoon icon.
+ *  Cropped to 0.66 biased toward the head so the face reads at 64px. */
 function avatarSource() {
   const SRC = 800; // avatar.jpg is 800x800
-  const side = Math.round(SRC * ICON_CROP);
+  const side = Math.round(SRC * 0.66);
   return sharp(AVATAR).extract({
     left: Math.round((SRC - side) / 2),
-    top: Math.round((SRC - side) * ICON_BIAS),
+    top: Math.round((SRC - side) * 0.3),
     width: side,
     height: side,
   });
 }
 
+/* ── the site icon: the GitHub cartoon avatar ────────────────────────────────────────
+ *
+ * The pre-Astro favicon was a circular crop of the cartoon avatar at
+ * avatars.githubusercontent.com/u/79973831 — committed here as
+ * src/assets/favicon-source.jpg so this script needs no network for it.
+ *
+ * Two things about that original, both established by fitting candidates against the
+ * real 16x16 frame rather than by eye:
+ *   1. It is NOT a crop of avatar.jpg (the photo in the sidebar). Best achievable fit
+ *      was a mean error of 32/255 per channel; this source gets to 12, the remainder
+ *      being JPEG noise and the original's own resampling.
+ *   2. There is no ring stroke. What reads as a white ring at 16px is simply the
+ *      illustration's own white background inside the circular crop — adding a stroke
+ *      made the fit worse, not better.
+ * Hence: circular crop, 1.05 zoom, no stroke.
+ *
+ * The site's hero avatar stays the photograph. The two are deliberately different, as
+ * they are on the live site.
+ */
+const ICON_SRC = join(ROOT, 'src', 'assets', 'favicon-source.jpg');
+const ICON_SRC_PX = 460;
+const ICON_ZOOM = 1.05;
+
+/** @returns {import('sharp').Sharp} the cropped icon source, ready to resize */
+function iconSource() {
+  const side = Math.round(ICON_SRC_PX / ICON_ZOOM);
+  const off = Math.round((ICON_SRC_PX - side) / 2);
+  return sharp(ICON_SRC).extract({ left: off, top: off, width: side, height: side });
+}
+
 /**
- * Circular avatar with a white ring, on transparency.
+ * Circular crop on transparency, at any size. Rendered from the 460px source at each
+ * size rather than downscaled from one raster, so the 16px frame stays legible.
  * @param {number} size
  */
-async function avatarIcon(size) {
-  // 6% ring reads at 16px without swallowing the face, and matches the original.
-  const ring = Math.max(1, Math.round(size * 0.06));
-  const r = size / 2 - ring / 2;
-  const circle = `<svg width="${size}" height="${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#fff"/></svg>`;
-  const stroke = `<svg width="${size}" height="${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${WHITE}" stroke-width="${ring}"/></svg>`;
-  return avatarSource()
+async function iconCircle(size) {
+  const circle = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#fff"/></svg>`;
+  return iconSource()
     .resize(size, size, { fit: 'cover' })
-    .composite([
-      { input: Buffer.from(circle), blend: 'dest-in' }, // knock out the corners
-      { input: Buffer.from(stroke), blend: 'over' }, // then draw the ring on top
-    ])
-    .png({ compressionLevel: 9, palette: true, quality: 90 })
+    .composite([{ input: Buffer.from(circle), blend: 'dest-in' }])
+    // Flat illustration: 256 colours is visually lossless here and roughly halves it.
+    .png({ compressionLevel: 9, palette: true, quality: 95 })
     .toBuffer();
 }
 
-/* ── public/apple-touch-icon.png — 180x180, opaque, no transparency ──────────────────── */
+/* ── public/apple-touch-icon.png — 180x180, opaque ───────────────────────────────────── */
 
-// iOS masks the corners itself and renders an alpha channel as BLACK, so this one is a
-// full-bleed square crop flattened onto the page colour — no circle, no transparency.
+// iOS masks the corners itself and renders alpha as BLACK, so this is a full-bleed
+// square flattened onto WHITE — the illustration's own ground, not the page colour.
 const TOUCH = 180;
-const touchPng = await avatarSource()
+const touchPng = await iconSource()
   .resize(TOUCH, TOUCH, { fit: 'cover' })
-  .flatten({ background: PAGE })
-  .png({ compressionLevel: 9, palette: true, quality: 90 })
+  .flatten({ background: '#FFFFFF' })
+  .png({ compressionLevel: 9, palette: true, quality: 95 })
   .toBuffer();
 await writeFile(join(PUBLIC, 'apple-touch-icon.png'), touchPng);
 console.log(`apple-touch-icon.png  ${TOUCH}x${TOUCH}  ${(touchPng.length / 1024).toFixed(1)} kB`);
@@ -175,26 +179,48 @@ console.log(`apple-touch-icon.png  ${TOUCH}x${TOUCH}  ${(touchPng.length / 1024)
 /* ── public/icon-192.png, icon-512.png — manifest / Android ──────────────────────────── */
 
 for (const size of [192, 512]) {
-  const png = await avatarIcon(size);
+  const png = await iconCircle(size);
   await writeFile(join(PUBLIC, `icon-${size}.png`), png);
   console.log(`icon-${size}.png${' '.repeat(9 - String(size).length)}  ${size}x${size}  ${(png.length / 1024).toFixed(1)} kB`);
 }
 
-/* ── public/favicon.ico — NOT GENERATED ──────────────────────────────────────────────
- *
- * favicon.ico is committed verbatim from the pre-Astro site (main:src/app/favicon.ico),
- * byte-identical to what https://www.shafiqninaba.com/favicon.ico still serves. It is a
- * single 16x16 frame of a tight portrait crop with a thick white ring.
- *
- * It is deliberately NOT regenerated here. A grid search over crop / vertical bias / ring
- * width could not get closer than a mean error of 32/255 per channel against the real
- * frame, which means it is not a crop of avatar.jpg at all — it comes from a different,
- * tighter source photo that was never in this repo. Regenerating it would silently
- * substitute a different image, which is exactly the bug this replaced.
- *
- * If a high-resolution version of that original photo turns up, add it to src/assets and
- * this file can start emitting 32 and 48 frames too.
+/* ── public/favicon.ico — 48 + 32 + 16 frames ───────────────────────────────────────── */
+
+const icoFrames = await Promise.all(
+  [48, 32, 16].map(async (size) => ({ size, png: await iconCircle(size) }))
+);
+
+/**
+ * Minimal ICO container. Each frame is stored as a whole PNG, which every browser in use
+ * since IE11 accepts.
  */
+function buildIco(frames) {
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0); // reserved
+  header.writeUInt16LE(1, 2); // type 1 = icon
+  header.writeUInt16LE(frames.length, 4);
+
+  let offset = 6 + frames.length * 16;
+  const entries = frames.map((f) => {
+    const e = Buffer.alloc(16);
+    e.writeUInt8(f.size === 256 ? 0 : f.size, 0); // width (0 means 256)
+    e.writeUInt8(f.size === 256 ? 0 : f.size, 1); // height
+    e.writeUInt8(0, 2); // palette size — 0 for truecolour
+    e.writeUInt8(0, 3); // reserved
+    e.writeUInt16LE(1, 4); // colour planes
+    e.writeUInt16LE(32, 6); // bits per pixel
+    e.writeUInt32LE(f.png.length, 8);
+    e.writeUInt32LE(offset, 12);
+    offset += f.png.length;
+    return e;
+  });
+
+  return Buffer.concat([header, ...entries, ...frames.map((f) => f.png)]);
+}
+
+const ico = buildIco(icoFrames);
+await writeFile(join(PUBLIC, 'favicon.ico'), ico);
+console.log(`favicon.ico           48 + 32 + 16  ${(ico.length / 1024).toFixed(1)} kB`);
 
 /* ── public/og.png — 1200x630 ────────────────────────────────────────────────────────
  *
