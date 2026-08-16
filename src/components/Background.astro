@@ -46,10 +46,10 @@
     height: 100%;
     /* app.ts reads this via getComputedStyle().color for the square fill, so it
        must be set explicitly here rather than inherited from <body>.
-       Plain white, NOT --neutral-on-background-*: the sand neutral ramp is warm,
+       --grid-ink, NOT --neutral-on-background-*: the sand neutral ramp is warm,
        and warm greys at 0.3 alpha over #0D0A00 read as olive rather than as the
-       template's neutral dots. */
-    color: #fff;
+       template's neutral dots. It flips to dark ink under [data-theme='light']. */
+    color: var(--grid-ink);
   }
 
   /* Deliberately no CSS fallback grid. An always-on static grid underneath the

@@ -1,12 +1,20 @@
 ---
 /**
- * Header — the sticky pill nav. Spec §E.4.
+ * Header — the sticky pill nav.
  *
- * This is where the GitHub / LinkedIn / Email icons now live; they are removed
- * from the hero entirely (explicit user requirement). There is NO theme toggle.
+ * Icon-only: GitHub / LinkedIn / Email carry `aria-label`s and a CSS-only
+ * tooltip, no visible text. The theme toggle sits after a hairline separator,
+ * matching the starfolio dock's layout.
+ *
+ * Hover behaviour is starfolio's magicui <Dock>: items magnify by proximity to
+ * the cursor, pushing their neighbours apart. Ported to ~350 B of vanilla JS in
+ * src/scripts/app.ts (contract: `[data-dock]` / `[data-dock-item]`) with the
+ * same constants — 40px base, 60px magnified, 100px falloff — instead of the
+ * template's motion/react springs. Degrades to plain hover states with no JS,
+ * under `prefers-reduced-motion`, and on coarse pointers.
  *
  * Icons are Astro SVG components compiled from local .svg imports: inline SVG,
- * zero JS, zero extra network requests. All four inherit `currentColor`.
+ * zero JS, zero extra network requests. All inherit `currentColor`.
  */
 import EnvelopeSvg from '../assets/icons/envelope.svg';
 import GithubSvg from '../assets/icons/github.svg';
@@ -22,28 +30,63 @@ import { PERSON } from '../data/site';
   </div>
 
   <div class="header__pill">
-    <nav class="header__pill-inner" aria-label="Social profiles">
+    <nav class="header__pill-inner" aria-label="Social profiles" data-dock>
       <a
         class="pill-btn"
+        data-dock-item
+        data-tip="GitHub"
         href="https://github.com/shafiqninaba"
         rel="me noopener"
         target="_blank"
         aria-label="GitHub profile"
       >
-        <GithubSvg aria-hidden="true" /><span class="pill-btn__label">GitHub</span>
+        <GithubSvg aria-hidden="true" />
       </a>
       <a
         class="pill-btn"
+        data-dock-item
+        data-tip="LinkedIn"
         href="https://www.linkedin.com/in/shafiq-ninaba/"
         rel="me noopener"
         target="_blank"
         aria-label="LinkedIn profile"
       >
-        <LinkedinSvg aria-hidden="true" /><span class="pill-btn__label">LinkedIn</span>
+        <LinkedinSvg aria-hidden="true" />
       </a>
-      <a class="pill-btn" href={`mailto:${PERSON.email}`} aria-label="Email Shafiq Ninaba">
-        <EnvelopeSvg aria-hidden="true" /><span class="pill-btn__label">Email</span>
+      <a
+        class="pill-btn"
+        data-dock-item
+        data-tip="Email"
+        href={`mailto:${PERSON.email}`}
+        aria-label="Email Shafiq Ninaba"
+      >
+        <EnvelopeSvg aria-hidden="true" />
       </a>
+
+      <span class="header__sep" aria-hidden="true"></span>
+
+      {/*
+        Rendered by the server in its dark-mode state. The inline script in
+        BaseHead sets data-theme before first paint, and `aria-pressed` is
+        corrected by the same script, so there is no flash and no wrong label.
+      */}
+      <button
+        class="pill-btn"
+        data-dock-item
+        data-tip="Theme"
+        data-theme-toggle
+        type="button"
+        aria-label="Switch to light theme"
+        aria-pressed="false"
+      >
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
     </nav>
   </div>
 
@@ -112,67 +155,117 @@ import { PERSON } from '../data/site';
   }
   .header__pill-inner {
     display: flex;
-    align-items: center;
+    /* align-items:end so magnified items grow upward out of the pill like a
+       macOS dock, rather than expanding it symmetrically. */
+    align-items: flex-end;
     gap: 0.25rem;
+    /* Tall enough that a 60px magnified item never clips. */
+    min-height: 2.5rem;
+  }
+
+  .header__sep {
+    width: 1px;
+    height: 1.25rem;
+    margin: 0 0.125rem;
+    align-self: center;
+    background: var(--neutral-alpha-medium);
   }
 
   /* `a:not(.btn)` in base.css would colour these links green. It resolves to
      (0,1,1), so the selector below is qualified with `a` to match that
      specificity exactly — component styles come last in the cascade, so it wins
      on source order. Do not rename the class or drop the `a`. */
-  a.pill-btn {
+  a.pill-btn,
+  button.pill-btn {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    height: 2rem;
-    min-height: 2rem;
-    padding: 0.25rem 0.75rem;
-    width: fit-content;
+    justify-content: center;
+    /* --sz is written by the dock script; 2.5rem is the un-magnified base and
+       the value every no-JS / reduced-motion / touch visitor keeps. */
+    width: var(--sz, 2.5rem);
+    height: var(--sz, 2.5rem);
+    flex: none;
+    padding: 0;
     border: 1px solid transparent;
-    border-radius: var(--radius-rounded-m); /* 1.25rem */
+    border-radius: 50%;
     background: transparent;
-    color: var(--static-white);
-    font-family: var(--font-family-label);
-    font-size: 0.825rem;
-    line-height: 1rem;
-    font-weight: 400;
+    color: var(--neutral-on-background-strong);
     text-decoration: none;
-    white-space: nowrap;
+    cursor: pointer;
     user-select: none;
-    transition: var(--transition-micro-medium);
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out,
+      color 0.2s ease-in-out;
   }
   a.pill-btn:hover,
-  a.pill-btn:focus-visible {
+  a.pill-btn:focus-visible,
+  button.pill-btn:hover,
+  button.pill-btn:focus-visible {
     background: var(--neutral-alpha-weak);
     border-color: var(--neutral-alpha-weak);
-    color: var(--static-white);
+    color: var(--neutral-on-background-strong);
   }
-  .pill-btn svg {
-    width: 1rem;
-    height: 1rem;
+  .pill-btn :global(svg),
+  .pill-btn > svg {
+    width: var(--icon-sz, 1rem);
+    height: var(--icon-sz, 1rem);
     flex: none;
   }
 
-  /* ≤768px the pill is the primary nav and sits at the bottom:
-     icons only, 44px tap targets. */
+  /* CSS-only tooltip, matching the template's floating label. */
+  .pill-btn::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius-m);
+    background: var(--neutral-on-background-strong);
+    color: var(--page-background);
+    font-family: var(--font-family-label);
+    font-size: 0.75rem;
+    line-height: 1.125rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 0.25rem);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+  }
+  .pill-btn:hover::after,
+  .pill-btn:focus-visible::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  /* The bottom-docked mobile pill would clip a tooltip drawn above it. */
   @media (max-width: 768px) {
-    /* Qualified with `a` to keep the same (0,1,1) specificity as the base
-       `a.pill-btn` rule above — a bare `.pill-btn` here would lose to it. */
-    a.pill-btn {
-      padding: 0;
-      width: 2.75rem;
-      height: 2.75rem;
-      justify-content: center;
+    .pill-btn::after {
+      display: none;
     }
-    .pill-btn__label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
+  }
+
+  /* Only one of the two theme glyphs shows at a time. Dark is the default, so
+     the SUN (the action: "switch to light") is what shows first. */
+  .icon-moon {
+    display: none;
+  }
+  :global([data-theme='light']) .icon-sun {
+    display: none;
+  }
+  :global([data-theme='light']) .icon-moon {
+    display: block;
+  }
+
+  /* The dock magnification is motion; honour the OS preference by pinning size. */
+  @media (prefers-reduced-motion: reduce) {
+    a.pill-btn,
+    button.pill-btn {
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+    }
+    .pill-btn :global(svg),
+    .pill-btn > svg {
+      width: 1rem !important;
+      height: 1rem !important;
     }
   }
 </style>

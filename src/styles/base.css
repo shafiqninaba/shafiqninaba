@@ -46,7 +46,7 @@ a:not(.btn) {
   text-underline-offset: 0.25em;
   text-decoration-color: var(--neutral-border-strong);
 }
-a:not(.btn):hover { color: var(--static-white); }
+a:not(.btn):hover { color: var(--neutral-on-background-strong); }
 
 button { font: inherit; color: inherit; }
 

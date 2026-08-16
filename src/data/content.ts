@@ -101,45 +101,17 @@ export const STUDIES = [
 ];
 
 /**
- * Technical skills, rendered as a flat wrapping pill list directly under Work
- * Experience. This replaces BOTH the four prose skill categories AND the
- * scrolling tech-logo marquee — the marquee's 17 technologies are all folded in
- * here, so nothing the old page communicated is lost.
+ * Technical skills, rendered as a flat wrapping list of logo+label pills
+ * directly under Work Experience. This replaces BOTH the four prose skill
+ * categories AND the scrolling tech-logo marquee — every technology the marquee
+ * showed is folded in here, so nothing the old page communicated is lost.
  *
- * Ordering is deliberate: language/runtime, ML, LLM tooling, serving, container
- * + IaC, cloud, CI/CD. It is NOT alphabetical — grouping related tools keeps the
- * wrapped rows readable.
+ * The list itself lives in src/data/logo-paths.ts alongside each mark's SVG
+ * path, so a pill and its logo cannot drift apart. Ordering is deliberate
+ * (language, ML, LLM tooling, serving, containers/IaC, cloud, CI, data) and is
+ * defined there. Edit LOGOS in scripts/gen-logo-paths.mjs, then `pnpm gen:logos`.
  */
-export const SKILLS: string[] = [
-  'Python',
-  'Linux',
-  'PyTorch',
-  'TensorFlow',
-  'scikit-learn',
-  'MLflow',
-  'Kedro',
-  'LangChain',
-  'LangGraph',
-  'Langfuse',
-  'Pydantic',
-  'OpenAI API',
-  'FastAPI',
-  'Flask',
-  'Streamlit',
-  'Docker',
-  'Kubernetes',
-  'Helm',
-  'ArgoCD',
-  'Terraform',
-  'Azure',
-  'AWS',
-  'Google Cloud',
-  'Railway',
-  'GitLab CI/CD',
-  'GitHub Actions',
-  'Apache Hive',
-  'Plotly',
-];
+export { LOGOS as SKILLS } from './logo-paths';
 
 export const HOBBIES = [
   {

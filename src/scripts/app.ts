@@ -25,6 +25,10 @@ if (links.length) {
 // maxOpacity 0.3). Contract is `canvas[data-grid]` — see Background.astro.
 const cv = document.querySelector<HTMLCanvasElement>('canvas[data-grid]');
 const ctx = cv?.getContext('2d');
+/** Set by the grid block below; called by the theme toggle to repaint in the
+ *  new ink colour, since the squares are baked into the canvas bitmap and the
+ *  cascade cannot reach them. */
+let repaintGrid = () => {};
 if (cv && ctx) {
   const SQ = 2;
   const GAP = 2;
@@ -102,6 +106,7 @@ if (cv && ctx) {
   };
 
   start();
+  repaintGrid = start;
   addEventListener('resize', start);
   still.addEventListener('change', start);
 
@@ -114,7 +119,76 @@ if (cv && ctx) {
   }).observe(cv);
 }
 
-// ---- 3. Lightbox ---------------------------------------------------------
+// ---- 3. Dock magnification (header pill) ---------------------------------
+// Vanilla port of the starfolio template's magicui <Dock>. Same constants:
+// 40px base, 60px magnified, 100px falloff, icon at half the container size.
+// The template springs each value with motion/react; a short CSS transition on
+// width/height (see Header.astro) reads the same without the runtime.
+const dock = document.querySelector<HTMLElement>('[data-dock]');
+if (dock && matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const items = [...dock.querySelectorAll<HTMLElement>('[data-dock-item]')];
+  const BASE = 40;
+  const MAG = 60;
+  const DIST = 100;
+
+  const size = (el: HTMLElement, px: number) => {
+    el.style.setProperty('--sz', px + 'px');
+    el.style.setProperty('--icon-sz', px * 0.5 + 'px');
+  };
+
+  let queued = false;
+  let mouseX = Infinity;
+
+  const apply = () => {
+    queued = false;
+    for (const el of items) {
+      const b = el.getBoundingClientRect();
+      const d = Math.abs(mouseX - (b.left + b.width / 2));
+      // Linear falloff, exactly like the template's useTransform ramp.
+      const t = d >= DIST ? 0 : 1 - d / DIST;
+      size(el, BASE + (MAG - BASE) * t);
+    }
+  };
+
+  dock.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(apply);
+    }
+  });
+  dock.addEventListener('mouseleave', () => {
+    mouseX = Infinity;
+    for (const el of items) size(el, BASE);
+  });
+}
+
+// ---- 4. Theme toggle -----------------------------------------------------
+// The no-flash script in BaseHead already set data-theme before first paint;
+// this only handles the click and keeps the button's label/state honest.
+const themeBtn = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+if (themeBtn) {
+  const root = document.documentElement;
+  const sync = () => {
+    const light = root.dataset.theme === 'light';
+    themeBtn.setAttribute('aria-pressed', String(light));
+    themeBtn.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+  };
+  sync();
+  themeBtn.addEventListener('click', () => {
+    const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* private mode — the choice just won't persist */
+    }
+    sync();
+    repaintGrid();
+  });
+}
+
+// ---- 5. Lightbox ---------------------------------------------------------
 const dlg = document.getElementById('lightbox') as HTMLDialogElement | null;
 if (dlg) {
   const img = dlg.querySelector('img') as HTMLImageElement;

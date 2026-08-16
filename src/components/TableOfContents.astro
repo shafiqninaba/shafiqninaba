@@ -64,7 +64,7 @@ const { sections } = Astro.props;
   }
   .toc a.toc__item:hover {
     transform: translateX(0.25rem);
-    color: var(--static-white);
+    color: var(--neutral-on-background-strong);
   }
   .toc .toc__rule {
     display: block;
@@ -77,7 +77,7 @@ const { sections } = Astro.props;
   /* Active = brighter label + a LONGER, BRIGHTER dash. Neutral throughout; the
      dash carries the state, never a colour change on the other items. */
   .toc a.toc__item[aria-current='true'] {
-    color: var(--static-white);
+    color: var(--neutral-on-background-strong);
   }
   .toc a.toc__item[aria-current='true'] .toc__rule {
     width: 2rem;

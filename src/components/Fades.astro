@@ -1,11 +1,16 @@
 ---
 /**
- * Fades — the top (desktop) and bottom (mobile) blur/fade overlays. Spec §E.3.
- * Zero JS, zero props.
+ * Fades — the bottom (mobile) blur/fade overlay. Zero JS, zero props.
+ *
+ * The matching TOP fade is deliberately gone. It was a fixed 5rem overlay
+ * painting `linear-gradient(var(--page-background), transparent)` from y=16 —
+ * i.e. the page colour — directly over the flickering-grid backdrop, punching a
+ * dark band through the middle of it and leaving a visible seam where the grid
+ * re-emerged below. The grid now provides the top-edge treatment the fade used
+ * to, so the two cannot coexist.
  */
 ---
 
-<div class="fade fade--top" aria-hidden="true"></div>
 <div class="fade fade--bottom" aria-hidden="true"></div>
 
 <style>
@@ -20,16 +25,6 @@
     mask-size: 100% 100%;
   }
 
-  /* The 1rem .top-spacer precedes it in flow. Mask starts fading at 20%. */
-  .fade--top {
-    top: 1rem;
-    -webkit-backdrop-filter: blur(0.5rem);
-    backdrop-filter: blur(0.5rem);
-    background: linear-gradient(180deg, var(--page-background), transparent);
-    -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 20%, transparent 100%);
-  }
-
   .fade--bottom {
     display: none;
     top: auto;
@@ -42,9 +37,6 @@
   }
 
   @media (max-width: 768px) {
-    .fade--top {
-      display: none;
-    }
     .fade--bottom {
       display: block;
     }

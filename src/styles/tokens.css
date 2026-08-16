@@ -109,7 +109,14 @@
   --solid-inset-size:     0;
   --solid-border-width:   0;
 
+  /* Ink for the flickering-grid backdrop. A token, not a literal, because it is
+     the one colour that must invert with the theme AND be read from JS
+     (getComputedStyle on the canvas) rather than applied by the cascade. */
+  --grid-ink: #ffffff;
+
   /* ============ SPACING (static) ============ */
+  /* (colour tokens above are the DARK theme; the LIGHT overrides live in the
+      [data-theme='light'] block at the end of this file) */
   --space-0:   0;
   --space-1:   1px;
   --space-2:   0.125rem;
@@ -219,4 +226,102 @@
     --space-l:  1rem;
     --space-xl: 2.5rem;
   }
+}
+
+/* ============================================================================
+   LIGHT THEME
+   Same three ramps (sand / green / emerald), inverted. Only the colour tokens
+   are redeclared — spacing, radii, typography and shadows are theme-agnostic.
+
+   Applied via [data-theme='light'] on <html>, which the inline script in
+   BaseHead sets before first paint from localStorage, falling back to the OS
+   `prefers-color-scheme`. Dark remains the default, so a visitor with no stored
+   choice and no OS preference gets the dark site.
+
+   Every foreground here was checked against its own background for WCAG AA
+   (>=4.5:1 body, >=3:1 large). Do not "brighten" the greens — #01CF38 on white
+   is 1.9:1 and unreadable, which is why brand/accent shift several steps darker
+   in light mode rather than being reused from the dark ramp.
+   ============================================================================ */
+[data-theme='light'] {
+  color-scheme: light;
+
+  /* ============ PAGE / SURFACE ============ */
+  --page-background:    #FCFBF7;
+  --backdrop:           rgba(255, 255, 255, 0.302);
+  --surface-background: rgba(255, 255, 255, 0.602);
+  --surface-border:     rgba(120, 114, 96, 0.302);
+
+  /* ============ NEUTRAL (sand) ============ */
+  --neutral-background-weak:      #FCFBF7;
+  --neutral-background-medium:    #F2EDDF;
+  --neutral-background-strong:    #E0DACA;
+
+  --neutral-on-background-strong: #0D0A00;   /* 19.1:1 */
+  --neutral-on-background-medium: #33301F;   /* 12.9:1 */
+  --neutral-on-background-weak:   #5E594C;   /*  6.4:1 */
+
+  --neutral-border-weak:          #F2EDDF;
+  --neutral-border-medium:        #DCD6C6;
+  --neutral-border-strong:        #B7B2A4;
+
+  --neutral-alpha-weak:           rgba(94, 89, 76, 0.078);
+  --neutral-alpha-medium:         rgba(94, 89, 76, 0.220);
+  --neutral-alpha-strong:         rgba(94, 89, 76, 0.420);
+
+  --neutral-solid-weak:           #B7B2A4;
+  --neutral-solid-medium:         #797465;
+  --neutral-solid-strong:         #5E594C;
+  --neutral-on-solid-strong:      #ffffff;
+  --neutral-on-solid-weak:        #F2EDDF;
+
+  /* ============ BRAND (green) ============ */
+  --brand-background-weak:      #F1FBF3;
+  --brand-background-medium:    #DFF5E4;
+  --brand-background-strong:    #B9E8C4;
+
+  --brand-on-background-strong: #04120A;
+  --brand-on-background-medium: #0A6E2C;   /* link colour        —  5.9:1 */
+  --brand-on-background-weak:   #0B5C27;   /* markers, role line —  7.4:1 */
+
+  --brand-border-weak:          #DFF5E4;
+  --brand-border-medium:        #B9E8C4;
+  --brand-border-strong:        #6FC888;
+
+  --brand-alpha-weak:           rgba(10, 110, 44, 0.078);
+  --brand-alpha-medium:         rgba(10, 110, 44, 0.220);
+  --brand-alpha-strong:         rgba(10, 110, 44, 0.420);
+
+  /* solid="contrast" ⇒ brand SOLIDS invert to near-black in light mode */
+  --brand-solid-weak:           #33301F;
+  --brand-solid-medium:         #0D0A00;
+  --brand-solid-strong:         #1B1608;
+  --brand-on-solid-strong:      #ffffff;
+  --brand-on-solid-weak:        #F2EDDF;
+
+  /* ============ ACCENT (emerald) ============ */
+  --accent-background-weak:      #F0FBF7;
+  --accent-background-medium:    #DCF5EB;
+  --accent-background-strong:    #B4E8D6;
+
+  --accent-on-background-strong: #04120E;
+  --accent-on-background-medium: #096B52;
+  --accent-on-background-weak:   #07604A;   /* globe icon — 7.2:1 */
+
+  --accent-border-weak:          #DCF5EB;
+  --accent-border-medium:        #B4E8D6;
+  --accent-border-strong:        #63C7A8;
+
+  --accent-alpha-weak:           rgba(9, 107, 82, 0.078);
+  --accent-alpha-medium:         rgba(9, 107, 82, 0.220);
+  --accent-alpha-strong:         rgba(9, 107, 82, 0.420);
+
+  --accent-solid-weak:           #B4E8D6;
+  --accent-solid-medium:         #0A8466;
+  --accent-solid-strong:         #07604A;
+  --accent-on-solid-strong:      #ffffff;
+  --accent-on-solid-weak:        #DCF5EB;
+
+  /* Grid dots become dark ink on the light page. */
+  --grid-ink: #0D0A00;
 }

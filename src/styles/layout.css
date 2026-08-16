@@ -91,16 +91,29 @@
   margin: 0 0 2.5rem;
 }
 /* Same chip geometry as .tag in the sidebar, so the two read as one system.
-   Not reusing .tag itself: these are static list items with no icon slot. */
-.pill {
-  display: inline-flex; align-items: center;
+   Each pill links to the vendor's site.
+
+   Qualified `a.pill`, not `.pill`: base.css has `a:not(.btn) { color: brand }`
+   at (0,1,1), which beats a bare `.pill` at (0,1,0) and turns every pill and its
+   logo green. Matching (0,1,1) wins on source order — layout.css is imported
+   after base.css. Do not drop the `a`. */
+a.pill {
+  display: inline-flex; align-items: center; gap: 0.4375rem;
   padding: 0.3125rem 0.875rem;
   border: 1px solid var(--neutral-border-medium);
   border-radius: var(--radius-l);
   background-color: var(--surface-background);
   color: var(--neutral-on-background-medium);
-  white-space: nowrap;
+  white-space: nowrap; text-decoration: none;
+  transition: var(--transition-micro-medium);
 }
+a.pill:hover,
+a.pill:focus-visible {
+  color: var(--neutral-on-background-strong);
+  border-color: var(--neutral-border-strong);
+}
+/* flex:none so the mark never squashes; the label may wrap, the logo may not. */
+.pill__mark { flex: none; width: 1rem; height: 1rem; }
 
 /* ============ IMAGE STRIP ============ */
 .image-strip {

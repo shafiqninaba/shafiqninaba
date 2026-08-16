@@ -16,7 +16,8 @@
     "astro": "astro",
     "verify:nojs": "find dist -name '*.js' -o -name '*.mjs' | tee /dev/stderr | wc -l",
     "opt:images": "node scripts/optimize-source-images.mjs",
-    "gen:brand": "node scripts/gen-brand-assets.mjs"
+    "gen:brand": "node scripts/gen-brand-assets.mjs",
+    "gen:logos": "node scripts/gen-logo-paths.mjs"
   },
   "dependencies": {
     "astro": "^7.2.2"
@@ -25,6 +26,7 @@
     "@astrojs/check": "^0.9.10",
     "opentype.js": "^2.0.0",
     "sharp": "^0.35.3",
+    "simple-icons": "^16.28.0",
     "typescript": "^5.9.0"
   }
 }

@@ -157,7 +157,7 @@ const jsonLd = JSON.stringify({
         // Derived from the visible pill list, not hand-written: Google's
         // structured-data policy forbids marking up content that is not on the
         // page, and deriving makes drift impossible.
-        skills: SKILLS.join(', '),
+        skills: SKILLS.map((s) => s.title).join(', '),
       },
       affiliation,
       alumniOf: {
@@ -325,7 +325,33 @@ const jsonLd = JSON.stringify({
           Technical skills
         </h2>
         <ul class="pills">
-          {SKILLS.map((skill) => <li class="pill t-body-default-s">{skill}</li>)}
+          {
+            SKILLS.map((skill) => (
+              <li>
+                <a
+                  class="pill t-body-default-s"
+                  href={skill.href}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {skill.path && (
+                    <svg
+                      class="pill__mark"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d={skill.path} />
+                    </svg>
+                  )}
+                  {skill.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </section>
 
