@@ -1,0 +1,214 @@
+---
+/**
+ * Header — the sticky pill nav.
+ *
+ * Icon-only, and label-less on hover: the marks are self-evident. The
+ * `aria-label`s stay — they are the accessible name for an icon-only control,
+ * not a visual affordance, and removing them would leave screen readers
+ * announcing "link". The theme toggle sits after a hairline separator,
+ * matching the starfolio dock's layout.
+ *
+ * Hover behaviour is starfolio's magicui <Dock>: items magnify by proximity to
+ * the cursor, pushing their neighbours apart. Ported to ~350 B of vanilla JS in
+ * src/scripts/app.ts (contract: `[data-dock]` / `[data-dock-item]`) with the
+ * same constants — 40px base, 60px magnified, 100px falloff — instead of the
+ * template's motion/react springs. Degrades to plain hover states with no JS,
+ * under `prefers-reduced-motion`, and on coarse pointers.
+ *
+ * Icons are Astro SVG components compiled from local .svg imports: inline SVG,
+ * zero JS, zero extra network requests. All inherit `currentColor`.
+ */
+import EnvelopeSvg from '../assets/icons/envelope.svg';
+import GithubSvg from '../assets/icons/github.svg';
+import LinkedinSvg from '../assets/icons/linkedin.svg';
+import { PERSON } from '../data/site';
+---
+
+<header class="header">
+  <div class="header__pill">
+    <nav class="header__pill-inner" aria-label="Social profiles" data-dock>
+      <a
+        class="pill-btn"
+        data-dock-item
+        href="https://github.com/shafiqninaba"
+        rel="me noopener"
+        target="_blank"
+        aria-label="GitHub profile"
+      >
+        <GithubSvg aria-hidden="true" />
+      </a>
+      <a
+        class="pill-btn"
+        data-dock-item
+        href="https://www.linkedin.com/in/shafiq-ninaba/"
+        rel="me noopener"
+        target="_blank"
+        aria-label="LinkedIn profile"
+      >
+        <LinkedinSvg aria-hidden="true" />
+      </a>
+      <a
+        class="pill-btn"
+        data-dock-item
+        href={`mailto:${PERSON.email}`}
+        aria-label="Email Shafiq Ninaba"
+      >
+        <EnvelopeSvg aria-hidden="true" />
+      </a>
+
+      <span class="header__sep" aria-hidden="true"></span>
+
+      {/*
+        Rendered by the server in its dark-mode state. The inline script in
+        BaseHead sets data-theme before first paint, and `aria-pressed` is
+        corrected by the same script, so there is no flash and no wrong label.
+      */}
+      <button
+        class="pill-btn"
+        data-dock-item
+        data-theme-toggle
+        type="button"
+        aria-label="Switch to light theme"
+        aria-pressed="false"
+      >
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: fit-content;
+    padding: 0.5rem;
+  }
+
+
+  @media (max-width: 768px) {
+    .header {
+      position: fixed;
+      top: auto;
+      bottom: 1.5rem;
+    }
+  }
+
+  /* THE PILL — radius comes from the ROUNDED scale (1.5rem), not playful (1rem). */
+  .header__pill {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border: 1px solid var(--neutral-alpha-medium);
+    border-radius: var(--radius-rounded-m-nest-4);
+    background-color: var(--surface-background);
+    -webkit-backdrop-filter: var(--backdrop-filter);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--shadow-l);
+  }
+  .header__pill-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    /* FIXED, never min-height. The dock magnifies items horizontally only (see
+       the height rule on .pill-btn) so this box must not be allowed to grow —
+       the header is in normal flow, so any height change here reflows the whole
+       document on every mousemove. */
+    height: 2.5rem;
+  }
+
+  .header__sep {
+    width: 1px;
+    height: 1.25rem;
+    margin: 0 0.125rem;
+    align-self: center;
+    background: var(--neutral-alpha-medium);
+  }
+
+  /* `a:not(.btn)` in base.css would colour these links green. It resolves to
+     (0,1,1), so the selector below is qualified with `a` to match that
+     specificity exactly — component styles come last in the cascade, so it wins
+     on source order. Do not rename the class or drop the `a`. */
+  a.pill-btn,
+  button.pill-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* --sz is written by the dock script; 2.5rem is the un-magnified base and
+       the value every no-JS / reduced-motion / touch visitor keeps.
+
+       WIDTH ONLY. Height is pinned at the base size: magnifying it too made the
+       pill, the header and therefore the entire document taller on every
+       mousemove, which read as the page juddering up and down. Width still
+       animates, so neighbours are still pushed apart — that is the part of the
+       dock effect you actually see — and the icon still scales inside the fixed
+       box (max 30px in a 40px square, so it never clips). */
+    width: var(--sz, 2.5rem);
+    height: 2.5rem;
+    flex: none;
+    padding: 0;
+    border: 0;
+    /* Kept only so the focus ring hugs the icon as a circle. There is no hover
+       fill: at 60x40 a border-radius:50% highlight stretches into an oval, and
+       the magnification is already the affordance. */
+    border-radius: 50%;
+    background: transparent;
+    color: var(--neutral-on-background-strong);
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+  }
+  /* base.css gives :focus-visible a 2px radius, which would square off a round
+     control. Keyboard focus must stay visible, so re-round it here rather than
+     dropping the outline. */
+  a.pill-btn:focus-visible,
+  button.pill-btn:focus-visible {
+    border-radius: 50%;
+  }
+  .pill-btn :global(svg),
+  .pill-btn > svg {
+    width: var(--icon-sz, 1rem);
+    height: var(--icon-sz, 1rem);
+    flex: none;
+  }
+
+  /* Only one of the two theme glyphs shows at a time. Dark is the default, so
+     the SUN (the action: "switch to light") is what shows first. */
+  .icon-moon {
+    display: none;
+  }
+  :global([data-theme='light']) .icon-sun {
+    display: none;
+  }
+  :global([data-theme='light']) .icon-moon {
+    display: block;
+  }
+
+  /* The dock magnification is motion; honour the OS preference by pinning size. */
+  @media (prefers-reduced-motion: reduce) {
+    a.pill-btn,
+    button.pill-btn {
+      width: 2.5rem !important;
+    }
+    .pill-btn :global(svg),
+    .pill-btn > svg {
+      width: 1rem !important;
+      height: 1rem !important;
+    }
+  }
+</style>

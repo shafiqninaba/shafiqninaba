@@ -1,0 +1,125 @@
+---
+/**
+ * BaseHead — every <head> tag except the ones Astro injects. Owns all SEO.
+ * Spec: §E.1 (contract) + §G (exact markup, in exactly this order).
+ *
+ * Carries exactly one inline script: the theme bootstrap. It must stay inline
+ * and stay in <head> — anything deferred or external runs after first paint,
+ * which is precisely the flash it exists to prevent.
+ *
+ * Deliberate omissions, per §G:
+ *  - no hreflang        — one page, one language
+ *  - no twitter:site / twitter:creator — the old X entry had an empty link
+ */
+import { Font } from 'astro:assets';
+import { PERSON, SITE } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** absolute, already includes host; e.g. 'https://shafiqninaba.com/' */
+  canonical: string;
+  /** absolute */
+  ogImage: string;
+  ogImageAlt: string;
+  /** pre-serialised JSON-LD @graph, authored by the page; injected with set:html */
+  jsonLd: string;
+}
+
+const { title, description, canonical, ogImage, ogImageAlt, jsonLd } = Astro.props;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<!-- Crawling / SERP presentation -->
+<meta
+  name="robots"
+  content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+/>
+
+<!-- Ownership — PRESERVE VERBATIM -->
+<meta name="google-site-verification" content={SITE.googleSiteVerification} />
+
+<!-- Authorship -->
+<meta name="author" content={PERSON.name} />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Theming: dark by default, light available; see the bootstrap script below -->
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#1A160D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#FCFBF7" media="(prefers-color-scheme: light)" />
+
+{/*
+  Theme bootstrap. Runs before first paint so the correct palette is applied to
+  <html> with no flash of the wrong theme. Stored choice wins; otherwise fall
+  back to the OS preference; otherwise dark.
+  `is:inline` keeps Astro from hoisting this into the deferred module bundle —
+  that would defeat the entire point.
+*/}
+<script is:inline>
+  try {
+    var t = localStorage.getItem('theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.dataset.theme = t;
+  } catch (e) {
+    document.documentElement.dataset.theme = 'dark';
+  }
+</script>
+
+<!-- Icons / manifest -->
+{/* Icons come from the GitHub cartoon avatar, the same mark the old favicon used
+    — see scripts/gen-brand-assets.mjs. No icon.svg: the mark is a raster
+    illustration, so a vector form of it would be a fiction. */}
+<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" />
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+<!-- Open Graph (property=) -->
+<meta property="og:type" content="profile" />
+<meta property="og:site_name" content={PERSON.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={SITE.locale} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogImageAlt} />
+<meta property="profile:first_name" content={PERSON.firstName} />
+<meta property="profile:last_name" content={PERSON.lastName} />
+<meta property="profile:username" content={PERSON.username} />
+
+<!-- Twitter / X (name=) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={ogImageAlt} />
+
+{
+  /*
+   * Fonts: emits <style> with @font-face + metric-matched fallbacks, plus the
+   * preload link.
+   *
+   * §G writes this filter as [{weight:'400',style:'normal'},{weight:'600',...}].
+   * Verified against astro@7.2.2: Geist on the Google provider is a VARIABLE
+   * font — 300/400/600 all resolve to one and the same .woff2, so Astro's
+   * preload table holds a single entry whose `weight` is 300. A weight-keyed
+   * filter therefore matches nothing and emits ZERO preload links, losing the
+   * LCP win the spec is asking for. Filtering on style alone emits exactly the
+   * one file that serves all three weights (verified: 1 <link rel="preload">),
+   * while still excluding italics if any are ever added to the config.
+   */
+}
+<Font cssVariable="--font-geist" preload={[{ style: 'normal' }]} />
+
+<!-- Structured data -->
+<script type="application/ld+json" set:html={jsonLd} is:inline></script>

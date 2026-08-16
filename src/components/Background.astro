@@ -1,0 +1,59 @@
+---
+/**
+ * Background — a flickering dot-grid strip across the top of the page, fading
+ * out downward over the plain page colour.
+ *
+ * Ported from the `starfolio` template's <FlickeringGrid> (magicui), which is a
+ * `client:load` React island wrapping a canvas. We keep the visual and drop the
+ * island: the grid is ~600 B of vanilla canvas code in `src/scripts/app.ts`
+ * (contract: `canvas[data-grid]`), instead of a React runtime.
+ *
+ * Same parameters as the template: 2px squares, 2px gaps, flickerChance 0.3,
+ * maxOpacity 0.3, drawn in the foreground colour and masked to transparent at
+ * the bottom edge.
+ *
+ * This layer is `absolute`, not `fixed` — like the template, it belongs to the
+ * top of the document and scrolls away rather than following the viewport.
+ *
+ * Replaced: the previous full-page green radial gradient + dot + 45° line wash.
+ */
+---
+
+<div class="bg" aria-hidden="true">
+  <canvas data-grid></canvas>
+</div>
+
+<style>
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Template uses h-25 (100px). A little taller reads better on our wider,
+       max-width:1200px layout without becoming a band in its own right. */
+    height: 160px;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+    /* The fade is the whole trick — a hard bottom edge would read as a banner. */
+    -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
+    mask-image: linear-gradient(to bottom, #000, transparent);
+  }
+
+  .bg canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* app.ts reads this via getComputedStyle().color for the square fill, so it
+       must be set explicitly here rather than inherited from <body>.
+       --grid-ink, NOT --neutral-on-background-*: the sand neutral ramp is warm,
+       and warm greys at 0.3 alpha over the page colour read as olive rather than as the
+       template's neutral dots. It flips to dark ink under [data-theme='light']. */
+    color: var(--grid-ink);
+  }
+
+  /* Deliberately no CSS fallback grid. An always-on static grid underneath the
+     canvas flattens the flicker into a uniform crosshatch — the varying
+     per-square opacity IS the effect. With no JS the strip is simply empty,
+     which is correct for a decorative layer. */
+</style>

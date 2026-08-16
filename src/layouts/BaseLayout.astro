@@ -1,0 +1,54 @@
+---
+/**
+ * BaseLayout — the only layout. Spec §E.12.
+ *
+ * CSS import order (tokens → base → layout) is LOAD-BEARING: with
+ * scopedStyleStrategy: 'where', component styles add zero specificity and win
+ * only on source order, so the globals must be imported first and in this order.
+ *
+ * The prop signature is frozen: { title, description, canonical, ogImage,
+ * ogImageAlt, jsonLd } — all six are forwarded verbatim to BaseHead.
+ */
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/layout.css';
+
+import Background from '../components/Background.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Fades from '../components/Fades.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Lightbox from '../components/Lightbox.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** absolute, already includes host; e.g. 'https://shafiqninaba.com/' */
+  canonical: string;
+  /** absolute */
+  ogImage: string;
+  ogImageAlt: string;
+  /** pre-serialised JSON-LD @graph; authored by the page, rendered by BaseHead */
+  jsonLd: string;
+}
+
+const props = Astro.props;
+---
+
+<html lang="en-SG">
+  <head><BaseHead {...props} /></head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <Background />
+    <Fades />
+    <div class="top-spacer" aria-hidden="true"></div>
+    <Header />
+    <main id="main" class="main" tabindex="-1">
+      <div class="page-column"><slot /></div>
+    </main>
+    <Footer />
+    <Lightbox />
+    {/* The ONLY client JS. No extra attributes, or Astro silently stops bundling it. */}
+    <script src="../scripts/app.ts"></script>
+  </body>
+</html>

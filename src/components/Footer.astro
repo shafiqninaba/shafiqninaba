@@ -1,0 +1,59 @@
+---
+/**
+ * Footer — copyright + text social links. Spec §E.10.
+ *
+ * The old "This portfolio was built with Once UI" attribution and its outbound
+ * link are REMOVED: after this rebuild the claim is factually false.
+ *
+ * Text links (not icons) so crawlers get real anchor text; rel="me" corroborates
+ * the JSON-LD sameAs from the HTML side. Plain mailto: — Cloudflare Email
+ * Obfuscation must stay OFF for this zone or the href becomes a JS-dependent
+ * /cdn-cgi/l/email-protection link that crawlers cannot read.
+ */
+import { PERSON } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__inner t-body-default-s">
+    <p class="c-neutral-weak">&copy; {year} {PERSON.name}</p>
+    {/*
+      Deliberate deviation from §E.10's verbatim `aria-label="Social profiles"`:
+      Header.astro (§E.4) already names its pill nav exactly that, and two
+      navigation landmarks sharing one accessible name is an axe
+      `landmark-unique` violation — a screen-reader user gets two
+      indistinguishable "Social profiles" entries in the landmark rota.
+      Distinct label, identical links, no visual change.
+    */}
+    <nav aria-label="Footer social profiles">
+      <ul class="footer__links">
+        <li>
+          <a href="https://github.com/shafiqninaba" rel="me noopener" target="_blank">GitHub</a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/in/shafiq-ninaba/" rel="me noopener" target="_blank"
+            >LinkedIn</a
+          >
+        </li>
+        <li><a href={`mailto:${PERSON.email}`}>{PERSON.email}</a></li>
+      </ul>
+    </nav>
+  </div>
+  {/* Clears the bottom-fixed pill on mobile (5rem, ≤768px only — see layout.css). */}
+  <div class="footer__mobile-spacer" aria-hidden="true"></div>
+</footer>
+
+<style>
+  .footer__links {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .footer__links li {
+    margin: 0;
+    padding: 0;
+  }
+</style>
