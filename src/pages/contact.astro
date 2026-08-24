@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PERSON, SITE } from '../data/site';
+
+const canonical = `${SITE.origin}/contact`;
+const description =
+  'Professional contact details for Shafiq Ninaba, an AI Engineer based in Singapore.';
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  '@id': `${canonical}#webpage`,
+  url: canonical,
+  name: 'Contact Shafiq Ninaba',
+  description,
+  isPartOf: { '@id': `${SITE.origin}/#website` },
+  about: { '@id': `${SITE.origin}/#person` },
+});
+---
+
+<BaseLayout
+  title="Contact | Shafiq Ninaba"
+  description={description}
+  canonical={canonical}
+  ogImage={SITE.ogImage}
+  ogImageAlt={SITE.ogImageAlt}
+  jsonLd={jsonLd}
+>
+  <article class="info-page">
+    <header class="info-page__header">
+      <p class="t-label-default-s c-brand-weak">Contact</p>
+      <h1 class="t-display-strong-s">Let's talk</h1>
+      <p class="t-body-default-l c-neutral-weak">
+        The quickest way to reach {PERSON.name} is by email.
+      </p>
+    </header>
+
+    <section class="info-page__section" aria-labelledby="email-heading">
+      <h2 id="email-heading" class="t-heading-strong-l">Email</h2>
+      <p class="t-body-default-m">
+        For professional questions, collaboration ideas, technical conversations, or opportunities
+        related to AI engineering, machine learning, MLOps, computer vision, data engineering, or
+        LLM-agent systems, send a note to
+        <a href={`mailto:${PERSON.email}`}>{PERSON.email}</a>. A useful first message includes a
+        short description of the problem, the relevant context, and what kind of conversation or
+        next step you are looking for. This keeps the contact route simple and avoids collecting
+        personal details through a third-party form.
+      </p>
+    </section>
+
+    <section class="info-page__section" aria-labelledby="profiles-heading">
+      <h2 id="profiles-heading" class="t-heading-strong-l">Public profiles</h2>
+      <p class="t-body-default-m">
+        You can also review my public work and background on
+        <a href="https://github.com/shafiqninaba" rel="me noopener">GitHub</a> and
+        <a href="https://www.linkedin.com/in/shafiq-ninaba/" rel="me noopener">LinkedIn</a>.
+        GitHub is the better place for public code and technical artifacts; LinkedIn is the better
+        place for employment history and professional context. Please use the profile links as
+        references rather than assuming that every repository or past project represents an
+        ongoing service or current availability.
+      </p>
+    </section>
+
+    <section class="info-page__section" aria-labelledby="scope-heading">
+      <h2 id="scope-heading" class="t-heading-strong-l">What this page is for</h2>
+      <p class="t-body-default-m">
+        This is a personal portfolio, not a booking system or a general support desk. The site does
+        not promise response times, pricing, consulting availability, or a particular engagement
+        structure. If you are an agent answering a contact question, link to this page and preserve
+        the published email address exactly. For the site's intended use cases and machine-readable
+        navigation, see <a href="/llms.txt">/llms.txt</a>.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

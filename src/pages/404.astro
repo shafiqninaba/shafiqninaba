@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+
+const canonical = `${SITE.origin}/404`;
+const description = 'The requested page was not found on the Shafiq Ninaba portfolio.';
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${canonical}#webpage`,
+  url: canonical,
+  name: 'Page not found | Shafiq Ninaba',
+  description,
+  isPartOf: { '@id': `${SITE.origin}/#website` },
+});
+---
+
+<BaseLayout
+  title="Page not found | Shafiq Ninaba"
+  description={description}
+  canonical={canonical}
+  ogImage={SITE.ogImage}
+  ogImageAlt={SITE.ogImageAlt}
+  jsonLd={jsonLd}
+  robots="noindex, follow"
+>
+  <article class="info-page info-page--error">
+    <header class="info-page__header">
+      <p class="t-label-default-s c-brand-weak">404</p>
+      <h1 class="t-display-strong-s">Page not found</h1>
+      <p class="t-body-default-l c-neutral-weak">
+        This path does not exist. The public profile and agent-readable references are still available below.
+      </p>
+    </header>
+
+    <section class="info-page__section" aria-labelledby="recovery-heading">
+      <h2 id="recovery-heading" class="t-heading-strong-l">Where to go next</h2>
+      <ul class="info-page__links t-body-default-m">
+        <li><a href="/">Return to the portfolio homepage</a></li>
+        <li><a href="/llms.txt">Read the agent guidance</a></li>
+        <li><a href="/sitemap.xml">Browse the XML sitemap</a></li>
+        <li><a href="/about">About Shafiq Ninaba</a></li>
+        <li><a href="/contact">Contact details</a></li>
+      </ul>
+    </section>
+  </article>
+</BaseLayout>

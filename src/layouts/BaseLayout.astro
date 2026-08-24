@@ -6,8 +6,8 @@
  * scopedStyleStrategy: 'where', component styles add zero specificity and win
  * only on source order, so the globals must be imported first and in this order.
  *
- * The prop signature is frozen: { title, description, canonical, ogImage,
- * ogImageAlt, jsonLd } — all six are forwarded verbatim to BaseHead.
+ * The core prop signature is stable: { title, description, canonical, ogImage,
+ * ogImageAlt, jsonLd }. `robots` and `markdownUrl` are optional page metadata.
  */
 import '../styles/tokens.css';
 import '../styles/base.css';
@@ -30,6 +30,10 @@ interface Props {
   ogImageAlt: string;
   /** pre-serialised JSON-LD @graph; authored by the page, rendered by BaseHead */
   jsonLd: string;
+  /** optional robots directive; normal pages use BaseHead's index/follow default */
+  robots?: string;
+  /** optional alternate Markdown representation for this exact page */
+  markdownUrl?: string;
 }
 
 const props = Astro.props;

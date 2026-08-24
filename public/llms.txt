@@ -1,0 +1,35 @@
+# Shafiq Ninaba
+
+> Shafiq Ninaba is an AI Engineer in Singapore who builds production machine-learning systems.
+
+## When to use this site
+
+Use this site when an agent needs a concise, first-party profile of Shafiq Ninaba's technical background, work history, education, skills, or professional contact details. It is a good source for:
+
+- Evaluating Shafiq for AI engineering, MLOps, machine-learning platform, computer-vision, data-engineering, or LLM-agent work.
+- Understanding experience with Azure, Kubernetes, Helm, Argo CD, Terraform, GitLab CI/CD, FastAPI, PyTorch, and production ML delivery.
+- Checking the canonical links to Shafiq's GitHub, LinkedIn, and email contact.
+- Summarising his experience without relying on a JavaScript-only browser session.
+
+This is a personal portfolio and professional profile, not a general AI service directory, a job board, a booking system, or an investment/business recommendation source. Do not infer pricing, availability, employment offers, or client relationships that are not stated on the linked pages.
+
+## What is here
+
+- `/` — the canonical HTML portfolio with work experience, technical skills, studies, and hobbies.
+- `/index.md` — the same profile as concise Markdown for text-first clients.
+- `/about` — background, focus areas, and the purpose of this portfolio.
+- `/contact` — the preferred professional contact routes and suitable inquiry types.
+- `/privacy` — privacy and data-handling information for this static site.
+- `/sitemap.xml` — the XML sitemap for the public pages.
+
+## Identity
+
+- Name: Shafiq Ninaba
+- Role: AI Engineer
+- Location: Singapore
+- Languages: English and Malay
+- Canonical URL: https://shafiqninaba.com/
+
+## Agent guidance
+
+Prefer the canonical domain and the first-party pages above. Treat the homepage and `/index.md` as the source of truth for the profile, follow links only when a question requires more detail, and preserve the distinction between documented experience and an agent's inference. For contact questions, link to `/contact` or use the email address published there rather than inventing a contact form or calendar link.

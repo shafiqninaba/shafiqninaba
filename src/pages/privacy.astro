@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PERSON, SITE } from '../data/site';
+
+const canonical = `${SITE.origin}/privacy`;
+const description =
+  'Privacy information for the Shafiq Ninaba personal portfolio website.';
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${canonical}#webpage`,
+  url: canonical,
+  name: 'Privacy | Shafiq Ninaba',
+  description,
+  isPartOf: { '@id': `${SITE.origin}/#website` },
+});
+---
+
+<BaseLayout
+  title="Privacy | Shafiq Ninaba"
+  description={description}
+  canonical={canonical}
+  ogImage={SITE.ogImage}
+  ogImageAlt={SITE.ogImageAlt}
+  jsonLd={jsonLd}
+>
+  <article class="info-page">
+    <header class="info-page__header">
+      <p class="t-label-default-s c-brand-weak">Privacy</p>
+      <h1 class="t-display-strong-s">Privacy</h1>
+      <p class="t-body-default-l c-neutral-weak">A short explanation of how this portfolio handles information.</p>
+    </header>
+
+    <section class="info-page__section" aria-labelledby="collection-heading">
+      <h2 id="collection-heading" class="t-heading-strong-l">Information this site collects</h2>
+      <p class="t-body-default-m">
+        This portfolio is a static website. It does not provide an account system, comments,
+        newsletter signup, contact form, analytics dashboard, advertising pixels, or social-media
+        tracking scripts. The site does not ask visitors to submit names, phone numbers, or other
+        personal information. Selecting the theme toggle stores a small preference in the browser's
+        local storage so the selected light or dark theme can be restored on a later visit; that
+        preference is not sent to Shafiq or used to identify you.
+      </p>
+    </section>
+
+    <section class="info-page__section" aria-labelledby="hosting-heading">
+      <h2 id="hosting-heading" class="t-heading-strong-l">Hosting and external links</h2>
+      <p class="t-body-default-m">
+        The site is deployed on Vercel and delivered through a CDN. Like most hosted websites, the
+        hosting and network providers may process ordinary request information such as an IP
+        address, timestamp, user agent, and requested path for delivery, security, abuse
+        prevention, and operational logging. This site does not control the privacy practices of
+        external destinations. Links to GitHub, LinkedIn, AI Singapore, or other services take you
+        to those services under their own policies; review their notices before sharing information
+        there.
+      </p>
+    </section>
+
+    <section class="info-page__section" aria-labelledby="contact-heading">
+      <h2 id="contact-heading" class="t-heading-strong-l">Contact about privacy</h2>
+      <p class="t-body-default-m">
+        If you have a question about this page or believe the published information is inaccurate,
+        contact <a href={`mailto:${PERSON.email}`}>{PERSON.email}</a>. This page describes the
+        current portfolio implementation and may be updated when the site's functionality changes.
+        The canonical site is <a href={SITE.canonical}>{SITE.canonical}</a>.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

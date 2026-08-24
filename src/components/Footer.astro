@@ -39,6 +39,13 @@ const year = new Date().getFullYear();
         <li><a href={`mailto:${PERSON.email}`}>{PERSON.email}</a></li>
       </ul>
     </nav>
+    <nav aria-label="Site pages">
+      <ul class="footer__links">
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </nav>
   </div>
   {/* Clears the bottom-fixed pill on mobile (5rem, ≤768px only — see layout.css). */}
   <div class="footer__mobile-spacer" aria-hidden="true"></div>
