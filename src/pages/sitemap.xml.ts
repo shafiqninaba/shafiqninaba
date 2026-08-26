@@ -8,7 +8,7 @@ import { execSync } from 'node:child_process';
 export const prerender = true;
 
 const SITE = 'https://shafiqninaba.com';
-const PUBLIC_PAGES = ['/', '/about', '/contact', '/privacy'];
+const PUBLIC_PAGES = ['/'];
 
 function lastCommitISO(): string {
   try {

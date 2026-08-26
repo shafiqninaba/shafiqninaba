@@ -16,6 +16,9 @@
     { "source": "/blog/:path*", "destination": "/", "statusCode": 301 },
     { "source": "/gallery", "destination": "/", "statusCode": 301 },
     { "source": "/gallery/:path*", "destination": "/", "statusCode": 301 },
+    { "source": "/about", "destination": "/", "statusCode": 301 },
+    { "source": "/contact", "destination": "/", "statusCode": 301 },
+    { "source": "/privacy", "destination": "/", "statusCode": 301 },
     { "source": "/og", "destination": "/og.png", "statusCode": 301 },
     { "source": "/images/avatar.jpg", "destination": "/og.png", "statusCode": 301 }
   ],
