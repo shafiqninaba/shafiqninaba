@@ -223,6 +223,11 @@ const jsonLd = JSON.stringify({
       name: 'PSA Corporation Ltd',
       url: 'https://www.singaporepsa.com/',
       sameAs: 'https://en.wikipedia.org/wiki/PSA_International',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Singapore',
+        addressCountry: 'SG',
+      },
     },
     {
       '@type': 'ImageObject',
@@ -244,6 +249,7 @@ const jsonLd = JSON.stringify({
   ogImage={SITE.ogImage}
   ogImageAlt={SITE.ogImageAlt}
   jsonLd={jsonLd}
+  markdownUrl="/index.md"
 >
   <div class="about-row">
     {/* First in the DOM so keyboard users reach the rail before the prose.

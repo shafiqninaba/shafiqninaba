@@ -4,6 +4,13 @@
   "buildCommand": "astro build",
   "outputDirectory": "dist",
   "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "Accept", "value": ".*text/markdown.*" }],
+      "destination": "/index.md"
+    }
+  ],
   "redirects": [
     { "source": "/about", "destination": "/", "statusCode": 301 },
     { "source": "/about/:path*", "destination": "/", "statusCode": 301 },
@@ -25,6 +32,17 @@
       "source": "/og.png",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [{ "key": "Vary", "value": "Accept, Accept-Encoding" }]
+    },
+    {
+      "source": "/index.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Vary", "value": "Accept, Accept-Encoding" }
       ]
     },
     {

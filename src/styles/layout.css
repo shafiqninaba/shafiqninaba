@@ -53,6 +53,38 @@
 }
 @media (max-width: 768px) { .content-col { align-self: center; } }
 
+/* Text-first trust and recovery pages. They share the site's typography but do
+   not need the homepage's avatar/sidebar composition. */
+.info-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--width-640);
+  margin: 0 auto;
+  padding-bottom: var(--space-xl);
+}
+.info-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xl);
+}
+.info-page__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  margin-bottom: var(--space-xl);
+}
+.info-page__section h2 { margin-bottom: 0; }
+.info-page__section p + p { margin-top: var(--space-xs); }
+.info-page__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-left: 1.25rem;
+}
+.info-page__links li { margin-bottom: 0; }
+
 /* ============ SECTION RHYTHM ============ */
 /* flex-start, not center: the social buttons moved out of the hero into the
    header pill, so the hero content is now shorter than its 10rem reserve and

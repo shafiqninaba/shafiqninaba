@@ -24,9 +24,22 @@ interface Props {
   ogImageAlt: string;
   /** pre-serialised JSON-LD @graph, authored by the page; injected with set:html */
   jsonLd: string;
+  /** optional override for non-indexable status pages */
+  robots?: string;
+  /** optional alternate Markdown representation for this exact page */
+  markdownUrl?: string;
 }
 
-const { title, description, canonical, ogImage, ogImageAlt, jsonLd } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  ogImageAlt,
+  jsonLd,
+  robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+  markdownUrl,
+} = Astro.props;
 ---
 
 <meta charset="utf-8" />
@@ -39,7 +52,7 @@ const { title, description, canonical, ogImage, ogImageAlt, jsonLd } = Astro.pro
 <!-- Crawling / SERP presentation -->
 <meta
   name="robots"
-  content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+  content={robots}
 />
 
 <!-- Ownership — PRESERVE VERBATIM -->
@@ -80,6 +93,8 @@ const { title, description, canonical, ogImage, ogImageAlt, jsonLd } = Astro.pro
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+{markdownUrl && <link rel="alternate" type="text/markdown" href={markdownUrl} title="Markdown version of this page" />}
+<link rel="help" type="text/plain" href="/llms.txt" title="Agent instructions" />
 
 <!-- Open Graph (property=) -->
 <meta property="og:type" content="profile" />
